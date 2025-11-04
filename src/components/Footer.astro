@@ -1,0 +1,171 @@
+---
+import arrow from "../assets/arrow.svg";
+import facebook from "../assets/facebook.svg";
+import instagram from "../assets/instagram.svg";
+import linkedin from "../assets/linkedin.svg";
+---
+
+<footer class="bg-base-900 text-base-100 py-8 md:py-12 lg:py-16 mt-16">
+  <div class="px-4 md:px-6 lg:px-8 w-full lg:max-w-4/5 mx-auto">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 md:gap-12 xl:gap-16 mb-8"
+    >
+      <div class="md:col-span-2 xl:col-span-1">
+        <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">
+          Newsletter
+        </h3>
+        <p class="text-xs md:text-sm lg:text-base mb-4 text-base-100/90">
+          Recevez nos nouveautés et offres exclusives
+        </p>
+        <form class="flex gap-2 max-w-3xl">
+          <input
+            type="email"
+            placeholder="Votre email"
+            class="flex-1 px-4 md:px-5 py-2.5 md:py-3 rounded-lg border-2 border-base-700 placeholder-[#B2C0D3] text-xs md:text-sm lg:text-base focus:outline-none focus:border-primary transition-colors bg-[#343E4E]!"
+          />
+          <button
+            type="submit"
+            class="px-4 md:px-5 py-2 md:py-2.5 bg-primary hover:bg-primary/90 rounded-lg transition-colors text-white flex items-center justify-center text-xs md:text-sm lg:text-base font-medium"
+          >
+            <img src={arrow.src} alt="Envoyer" class="h-4 w-4 md:h-5 md:w-5" />
+          </button>
+        </form>
+      </div>
+
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">
+          Contact
+        </h3>
+        <ul class="space-y-2 md:space-y-3 text-xs md:text-sm lg:text-base">
+          <li class="text-base-100/90">18 rue du moulin</li>
+          <li class="text-base-100/90">90000 Belfort, France</li>
+          <li>
+            <a
+              href="mailto:contact@ta-vue.fr"
+              class="text-primary hover:underline">contact@ta-vue.fr</a
+            >
+          </li>
+          <li class="text-base-100/90">+33 1 70 80 60 80</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">
+          Mon compte
+        </h3>
+        <ul class="space-y-2 md:space-y-3">
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >Mon profil</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >Connexion</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >Mes créations</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >Mon panier</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4">
+          Liens utiles
+        </h3>
+        <ul class="space-y-2 md:space-y-3">
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >À propos</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >Conditions générales</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >Confidentialité</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-xs md:text-sm lg:text-base text-base-100/90 hover:text-primary transition-colors"
+              >Support</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-base-700 my-6 md:my-8"></div>
+
+    <div
+      class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6"
+    >
+      <p class="text-xs md:text-sm text-base-100/70">
+        © 2025 TaVue. Tous droits réservés.
+      </p>
+
+      <div class="flex gap-4 md:gap-6">
+        <a
+          href="#"
+          class="text-base-100/70 hover:text-primary transition-colors"
+          aria-label="Facebook"
+        >
+          <img
+            src={facebook.src}
+            alt="Facebook"
+            class="h-5 w-5 md:h-6 md:w-6"
+          />
+        </a>
+        <a
+          href="#"
+          class="text-base-100/70 hover:text-primary transition-colors"
+          aria-label="Instagram"
+        >
+          <img
+            src={instagram.src}
+            alt="Instagram"
+            class="h-5 w-5 md:h-6 md:w-6"
+          />
+        </a>
+        <a
+          href="#"
+          class="text-base-100/70 hover:text-primary transition-colors"
+          aria-label="LinkedIn"
+        >
+          <img
+            src={linkedin.src}
+            alt="LinkedIn"
+            class="h-5 w-5 md:h-6 md:w-6"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

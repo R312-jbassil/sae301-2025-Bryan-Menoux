@@ -11,14 +11,21 @@ import user from "../assets/user.svg";
   <div class="flex items-center justify-between px-4 py-3 lg:px-8">
     <div class="flex items-center gap-2">
       <a href="/" class="flex items-center gap-2">
-        <img src={logo.src} alt="Logo TaVue" class="h-5 w-auto" />
-        <span class="font-semibold tracking-tight text-base-content"
+        <img
+          src={logo.src}
+          alt="Logo TaVue"
+          class="h-6 md:h-7 lg:h-7 xl:h-8 w-auto"
+        />
+        <span
+          class="tracking-tight text-base-content text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold"
           >TA VUE</span
         >
       </a>
     </div>
 
-    <nav class="hidden lg:flex gap-8 text-sm text-base-content font-medium">
+    <nav
+      class="hidden xl:flex gap-8 text-base xl:text-lg text-base-content font-medium"
+    >
       <a href="#" class="hover:text-primary transition-colors"
         >Choix du modèle</a
       >
@@ -30,11 +37,11 @@ import user from "../assets/user.svg";
 
     <div class="flex items-center gap-4">
       <div
-        class="hidden lg:flex items-center bg-white border border-[#d2d9e3] rounded-full px-3 py-1.5 transition-colors duration-200 focus-within:border-[#3b82f6] min-w-[300px] gap-4"
+        class="hidden xl:flex items-center bg-white border border-[#d2d9e3] rounded-full px-4 py-2 transition-colors duration-200 focus-within:border-[#3b82f6] min-w-[300px] gap-4"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 text-[#64748b] shrink-0"
+          class="h-5 w-5 text-[#64748b] shrink-0"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -45,23 +52,31 @@ import user from "../assets/user.svg";
             stroke-linejoin="round"
             d="m21 21-4.35-4.35M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"></path>
         </svg>
-        <input type="text" placeholder="Rechercher" class="search-input ml-2" />
+        <input
+          type="text"
+          placeholder="Rechercher"
+          class="search-input ml-2 text-base"
+        />
       </div>
 
-      <div class="flex items-center gap-3 text-neutral/80">
+      <div class="flex items-center gap-3 md:gap-4 text-neutral/80">
         <button class="hover:text-primary transition-colors">
-          <img src={cart.src} alt="Panier" class="h-5 w-5" />
+          <img src={cart.src} alt="Panier" class="h-6 md:h-7 lg:h-6 w-auto" />
         </button>
         <button class="hover:text-primary transition-colors">
-          <img src={save.src} alt="Sauvegarder" class="h-5 w-5" />
+          <img
+            src={save.src}
+            alt="Sauvegarder"
+            class="h-6 md:h-7 lg:h-6 w-auto"
+          />
         </button>
-        <button class="hidden lg:inline hover:text-primary transition-colors">
-          <img src={user.src} alt="Utilisateur" class="h-5 w-5" />
+        <button class="hidden xl:inline hover:text-primary transition-colors">
+          <img src={user.src} alt="Utilisateur" class="h-6 lg:h-6 w-auto" />
         </button>
 
         <button
           id="menu-toggle"
-          class="flex flex-col justify-center items-center w-8 h-8 rounded-md hover:bg-base-200 transition lg:hidden"
+          class="flex flex-col justify-center items-center w-8 h-8 rounded-md hover:bg-base-200 transition xl:hidden"
           aria-label="Ouvrir le menu"
         >
           <div
@@ -83,7 +98,8 @@ import user from "../assets/user.svg";
 
   <nav
     id="mobile-menu"
-    class="hidden fixed top-14 left-0 w-full h-[calc(100vh-56px)] bg-base-100 flex flex-col justify-center items-center gap-8 text-lg font-medium text-base-content z-90"
+    class="fixed top-0 left-0 w-full h-screen bg-base-100 flex flex-col justify-start pt-[25vh] items-center gap-6 py-8 text-xl md:text-2xl font-medium text-base-content -z-40 xl:hidden"
+    style="display: none;"
   >
     <a href="#" class="hover:text-primary transition-colors">Choix du modèle</a>
     <a href="configurateur" class="hover:text-primary transition-colors"
@@ -101,7 +117,7 @@ import user from "../assets/user.svg";
     if (toggle && menu) {
       toggle.addEventListener("click", () => {
         open = !open;
-        menu.classList.toggle("hidden", !open);
+        menu.style.display = open ? "flex" : "none";
         document.body.classList.toggle("overflow-hidden", open);
 
         const bars = toggle.querySelectorAll("div");

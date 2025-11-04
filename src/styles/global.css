@@ -1,0 +1,237 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "tavue";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #f7f9fc;
+  --color-base-200: #ffffff;
+  --color-base-300: #e5e9f0;
+  --color-base-content: #0f172a;
+
+  --color-primary: #2563eb;
+  --color-primary-content: #ffffff;
+
+  --color-secondary: #eff6ff;
+  --color-secondary-content: #1e293b;
+
+  --color-accent: #1e293b;
+  --color-accent-content: #f1f5f9;
+
+  --color-neutral: #26406c;
+  --color-neutral-content: #f8fafc;
+
+  --color-info: #3b82f6;
+  --color-success: #22c55e;
+  --color-warning: #facc15;
+  --color-error: #ef4444;
+
+  --radius-selector: 0.625rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* ========== BOUTONS ========== */
+
+.btn-primary {
+  background: #3b82f6;
+  color: #ffffff;
+  font-weight: 500;
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-primary:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 3px;
+}
+
+.btn-outline,
+.btn-accent {
+  background: #ffffff;
+  color: #1e293b;
+  font-weight: 500;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.btn-outline:hover,
+.btn-accent:hover {
+  border-color: #2563eb;
+  background-color: #f0f7ff;
+}
+
+.btn-outline:focus-visible,
+.btn-accent:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.45);
+  outline-offset: 3px;
+}
+
+.btn-outline:active {
+  transform: translateY(1px);
+}
+
+.btn[disabled],
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ========== CHAMPS DE FORMULAIRE ========== */
+
+.input,
+.select,
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  font-size: 0.95rem;
+}
+
+.input:hover,
+.select:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover {
+  border-color: #cbd5e1;
+}
+
+.input:focus,
+.select:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  background: #ffffff;
+  border-color: #2563eb;
+  outline: none;
+}
+
+/* ========== BARRE DE RECHERCHE (HEADER) ========== */
+
+header input[type="search"],
+header input[type="text"].search-bar {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0.4rem 0.5rem !important;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+header input[type="search"]::placeholder,
+header input[type="text"].search-bar::placeholder {
+  color: #94a3b8;
+}
+
+header input[type="search"]:focus,
+header input[type="text"].search-bar:focus {
+  outline: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.search-input {
+  all: unset;
+  font-size: 0.875rem;
+  color: #1e293b;
+  width: 9rem;
+  line-height: 1.5;
+}
+
+.search-input::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+div input.search-input,
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  font-size: 0.875rem;
+  color: #1e293b;
+  width: 9rem;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  min-height: auto;
+  border-radius: 0;
+}
+
+/* ========== CARTES ========== */
+
+.card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.05);
+  transition: transform 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+}
+
+/* ========== FOOTER ========== */
+
+footer,
+.footer {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+footer a {
+  color: #dbeafe;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: #60a5fa;
+}
+
+/* ========== FOCUS GLOBAL ========== */
+
+:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 2px;
+}
+
+body {
+  padding-top: 3.5rem;
+}

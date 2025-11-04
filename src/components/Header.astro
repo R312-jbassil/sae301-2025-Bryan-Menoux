@@ -1,0 +1,126 @@
+---
+import logo from "../assets/logo.svg";
+import cart from "../assets/cart.svg";
+import save from "../assets/save.svg";
+import user from "../assets/user.svg";
+---
+
+<header
+  class="fixed top-0 left-0 w-full bg-base-100 border-b border-base-300 z-100"
+>
+  <div class="flex items-center justify-between px-4 py-3 lg:px-8">
+    <div class="flex items-center gap-2">
+      <a href="/" class="flex items-center gap-2">
+        <img src={logo.src} alt="Logo TaVue" class="h-5 w-auto" />
+        <span class="font-semibold tracking-tight text-base-content"
+          >TA VUE</span
+        >
+      </a>
+    </div>
+
+    <nav class="hidden lg:flex gap-8 text-sm text-base-content font-medium">
+      <a href="#" class="hover:text-primary transition-colors"
+        >Choix du modèle</a
+      >
+      <a href="/configurateur" class="hover:text-primary transition-colors"
+        >Personnalisation de votre modèle</a
+      >
+      <a href="#" class="hover:text-primary transition-colors">Panier</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <div
+        class="hidden lg:flex items-center bg-white border border-[#d2d9e3] rounded-full px-3 py-1.5 transition-colors duration-200 focus-within:border-[#3b82f6] min-w-[300px] gap-4"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-[#64748b] shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-4.35-4.35M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"></path>
+        </svg>
+        <input type="text" placeholder="Rechercher" class="search-input ml-2" />
+      </div>
+
+      <div class="flex items-center gap-3 text-neutral/80">
+        <button class="hover:text-primary transition-colors">
+          <img src={cart.src} alt="Panier" class="h-5 w-5" />
+        </button>
+        <button class="hover:text-primary transition-colors">
+          <img src={save.src} alt="Sauvegarder" class="h-5 w-5" />
+        </button>
+        <button class="hidden lg:inline hover:text-primary transition-colors">
+          <img src={user.src} alt="Utilisateur" class="h-5 w-5" />
+        </button>
+
+        <button
+          id="menu-toggle"
+          class="flex flex-col justify-center items-center w-8 h-8 rounded-md hover:bg-base-200 transition lg:hidden"
+          aria-label="Ouvrir le menu"
+        >
+          <div
+            class="w-5 h-0.5 bg-base-content transition-all duration-300 origin-center"
+          >
+          </div>
+          <div
+            class="w-5 h-0.5 bg-base-content mt-1 transition-all duration-300 origin-center"
+          >
+          </div>
+          <div
+            class="w-5 h-0.5 bg-base-content mt-1 transition-all duration-300 origin-center"
+          >
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    class="hidden fixed top-14 left-0 w-full h-[calc(100vh-56px)] bg-base-100 flex flex-col justify-center items-center gap-8 text-lg font-medium text-base-content z-90"
+  >
+    <a href="#" class="hover:text-primary transition-colors">Choix du modèle</a>
+    <a href="configurateur" class="hover:text-primary transition-colors"
+      >Personnalisation</a
+    >
+    <a href="#" class="hover:text-primary transition-colors">Panier</a>
+    <a href="#" class="hover:text-primary transition-colors">Mon compte</a>
+  </nav>
+
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    let open = false;
+
+    if (toggle && menu) {
+      toggle.addEventListener("click", () => {
+        open = !open;
+        menu.classList.toggle("hidden", !open);
+        document.body.classList.toggle("overflow-hidden", open);
+
+        const bars = toggle.querySelectorAll("div");
+        if (open) {
+          bars[0].classList.add("rotate-45", "translate-y-[6px]");
+          bars[1].classList.add("opacity-0");
+          bars[2].classList.add("-rotate-45", "-translate-y-[6px]");
+        } else {
+          bars.forEach((b) =>
+            b.classList.remove(
+              "rotate-45",
+              "-rotate-45",
+              "translate-y-[6px]",
+              "-translate-y-[6px]",
+              "opacity-0"
+            )
+          );
+        }
+      });
+    }
+  </script>
+</header>

@@ -1,11 +1,156 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Test Thème TaVue">
+  <main
+    class="min-h-screen flex flex-col items-center gap-10 py-20 px-6 bg-base-100 text-base-content"
+  >
+    <!-- Palette de couleurs -->
+    <section class="text-center max-w-5xl">
+      <h1 class="text-4xl font-bold mb-6 text-primary">
+        Palette du thème TaVue
+      </h1>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Base -->
+        <div class="rounded-xl shadow p-4 bg-base-100 border border-base-300">
+          <div class="w-full h-20 rounded-md bg-base-100 border"></div>
+          <p class="mt-3 font-medium">base-100</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-base-200 border border-base-300">
+          <div class="w-full h-20 rounded-md bg-base-200 border"></div>
+          <p class="mt-3 font-medium">base-200</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-base-300 border border-base-300">
+          <div class="w-full h-20 rounded-md bg-base-300 border"></div>
+          <p class="mt-3 font-medium">base-300</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-primary text-primary-content">
+          <div class="w-full h-20 rounded-md bg-primary"></div>
+          <p class="mt-3 font-medium">primary</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-secondary text-secondary-content">
+          <div class="w-full h-20 rounded-md bg-secondary"></div>
+          <p class="mt-3 font-medium">secondary</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-accent text-accent-content">
+          <div class="w-full h-20 rounded-md bg-accent"></div>
+          <p class="mt-3 font-medium">accent</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-neutral text-neutral-content">
+          <div class="w-full h-20 rounded-md bg-neutral"></div>
+          <p class="mt-3 font-medium">neutral</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-info text-info-content">
+          <div class="w-full h-20 rounded-md bg-info"></div>
+          <p class="mt-3 font-medium">info</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-success text-success-content">
+          <div class="w-full h-20 rounded-md bg-success"></div>
+          <p class="mt-3 font-medium">success</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-warning text-warning-content">
+          <div class="w-full h-20 rounded-md bg-warning"></div>
+          <p class="mt-3 font-medium">warning</p>
+        </div>
+
+        <div class="rounded-xl shadow p-4 bg-error text-error-content">
+          <div class="w-full h-20 rounded-md bg-error"></div>
+          <p class="mt-3 font-medium">error</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Séparateur -->
+    <div class="divider w-full max-w-5xl">Aperçu des composants</div>
+
+    <!-- Boutons -->
+    <section class="flex flex-wrap justify-center gap-4">
+      <button class="btn btn-primary">Bouton principal</button>
+      <button class="btn btn-accent">Bouton accent</button>
+      <button class="btn btn-neutral">Bouton neutre</button>
+      <button class="btn btn-outline">Bouton outline</button>
+      <button class="btn btn-ghost">Bouton ghost</button>
+      <button class="btn" disabled>Bouton désactivé</button>
+    </section>
+
+    <!-- Inputs -->
+    <section class="flex flex-col gap-4 w-full max-w-sm">
+      <input
+        type="text"
+        placeholder="Champ de texte"
+        class="input input-bordered w-full"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        class="input input-primary w-full"
+      />
+      <select class="select select-bordered w-full">
+        <option>Option 1</option>
+        <option>Option 2</option>
+      </select>
+    </section>
+
+    <!-- Cartes -->
+    <section
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl"
+    >
+      <div class="card bg-base-200 shadow-md">
+        <div class="card-body">
+          <h2 class="card-title">Carte simple</h2>
+          <p>Une carte avec un fond clair et des bords arrondis.</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary btn-sm">Action</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 shadow-lg">
+        <div class="card-body">
+          <h2 class="card-title">Carte accent</h2>
+          <p>Une autre carte avec du contenu test.</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-outline btn-sm">Voir</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title">Carte neutre</h2>
+          <p>Test de contraste et d’ombre sur ton thème.</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-neutral btn-sm">Détails</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alertes -->
+    <section class="w-full max-w-3xl flex flex-col gap-3">
+      <div role="alert" class="alert alert-info">
+        <span>Information : ton thème est bien chargé.</span>
+      </div>
+      <div role="alert" class="alert alert-success">
+        <span>Succès : DaisyUI fonctionne parfaitement.</span>
+      </div>
+      <div role="alert" class="alert alert-warning">
+        <span>Attention : ceci est un message de test.</span>
+      </div>
+      <div role="alert" class="alert alert-error">
+        <span>Erreur : couleur d’état bien affichée.</span>
+      </div>
+    </section>
+  </main>
 </Layout>

@@ -7,10 +7,8 @@ import shield from "../assets/shield.svg";
 <Layout title="Inscription - TaVue">
   <div class="min-h-screen flex items-center justify-center bg-base-100 px-4">
     <div class="flex flex-col gap-8 w-full max-w-md">
-      <!-- Signup Card -->
       <div class="card bg-white shadow-lg rounded-2xl">
         <div class="card-body p-8 space-y-4">
-          <!-- Titre -->
           <div class="text-center">
             <h2 class="text-3xl font-semibold text-base-content mb-2">
               Créer un compte
@@ -21,7 +19,6 @@ import shield from "../assets/shield.svg";
           </div>
 
           <form id="signup-form" class="space-y-5">
-            <!-- Prénom -->
             <div class="form-control">
               <label class="label pb-2">
                 <span class="label-text text-sm font-semibold text-base-content"
@@ -38,7 +35,6 @@ import shield from "../assets/shield.svg";
               />
             </div>
 
-            <!-- Nom -->
             <div class="form-control">
               <label class="label pb-2">
                 <span class="label-text text-sm font-semibold text-base-content"
@@ -55,7 +51,6 @@ import shield from "../assets/shield.svg";
               />
             </div>
 
-            <!-- Email -->
             <div class="form-control">
               <label class="label pb-2">
                 <span class="label-text text-sm font-semibold text-base-content"
@@ -72,7 +67,6 @@ import shield from "../assets/shield.svg";
               />
             </div>
 
-            <!-- Mot de passe -->
             <div class="form-control">
               <label class="label pb-2">
                 <span class="label-text text-sm font-semibold text-base-content"
@@ -108,7 +102,6 @@ import shield from "../assets/shield.svg";
               </div>
             </div>
 
-            <!-- Checkbox conditions d'utilisation -->
             <div class="flex items-center gap-2 pt-2">
               <input
                 type="checkbox"
@@ -129,7 +122,6 @@ import shield from "../assets/shield.svg";
               </label>
             </div>
 
-            <!-- Se souvenir de moi -->
             <div class="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -145,7 +137,6 @@ import shield from "../assets/shield.svg";
               </label>
             </div>
 
-            <!-- Bouton S'inscrire -->
             <button
               type="submit"
               class="btn btn-primary w-full h-11 font-semibold mt-6"
@@ -153,7 +144,6 @@ import shield from "../assets/shield.svg";
             >
           </form>
 
-          <!-- Divider -->
           <div class="flex items-center gap-4 my-2">
             <div class="flex-1 h-px bg-base-300"></div>
             <span class="text-xs text-base-content/60 font-medium"
@@ -162,7 +152,6 @@ import shield from "../assets/shield.svg";
             <div class="flex-1 h-px bg-base-300"></div>
           </div>
 
-          <!-- Boutons sociaux -->
           <div class="flex gap-4 justify-center">
             <button
               type="button"
@@ -177,6 +166,7 @@ import shield from "../assets/shield.svg";
             </button>
             <button
               type="button"
+              id="google-signup-btn"
               class="btn btn-outline btn-circle h-12 w-12 flex items-center justify-center"
               title="Google"
             >
@@ -208,7 +198,6 @@ import shield from "../assets/shield.svg";
             </button>
           </div>
 
-          <!-- Connexion -->
           <p class="text-center text-sm text-base-content/70 pt-2">
             Vous possédez déjà un compte ?
             <a href="/login" class="text-primary font-semibold hover:underline"
@@ -216,7 +205,6 @@ import shield from "../assets/shield.svg";
             >
           </p>
 
-          <!-- Message de succès -->
           <div
             id="success-message"
             class="hidden alert alert-success text-sm pr-12 relative"
@@ -252,7 +240,6 @@ import shield from "../assets/shield.svg";
             </button>
           </div>
 
-          <!-- Message d'erreur -->
           <div
             id="error-message"
             class="hidden alert alert-error text-sm pr-12 relative"
@@ -290,7 +277,6 @@ import shield from "../assets/shield.svg";
         </div>
       </div>
 
-      <!-- Footer badges -->
       <div class="flex justify-center gap-8 px-4">
         <div class="flex items-center gap-2 text-xs text-base-content/70">
           <img src={cadenas.src} alt="Cadenas" class="w-4 h-4" />
@@ -353,7 +339,6 @@ import shield from "../assets/shield.svg";
 
       if (response.ok) {
         const data = await response.json();
-        // Masquer l'erreur si elle était affichée
         const errorDiv = document.getElementById("error-message");
         if (errorDiv) {
           errorDiv.classList.add("hidden");
@@ -362,7 +347,6 @@ import shield from "../assets/shield.svg";
         if (successDiv) {
           successDiv.classList.remove("hidden");
           setTimeout(() => {
-            // Si "Se souvenir de moi" était coché, on redirige directement
             if (remember) {
               window.location.href = "/";
             } else {
@@ -372,7 +356,6 @@ import shield from "../assets/shield.svg";
         }
       } else {
         const error = await response.json();
-        // Masquer le succès si il était affichée
         const successDiv = document.getElementById("success-message");
         if (successDiv) {
           successDiv.classList.add("hidden");
@@ -386,7 +369,6 @@ import shield from "../assets/shield.svg";
       }
     } catch (error) {
       console.error("Erreur d'inscription:", error);
-      // Masquer le succès si il était affichée
       const successDiv = document.getElementById("success-message");
       if (successDiv) {
         successDiv.classList.add("hidden");
@@ -395,6 +377,89 @@ import shield from "../assets/shield.svg";
       const errorText = document.getElementById("error-text");
       if (errorText && errorDiv) {
         errorText.textContent = "Une erreur est survenue lors de l'inscription";
+        errorDiv.classList.remove("hidden");
+      }
+    }
+  });
+
+  const googleSignupBtn = document.getElementById("google-signup-btn");
+  googleSignupBtn?.addEventListener("click", async () => {
+    try {
+      const errorDiv = document.getElementById("error-message");
+      const errorText = document.getElementById("error-text");
+
+      const { default: pb } = await import("../lib/pocketbase.js");
+
+      pb.authStore.clear();
+
+      await pb.collection("utilisateur").authWithOAuth2({
+        provider: "google",
+      });
+
+      const token = pb.authStore.token;
+      const record = JSON.parse(JSON.stringify(pb.authStore.model || {}));
+
+      if (!token || !record?.id) {
+        throw new Error("OAuth missing token or record");
+      }
+
+      const remember = (document.getElementById("remember") as HTMLInputElement)
+        ?.checked;
+
+      const response = await fetch("/apis/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token,
+          record,
+          remember,
+        }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to finalize session");
+      }
+
+      pb.authStore.clear();
+
+      const successDiv = document.getElementById("success-message");
+      const successText = document.getElementById("success-text");
+      if (successText && successDiv) {
+        successText.textContent = "Compte créé et connexion réussie !";
+        successDiv.classList.remove("hidden");
+      }
+
+      setTimeout(() => {
+        let redirectUrl = "/configurateur";
+
+        if (document.referrer) {
+          try {
+            const referrerUrl = new URL(document.referrer);
+            if (referrerUrl.origin === window.location.origin) {
+              if (
+                !referrerUrl.pathname.includes("/login") &&
+                !referrerUrl.pathname.includes("/signup")
+              ) {
+                redirectUrl = document.referrer;
+              } else {
+                redirectUrl = "/";
+              }
+            }
+          } catch (e) {
+            redirectUrl = "/";
+          }
+        }
+
+        window.location.href = redirectUrl;
+      }, 1500);
+    } catch (error) {
+      console.error("Google signup error:", error);
+      const errorDiv = document.getElementById("error-message");
+      const errorText = document.getElementById("error-text");
+      if (errorText && errorDiv) {
+        errorText.textContent =
+          "Erreur lors de la connexion avec Google. Vérifiez que Google OAuth est configuré.";
         errorDiv.classList.remove("hidden");
       }
     }

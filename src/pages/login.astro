@@ -7,10 +7,8 @@ import shield from "../assets/shield.svg";
 <Layout title="Connexion - TaVue">
   <div class="min-h-screen flex items-center justify-center bg-base-100 px-4">
     <div class="flex flex-col gap-8 w-full max-w-md">
-      <!-- Login Card -->
       <div class="card bg-white shadow-lg rounded-2xl">
         <div class="card-body p-8 space-y-4">
-          <!-- Titre -->
           <div class="text-center">
             <h2 class="text-3xl font-semibold text-base-content mb-2">
               Connexion
@@ -21,7 +19,6 @@ import shield from "../assets/shield.svg";
           </div>
 
           <form id="login-form" class="space-y-5">
-            <!-- Email -->
             <div class="form-control">
               <label class="label pb-2">
                 <span class="label-text text-sm font-semibold text-base-content"
@@ -38,7 +35,6 @@ import shield from "../assets/shield.svg";
               />
             </div>
 
-            <!-- Mot de passe -->
             <div class="form-control">
               <label class="label pb-2">
                 <span class="label-text text-sm font-semibold text-base-content"
@@ -74,7 +70,6 @@ import shield from "../assets/shield.svg";
               </div>
             </div>
 
-            <!-- Checkbox et lien mot de passe oublié -->
             <div class="flex items-center justify-between pt-1">
               <label class="label cursor-pointer justify-start gap-2 p-0">
                 <input
@@ -94,7 +89,6 @@ import shield from "../assets/shield.svg";
               >
             </div>
 
-            <!-- Bouton Se connecter -->
             <button
               type="submit"
               class="btn btn-primary w-full h-11 font-semibold mt-6"
@@ -102,7 +96,6 @@ import shield from "../assets/shield.svg";
             >
           </form>
 
-          <!-- Divider -->
           <div class="flex items-center gap-4 my-2">
             <div class="flex-1 h-px bg-base-300"></div>
             <span class="text-xs text-base-content/60 font-medium"
@@ -111,7 +104,6 @@ import shield from "../assets/shield.svg";
             <div class="flex-1 h-px bg-base-300"></div>
           </div>
 
-          <!-- Boutons sociaux -->
           <div class="flex gap-4 justify-center">
             <button
               type="button"
@@ -126,6 +118,7 @@ import shield from "../assets/shield.svg";
             </button>
             <button
               type="button"
+              id="google-login-btn"
               class="btn btn-outline btn-circle h-12 w-12 flex items-center justify-center"
               title="Google"
             >
@@ -157,7 +150,6 @@ import shield from "../assets/shield.svg";
             </button>
           </div>
 
-          <!-- Créer un compte -->
           <p class="text-center text-sm text-base-content/70 pt-2">
             Vous n'avez pas de compte ?
             <a href="/signup" class="text-primary font-semibold hover:underline"
@@ -165,7 +157,6 @@ import shield from "../assets/shield.svg";
             >
           </p>
 
-          <!-- Message d'erreur -->
           <div
             id="error-message"
             class="hidden alert alert-error text-sm relative pl-4"
@@ -204,7 +195,6 @@ import shield from "../assets/shield.svg";
         </div>
       </div>
 
-      <!-- Footer badges -->
       <div class="flex justify-center gap-8 px-4">
         <div class="flex items-center gap-2 text-xs text-base-content/70">
           <img src={cadenas.src} alt="Cadenas" class="w-4 h-4" />
@@ -255,12 +245,10 @@ import shield from "../assets/shield.svg";
           localStorage.setItem("rememberEmail", email);
         }
 
-        // Rediriger vers la page d'où vient l'utilisateur, ou vers /configurateur par défaut
         let redirectUrl = "/configurateur";
 
         if (document.referrer) {
           const referrerUrl = new URL(document.referrer);
-          // Si c'est du même domaine ET que ce n'est pas login ou signup
           if (referrerUrl.origin === window.location.origin) {
             if (
               !referrerUrl.pathname.includes("/login") &&
@@ -290,6 +278,78 @@ import shield from "../assets/shield.svg";
       const errorText = document.getElementById("error-text");
       if (errorText && errorDiv) {
         errorText.textContent = "Une erreur est survenue lors de la connexion";
+        errorDiv.classList.remove("hidden");
+      }
+    }
+  });
+
+  const googleLoginBtn = document.getElementById("google-login-btn");
+  googleLoginBtn?.addEventListener("click", async () => {
+    try {
+      const errorDiv = document.getElementById("error-message");
+      const errorText = document.getElementById("error-text");
+
+      const { default: pb } = await import("../lib/pocketbase.js");
+
+      pb.authStore.clear();
+
+      await pb.collection("utilisateur").authWithOAuth2({
+        provider: "google",
+      });
+
+      const token = pb.authStore.token;
+      const record = JSON.parse(JSON.stringify(pb.authStore.model || {}));
+
+      if (!token || !record?.id) {
+        throw new Error("OAuth missing token or record");
+      }
+
+      const response = await fetch("/apis/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token,
+          record,
+          remember: (document.getElementById("remember") as HTMLInputElement)
+            ?.checked,
+        }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to finalize session");
+      }
+
+      pb.authStore.clear();
+
+      let redirectUrl = "/configurateur";
+
+      if (document.referrer) {
+        try {
+          const referrerUrl = new URL(document.referrer);
+          if (referrerUrl.origin === window.location.origin) {
+            if (
+              !referrerUrl.pathname.includes("/login") &&
+              !referrerUrl.pathname.includes("/signup")
+            ) {
+              redirectUrl = document.referrer;
+            } else {
+              redirectUrl = "/";
+            }
+          }
+        } catch (e) {
+          redirectUrl = "/";
+        }
+      }
+
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error("Google login error:", error);
+      const errorDiv = document.getElementById("error-message");
+      const errorText = document.getElementById("error-text");
+      if (errorText && errorDiv) {
+        errorText.textContent =
+          "Erreur lors de la connexion avec Google. Vérifiez que Google OAuth est configuré.";
         errorDiv.classList.remove("hidden");
       }
     }

@@ -186,8 +186,8 @@ import cartIcon from "../assets/cart.svg";
               qualité.
             </p>
             <div class="flex items-baseline gap-2">
-              <span class="text-3xl font-bold text-gray-900">289 €</span>
-              <span class="text-lg text-gray-500 line-through">349 €</span>
+              <span class="text-3xl font-bold text-gray-900">203 €</span>
+              <span class="text-lg text-gray-500 line-through">237 €</span>
               <span class="text-sm font-semibold text-red-600">-17%</span>
             </div>
           </div>
@@ -312,6 +312,7 @@ import cartIcon from "../assets/cart.svg";
               Personnaliser ce modèle
             </button>
             <button
+              id="add-to-cart-btn"
               class="w-full border border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2"
             >
               <img src={cartIcon.src} alt="Panier" class="w-5 h-5" />
@@ -389,6 +390,161 @@ import cartIcon from "../assets/cart.svg";
 
       // Rediriger vers le configurateur
       window.location.href = "/configurateur";
+    });
+
+    // Bouton Ajouter au panier
+    const addToCartBtn = document.getElementById("add-to-cart-btn");
+    addToCartBtn?.addEventListener("click", async () => {
+      try {
+        addToCartBtn.disabled = true;
+        addToCartBtn.textContent = "Ajout en cours...";
+
+        // Fonction pour générer le SVG avec les couleurs
+        function generateSVGWithColors() {
+          const couleurMonture = "#ff4757";
+          const couleurBranches = "#4169E1";
+          const verresFill = "#D2E5FF";
+
+          return `<svg width="564" height="217" viewBox="0 0 564 217" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_97_378)"><path id="branches" d="M8.11946 60.0087C8.11946 60.0087 76.8439 52.2607 84.6146 47.8234C92.3852 43.386 100.128 36.7508 111.77 34.5391C123.412 32.3273 201.565 19.043 201.565 19.043C201.565 19.043 211.535 16.2749 225.949 26.791C240.362 37.3072 271.96 71.0813 280.817 69.9824C289.688 68.8696 294.116 56.6981 291.345 51.1618C288.574 45.6255 234.708 5.60573 225.392 2.9906C212.12 -0.737352 194.908 -0.333954 173.838 2.9906C152.782 6.31515 11.9909 35.4571 11.9909 35.4571C11.9909 35.4571 -6.29388 43.9702 8.10553 60.0226L8.11946 60.0087Z" fill="${couleurBranches}" stroke="#1D1D1B" stroke-width="0.5" stroke-miterlimit="10"></path><g style="mix-blend-mode:multiply"><path d="M285.816 53.9161C285.816 53.9161 285.384 62.4709 280.274 61.6641C273.352 60.5791 230.391 14.6057 215.978 16.8174C215.978 16.8174 227.856 20.5871 241.685 33.009C250.751 41.1604 289.618 85.6593 285.816 53.9161Z" fill="#706F6F"></path></g><path id="branches" d="M378.493 94.1027L504.579 52.678C504.579 52.678 535.397 44.8465 539.881 47.0861C544.365 49.3256 564.544 89.6236 564.544 94.1027C564.544 98.5818 561.174 113.591 556.703 114.815C553.459 115.705 549.281 114.968 547.178 108.959C545.215 103.367 537.653 64.8216 529.812 65.1833C521.972 65.545 459.208 87.3702 459.208 87.3702C459.208 87.3702 440.714 96.3284 432.874 103.047C425.034 109.766 388.047 118.724 388.047 118.724C388.047 118.724 374.594 108.083 378.521 94.0888L378.493 94.1027Z" fill="${couleurBranches}" stroke="#1D1D1B" stroke-width="0.5" stroke-miterlimit="10"></path><g style="mix-blend-mode:multiply"><path d="M387.615 94.7287C387.615 94.7287 530.036 45.7785 537.806 50.2298C537.806 50.2298 512.461 53.6934 479.652 66.7552C446.842 79.8169 387.615 97.3995 387.615 97.3995V94.7287Z" fill="#706F6F"></path></g><g style="mix-blend-mode:multiply"><path d="M532.473 64.0705C532.473 64.0705 537.013 64.0705 539.408 68.8696C541.803 73.6686 553.013 103.242 553.013 103.242C553.013 103.242 554.086 110.169 560.213 99.5139C560.213 99.5139 555.938 112.812 552.749 108.959C549.56 105.106 539.143 72.3332 539.143 72.3332C539.143 72.3332 535.146 62.9577 532.473 64.0705Z" fill="#706F6F"></path></g><path id="verres" d="M261.945 202.703L296.945 208.203H320.444L341.944 200.703L352.944 184.703L358.444 160.203C359.278 155.203 360.844 144.903 360.444 143.703C359.944 142.203 358.944 126.203 358.444 124.203C357.944 122.203 356.444 104.703 354.944 101.203C353.444 97.7026 336.444 91.2026 334.444 91.2026C332.444 91.2026 297.944 83.7026 295.444 82.7026C293.444 81.9026 270.944 81.036 259.944 80.7026C247.611 81.2026 222.444 82.3026 220.444 82.7026C217.944 83.2026 204.445 94.7026 202.945 96.7026C201.445 98.7026 199.445 108.203 199.945 109.703C200.445 111.203 214.445 144.203 214.945 147.703C215.345 150.503 224.111 170.203 228.445 179.703L261.945 202.703Z" fill="${verresFill}" fill-opacity="0.73"></path><path id="verres" d="M86.9444 173.703L116.444 175.703L125.944 169.703L135.444 154.703C138.111 150.203 143.444 140.903 143.444 139.703C143.444 138.203 146.944 120.203 148.444 118.203C149.944 116.203 151.944 96.7026 151.444 92.7026C150.944 88.7026 144.944 80.7026 143.444 78.2026C141.944 75.7026 125.444 66.7026 119.944 63.2026C114.444 59.7026 97.9443 54.7026 92.9443 52.7026C87.9443 50.7026 63.9443 44.2026 60.4443 43.7026C56.9443 43.2026 32.9443 40.2026 31.4443 41.2026C29.9443 42.2026 20.4444 46.2026 20.4444 49.2026V68.2027C20.4444 71.7027 19.4444 91.2026 20.4444 96.7026C21.4444 102.203 24.9444 117.703 25.9444 120.203C26.9444 122.703 38.9444 147.703 40.9444 149.203C42.9444 150.703 53.4444 165.203 55.4444 166.703C57.0444 167.903 77.1111 171.869 86.9444 173.703Z" fill="${verresFill}" fill-opacity="0.73"></path><path id="monture" d="M393.143 95.7162C392.809 90.9728 379.816 88.4551 375.443 86.8137C371.07 85.1723 353.579 89.5401 353.579 89.5401C336.632 85.1723 277.614 76.9791 243.732 76.9791C209.85 76.9791 198.375 92.809 194.545 92.2665C190.716 91.724 170.495 91.1815 161.75 89.5401C153.004 87.8987 154.648 69.8849 107.091 52.7057C59.5475 35.5266 11.9904 35.4292 11.9904 35.4292C-6.60067 41.9114 2.57651 61.1493 2.57651 61.1493L5.43133 69.9823C11.4473 72.8061 9.80407 84.6159 11.9904 102.087C14.1768 119.558 22.3792 141.94 31.6678 155.586C40.9564 169.232 75.9383 184.519 93.4292 185.062C110.92 185.604 126.225 182.335 137.7 163.765C149.175 145.209 161.207 112.45 161.207 112.45L175.411 114.634C175.411 114.634 179.464 115.065 182.862 118.932C186.259 122.8 189.031 130.102 193.445 143.011C203.973 173.753 228.427 197.609 228.427 197.609C228.427 197.609 236.226 207.944 274.995 215.219C307.137 221.256 334.459 211.797 334.459 211.797C359.136 201.824 364.581 149.257 364.581 149.257C364.581 149.257 367.129 130.756 375.457 126.096C385.72 120.337 386.974 119.92 393.157 118.696C398.184 117.708 393.491 100.432 393.157 95.6884L393.143 95.7162ZM121.852 165.977C108.734 173.071 77.0384 175.798 57.3611 160.524C37.6838 145.237 28.3952 118.487 25.6657 86.8276C22.9362 55.1678 35.5531 51.732 35.5531 51.732C35.5531 51.732 56.2749 50.8 83.0544 57.3379C109.834 63.8896 139.343 82.4459 139.9 94.4643C140.443 106.469 134.984 158.883 121.866 165.977H121.852ZM336.632 199.821C324.057 205.83 306.733 206.372 292.166 205.273C277.6 204.188 239.888 203.09 226.227 161.595C226.227 161.595 222.397 141.94 219.125 137.572C215.852 133.204 206.006 117.43 206.006 111.936C206.006 100.487 215.963 93.894 215.963 93.894C215.963 93.894 227.327 86.7998 242.075 86.7998C256.836 86.7998 332.245 90.6251 342.634 104.814C353.022 119.002 352.465 135.388 354.109 148.492C355.752 161.595 349.193 193.797 336.618 199.807L336.632 199.821Z" fill="${couleurMonture}" stroke="#1D1D1B" stroke-width="0.5" stroke-miterlimit="10"></path></g><defs><clipPath id="clip0_97_378"><rect width="564" height="217" fill="white"></rect></clipPath><linearGradient id="gradient-magenta-rose" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FF1493;stop-opacity:0.8"></stop><stop offset="100%" style="stop-color:#FF69B4;stop-opacity:0.8"></stop></linearGradient><linearGradient id="gradient-beige-orange" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FFD7BE;stop-opacity:0.8"></stop><stop offset="100%" style="stop-color:#D2691E;stop-opacity:0.8"></stop></linearGradient><linearGradient id="gradient-cyan-vert" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00CED1;stop-opacity:0.8"></stop><stop offset="100%" style="stop-color:#32CD32;stop-opacity:0.8"></stop></linearGradient><linearGradient id="gradient-beige-tan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#F5DEB3;stop-opacity:0.8"></stop><stop offset="100%" style="stop-color:#8B4513;stop-opacity:0.8"></stop></linearGradient><linearGradient id="gradient-turquoise-vert" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#40E0D0;stop-opacity:0.8"></stop><stop offset="100%" style="stop-color:#228B22;stop-opacity:0.8"></stop></linearGradient><linearGradient id="gradient-citron-vert" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FFFF00;stop-opacity:0.8"></stop><stop offset="100%" style="stop-color:#00AA00;stop-opacity:0.8"></stop></linearGradient><linearGradient id="gradient-tomate-cramoisi" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FF6347;stop-opacity:0.8"></stop><stop offset="100%" style="stop-color:#DC143C;stop-opacity:0.8"></stop></linearGradient></defs></svg>`;
+        }
+
+        // Récupérer ou créer l'ID utilisateur
+        let userId = localStorage.getItem("id_utilisateur");
+        if (!userId) {
+          userId = "user_temp_" + Date.now();
+          localStorage.setItem("id_utilisateur", userId);
+        }
+
+        console.log("ID utilisateur:", userId);
+
+        // Fonction pour chercher un matériau par libellé
+        async function findMateriau(libelle) {
+          try {
+            // Essayer d'abord avec le filtre exact
+            let response = await fetch(
+              `http://127.0.0.1:8090/api/collections/materiau/records?filter=(libelle_materiau="${libelle}")`
+            );
+
+            if (response.ok) {
+              const data = await response.json();
+              if (data.items && data.items.length > 0) {
+                console.log(
+                  `Matériau trouvé: ${libelle} → ${data.items[0].id}`
+                );
+                return data.items[0].id;
+              }
+            }
+
+            // Si pas de résultat, essayer un filtre contenant
+            const searchTerm = libelle.split(" ")[0];
+            response = await fetch(
+              `http://127.0.0.1:8090/api/collections/materiau/records?filter=(libelle_materiau~"${searchTerm}")`
+            );
+
+            if (response.ok) {
+              const data = await response.json();
+              if (data.items && data.items.length > 0) {
+                console.log(
+                  `Matériau trouvé (partiel): ${libelle} → ${data.items[0].id}`
+                );
+                return data.items[0].id;
+              }
+            }
+
+            console.warn(`Matériau non trouvé: ${libelle}`);
+            return "";
+          } catch (error) {
+            console.error("Erreur lors de la recherche du matériau:", error);
+            return "";
+          }
+        }
+
+        // Chercher les IDs des matériaux
+        const idMateriauMonture = await findMateriau("Acétate de cellulose");
+        const idMateriauBranches = await findMateriau("Acétate de cellulose");
+
+        if (!idMateriauMonture || !idMateriauBranches) {
+          throw new Error("Impossible de trouver les matériaux requis");
+        }
+
+        // Générer le SVG
+        const svgCode = generateSVGWithColors();
+
+        // Créer le modèle en PocketBase avec les paramètres du modèle "TaVue Signature"
+        const modelData = {
+          titre: "TaVue Signature",
+          code_svg: svgCode,
+          couleur_monture: "#ff4757",
+          couleur_branches: "#4169E1",
+          finition: "mat",
+          largeur_verres: 47,
+          hauteur_verres: 38,
+          largeur_pont: 18,
+          verres_teintes: false,
+          teinte_hex: "",
+          verres_polarises: false,
+          traitement_verres: "antireflet",
+          prix: 289,
+          id_materiau_monture: idMateriauMonture,
+          id_materiau_branches: idMateriauBranches,
+          id_utilisateur: userId,
+        };
+
+        console.log("Création du modèle avec données:", modelData);
+
+        // Créer le modèle en base de données
+        const createResponse = await fetch(
+          "http://127.0.0.1:8090/api/collections/modele/records",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(modelData),
+          }
+        );
+
+        if (!createResponse.ok) {
+          const errorData = await createResponse.text();
+          console.error("Erreur lors de la création du modèle :", errorData);
+          throw new Error("Impossible de créer le modèle: " + errorData);
+        }
+
+        const result = await createResponse.json();
+        const modeleId = result.id;
+        console.log("✓ Modèle créé avec succès - ID:", modeleId);
+
+        // Nettoyer le panier des anciens IDs "tavue-signature"
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        cart = cart.filter((item) => item.id !== "tavue-signature");
+
+        const existingItem = cart.find((item) => item.id === modeleId);
+
+        if (existingItem) {
+          existingItem.quantity += 1;
+          console.log("✓ Quantité augmentée pour le modèle:", modeleId);
+        } else {
+          cart.push({
+            id: modeleId,
+            title: "TaVue Signature",
+            price: 289,
+            quantity: 1,
+          });
+          console.log("✓ Modèle ajouté au panier:", modeleId);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        console.log("✓ Panier sauvegardé:", cart);
+
+        // Rediriger vers le panier
+        console.log("➜ Redirection vers /panier");
+        window.location.href = "/panier";
+      } catch (error) {
+        console.error("✗ Erreur lors de l'ajout au panier:", error);
+        alert("Erreur lors de l'ajout au panier: " + error.message);
+        addToCartBtn.disabled = false;
+        addToCartBtn.textContent = "Ajouter au panier";
+      }
     });
   </script>
 </Layout>

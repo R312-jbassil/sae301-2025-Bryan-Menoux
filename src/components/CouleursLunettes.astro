@@ -1,0 +1,10 @@
+<select
+  id="selecteur-lunettes"
+  style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;"
+  onchange="window.dispatchEvent(new CustomEvent('changeCouleurLunettes', { detail: { couleur: this.value } }))"
+>
+  <option value="#FB2222">Rouge</option>
+  <option value="#1E90FF">Bleu</option>
+  <option value="#00CC66">Vert</option>
+  <option value="#000000">Noir</option>
+</select>

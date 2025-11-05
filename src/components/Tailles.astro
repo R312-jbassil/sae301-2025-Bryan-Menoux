@@ -1,0 +1,212 @@
+---
+
+---
+
+<div
+  class="w-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm"
+  id="tailles-container"
+>
+  <details class="w-full group" open>
+    <summary
+      class="px-6 py-6 cursor-pointer flex justify-between items-center hover:bg-gray-50 transition-colors list-none"
+    >
+      <h3 class="text-lg font-semibold text-gray-900 m-0">Tailles</h3>
+      <svg
+        id="chevron-icon-tailles"
+        class="w-5 h-5 text-gray-600 transition-transform duration-300 group-open:rotate-90"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path>
+      </svg>
+    </summary>
+
+    <div class="px-6 py-6 space-y-6">
+      <!-- Largeur des verres -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center">
+          <label class="text-sm font-medium text-gray-700"
+            >Largeur des verres</label
+          >
+          <div class="flex items-center gap-2">
+            <input
+              type="number"
+              id="largeur-verres-input"
+              class="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value="47"
+              min="40"
+              max="60"
+            />
+            <span class="text-sm text-gray-600">mm</span>
+          </div>
+        </div>
+        <input
+          type="range"
+          id="largeur-verres-slider"
+          class="w-full accent-blue-600"
+          min="40"
+          max="60"
+          value="47"
+          step="1"
+        />
+        <p class="text-xs text-gray-500">Plage: 40-60 mm</p>
+      </div>
+
+      <!-- Hauteur des verres -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center">
+          <label class="text-sm font-medium text-gray-700"
+            >Hauteur des verres</label
+          >
+          <div class="flex items-center gap-2">
+            <input
+              type="number"
+              id="hauteur-verres-input"
+              class="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value="45"
+              min="30"
+              max="50"
+            />
+            <span class="text-sm text-gray-600">mm</span>
+          </div>
+        </div>
+        <input
+          type="range"
+          id="hauteur-verres-slider"
+          class="w-full accent-blue-600"
+          min="30"
+          max="50"
+          value="45"
+          step="1"
+        />
+        <p class="text-xs text-gray-500">Plage: 30-50 mm</p>
+      </div>
+
+      <!-- Largeur du pont -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center">
+          <label class="text-sm font-medium text-gray-700"
+            >Largeur du pont</label
+          >
+          <div class="flex items-center gap-2">
+            <input
+              type="number"
+              id="largeur-pont-input"
+              class="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value="18"
+              min="14"
+              max="24"
+            />
+            <span class="text-sm text-gray-600">mm</span>
+          </div>
+        </div>
+        <input
+          type="range"
+          id="largeur-pont-slider"
+          class="w-full accent-blue-600"
+          min="14"
+          max="24"
+          value="18"
+          step="1"
+        />
+        <p class="text-xs text-gray-500">Plage: 14-24 mm</p>
+      </div>
+    </div>
+  </details>
+</div>
+
+<script>
+  // Fonction pour synchroniser slider et input
+  function syncSliderInput(sliderId: string, inputId: string) {
+    const slider = document.getElementById(sliderId) as HTMLInputElement;
+    const input = document.getElementById(inputId) as HTMLInputElement;
+
+    if (!slider || !input) return;
+
+    // Quand on change le slider
+    slider.addEventListener("input", (e) => {
+      input.value = (e.target as HTMLInputElement).value;
+      saveTailles();
+    });
+
+    // Quand on change l'input
+    input.addEventListener("input", (e) => {
+      let value = parseInt((e.target as HTMLInputElement).value);
+      const min = parseInt(slider.min);
+      const max = parseInt(slider.max);
+
+      // Valider la plage
+      if (value < min) value = min;
+      if (value > max) value = max;
+
+      slider.value = value.toString();
+      input.value = value.toString();
+      saveTailles();
+    });
+  }
+
+  // Synchroniser les trois paires slider/input
+  syncSliderInput("largeur-verres-slider", "largeur-verres-input");
+  syncSliderInput("hauteur-verres-slider", "hauteur-verres-input");
+  syncSliderInput("largeur-pont-slider", "largeur-pont-input");
+
+  // Sauvegarder les tailles dans le localStorage
+  function saveTailles() {
+    const tailles = {
+      largeurVerres: parseInt(
+        (document.getElementById("largeur-verres-input") as HTMLInputElement)
+          .value
+      ),
+      hauteurVerres: parseInt(
+        (document.getElementById("hauteur-verres-input") as HTMLInputElement)
+          .value
+      ),
+      largeurPont: parseInt(
+        (document.getElementById("largeur-pont-input") as HTMLInputElement)
+          .value
+      ),
+    };
+
+    localStorage.setItem("tailles", JSON.stringify(tailles));
+
+    // Dispatcher un événement personnalisé
+    window.dispatchEvent(
+      new CustomEvent("changeTailles", {
+        detail: tailles,
+      })
+    );
+  }
+
+  // Charger les tailles depuis le localStorage au chargement
+  function loadTailles() {
+    const saved = localStorage.getItem("tailles");
+    if (saved) {
+      const tailles = JSON.parse(saved);
+      (
+        document.getElementById("largeur-verres-slider") as HTMLInputElement
+      ).value = tailles.largeurVerres;
+      (
+        document.getElementById("largeur-verres-input") as HTMLInputElement
+      ).value = tailles.largeurVerres;
+      (
+        document.getElementById("hauteur-verres-slider") as HTMLInputElement
+      ).value = tailles.hauteurVerres;
+      (
+        document.getElementById("hauteur-verres-input") as HTMLInputElement
+      ).value = tailles.hauteurVerres;
+      (
+        document.getElementById("largeur-pont-slider") as HTMLInputElement
+      ).value = tailles.largeurPont;
+      (
+        document.getElementById("largeur-pont-input") as HTMLInputElement
+      ).value = tailles.largeurPont;
+    }
+  }
+
+  loadTailles();
+</script>

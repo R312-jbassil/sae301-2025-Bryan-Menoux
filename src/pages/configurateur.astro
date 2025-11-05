@@ -5,6 +5,7 @@ import OptionsVerres from "../components/OptionsVerres.astro";
 import CouleursLunettes from "../components/CouleursLunettes.astro";
 import Lunettes from "../components/Lunettes.astro";
 import ResumConfig from "../components/ResumConfig.astro";
+import Tailles from "../components/Tailles.astro";
 ---
 
 <Layout>
@@ -109,8 +110,17 @@ import ResumConfig from "../components/ResumConfig.astro";
         <!-- Colonne droite: Paramètres -->
         <div class="w-full space-y-4">
           <Materiaux />
-          <OptionsVerres />
           <CouleursLunettes />
+          <OptionsVerres />
+          <Tailles />
+
+          <!-- Bouton Réinitialiser -->
+          <button
+            id="reset-btn"
+            class="w-full text-blue-600 hover:text-blue-700 font-medium py-2 px-4 text-sm transition-colors duration-200 underline cursor-pointer"
+          >
+            Réinitialiser la configuration
+          </button>
         </div>
       </div>
     </div>
@@ -118,7 +128,7 @@ import ResumConfig from "../components/ResumConfig.astro";
     <!-- Modal Fullscreen -->
     <div
       id="fullscreen-modal"
-      class="hidden fixed inset-0 bg-black bg-opacity-50 z-1000 items-center justify-center"
+      class="hidden fixed inset-0 bg-white/30 backdrop-blur-md z-1000 items-center justify-center"
     >
       <div
         class="bg-white rounded-lg w-[90%] max-w-[900px] max-h-[90vh] overflow-auto shadow-2xl"
@@ -150,6 +160,44 @@ import ResumConfig from "../components/ResumConfig.astro";
           class="flex justify-center items-center bg-gray-50 px-8 py-12 min-h-[500px]"
         >
           <Lunettes />
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Réinitialiser -->
+    <div
+      id="reset-modal"
+      class="fixed bottom-6 right-6 hidden z-1000 opacity-0 translate-y-4 transition-all duration-300"
+    >
+      <div
+        class="bg-white rounded-lg w-[400px] shadow-xl border border-gray-200"
+      >
+        <div class="px-6 py-6 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900 m-0">
+            Réinitialiser la configuration
+          </h3>
+        </div>
+
+        <div class="px-6 py-6">
+          <p class="text-sm text-gray-700 mb-6">
+            Êtes-vous sûr de vouloir réinitialiser ? Tous vos paramètres seront
+            supprimés et les valeurs par défaut seront restaurées.
+          </p>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-200 flex gap-3 justify-end">
+          <button
+            id="cancel-reset-btn"
+            class="px-4 py-2 border border-gray-300 rounded font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
+          >
+            Annuler
+          </button>
+          <button
+            id="confirm-reset-btn"
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition-colors duration-200 cursor-pointer"
+          >
+            Réinitialiser
+          </button>
         </div>
       </div>
     </div>
@@ -198,6 +246,39 @@ import ResumConfig from "../components/ResumConfig.astro";
         }
       });
 
+      // Bouton Réinitialiser
+      const resetBtn = document.getElementById("reset-btn");
+      const resetModal = document.getElementById("reset-modal");
+      const cancelResetBtn = document.getElementById("cancel-reset-btn");
+      const confirmResetBtn = document.getElementById("confirm-reset-btn");
+
+      resetBtn?.addEventListener("click", () => {
+        resetModal.classList.remove("hidden");
+        // Forcer un reflow pour que la transition fonctionne
+        resetModal.offsetHeight;
+        resetModal.classList.remove("opacity-0", "translate-y-4");
+        resetModal.classList.add("opacity-100", "translate-y-0");
+      });
+
+      cancelResetBtn?.addEventListener("click", () => {
+        resetModal.classList.add("opacity-0", "translate-y-4");
+        resetModal.classList.remove("opacity-100", "translate-y-0");
+        setTimeout(() => {
+          resetModal.classList.add("hidden");
+        }, 300);
+      });
+
+      confirmResetBtn?.addEventListener("click", () => {
+        // Effacer tous les éléments du localStorage
+        localStorage.removeItem("couleursLunettes");
+        localStorage.removeItem("materiaux");
+        localStorage.removeItem("optionsVerres");
+        localStorage.removeItem("tailles");
+
+        // Recharger la page
+        window.location.reload();
+      });
+
       window.addEventListener("changeCouleurLunettes", (e) => {
         const couleur = e.detail.couleur;
         const partie = e.detail.partie;
@@ -218,6 +299,64 @@ import ResumConfig from "../components/ResumConfig.astro";
           });
         }
       });
+
+      // Charger et appliquer les couleurs sauvegardées au chargement
+      function loadSavedColors() {
+        const couleurs = JSON.parse(
+          localStorage.getItem("couleursLunettes") || "{}"
+        );
+        const optionsVerres = JSON.parse(
+          localStorage.getItem("optionsVerres") || "{}"
+        );
+
+        // Appliquer la couleur de la monture
+        if (couleurs.monture) {
+          const montures = document.querySelectorAll("#monture");
+          montures.forEach((monture) => {
+            if (monture) {
+              monture.setAttribute("fill", couleurs.monture);
+            }
+          });
+        }
+
+        // Appliquer la couleur des branches
+        if (couleurs.branches) {
+          const branches = document.querySelectorAll("#branches");
+          branches.forEach((branch) => {
+            if (branch) {
+              branch.setAttribute("fill", couleurs.branches);
+            }
+          });
+        }
+
+        // Appliquer le gradient des verres
+        if (optionsVerres.verresTeintes && optionsVerres.teinte) {
+          const colorToGradientMap = {
+            "#FF1493": "url(#gradient-magenta-rose)",
+            "#FFD7BE": "url(#gradient-beige-orange)",
+            "#00CED1": "url(#gradient-cyan-vert)",
+            "#F5DEB3": "url(#gradient-beige-tan)",
+            "#40E0D0": "url(#gradient-turquoise-vert)",
+            "#FFFF00": "url(#gradient-citron-vert)",
+            "#FF6347": "url(#gradient-tomate-cramoisi)",
+          };
+
+          const gradientUrl = colorToGradientMap[optionsVerres.teinte];
+          if (gradientUrl) {
+            const verres = document.querySelectorAll("#verres");
+            verres.forEach((verre) => {
+              if (verre) {
+                verre.setAttribute("fill", gradientUrl);
+              }
+            });
+          }
+        }
+      }
+
+      // Charger les couleurs au chargement de la page
+      window.addEventListener("load", loadSavedColors);
+      // Aussi au montage du composant
+      loadSavedColors();
     </script>
   </main>
 </Layout>

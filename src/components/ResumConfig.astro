@@ -19,7 +19,7 @@ import SaveIcon from "../assets/save.svg";
       <span class="text-sm text-gray-600">Matériau de la monture</span>
       <span
         id="resum-materiau-monture"
-        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
         >-</span
       >
     </div>
@@ -29,7 +29,7 @@ import SaveIcon from "../assets/save.svg";
       <span class="text-sm text-gray-600">Matériau des branches</span>
       <span
         id="resum-materiau-branches"
-        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
         >-</span
       >
     </div>
@@ -39,7 +39,7 @@ import SaveIcon from "../assets/save.svg";
       <span class="text-sm text-gray-600">Couleur de la monture</span>
       <span
         id="resum-couleur-monture"
-        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
         >-</span
       >
     </div>
@@ -49,7 +49,7 @@ import SaveIcon from "../assets/save.svg";
       <span class="text-sm text-gray-600">Couleur des branches</span>
       <span
         id="resum-couleur-branches"
-        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
         >-</span
       >
     </div>
@@ -59,7 +59,7 @@ import SaveIcon from "../assets/save.svg";
       <span class="text-sm text-gray-600">Couleur des verres</span>
       <span
         id="resum-couleur-verres"
-        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
         >-</span
       >
     </div>
@@ -69,7 +69,7 @@ import SaveIcon from "../assets/save.svg";
       <span class="text-sm text-gray-600">Verres teintés</span>
       <span
         id="resum-verres-teintes"
-        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
         >Non</span
       >
     </div>
@@ -79,8 +79,38 @@ import SaveIcon from "../assets/save.svg";
       <span class="text-sm text-gray-600">Verres polarisés</span>
       <span
         id="resum-verres-polarises"
-        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
         >Non</span
+      >
+    </div>
+
+    <!-- Largeur des verres -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Largeur des verres</span>
+      <span
+        id="resum-largeur-verres"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
+        >47 mm</span
+      >
+    </div>
+
+    <!-- Hauteur des verres -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Hauteur des verres</span>
+      <span
+        id="resum-hauteur-verres"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
+        >45 mm</span
+      >
+    </div>
+
+    <!-- Largeur du pont -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Largeur du pont</span>
+      <span
+        id="resum-largeur-pont"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
+        >18 mm</span
       >
     </div>
 
@@ -126,6 +156,43 @@ import SaveIcon from "../assets/save.svg";
 </div>
 
 <script>
+  // Fonction pour calculer la luminosité d'une couleur (0-1)
+  function getColorLuminance(color: string): number {
+    let hex = color.replace("#", "");
+
+    // Si c'est un code hex court, l'étendre
+    if (hex.length === 3) {
+      hex = hex
+        .split("")
+        .map((x) => x + x)
+        .join("");
+    }
+
+    const r = parseInt(hex.substring(0, 2), 16) / 255;
+    const g = parseInt(hex.substring(2, 4), 16) / 255;
+    const b = parseInt(hex.substring(4, 6), 16) / 255;
+
+    // Formule de luminosité relative
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+
+    return luminance;
+  }
+
+  // Fonction pour ajuster le contraste du texte en fonction de la couleur de fond
+  function adjustTextContrast(element: HTMLElement, bgColor: string) {
+    const luminance = getColorLuminance(bgColor);
+
+    // Si la luminance est faible (couleur foncée), utiliser du texte blanc
+    // Sinon, utiliser du texte noir
+    if (luminance < 0.5) {
+      element.classList.remove("text-gray-900");
+      element.classList.add("text-white");
+    } else {
+      element.classList.remove("text-white");
+      element.classList.add("text-gray-900");
+    }
+  }
+
   // Fonction pour mettre à jour le résumé
   function updateResum() {
     // Récupérer les données du localStorage
@@ -159,18 +226,22 @@ import SaveIcon from "../assets/save.svg";
 
     const montureColorEl = document.getElementById("resum-couleur-monture");
     if (montureColorEl) {
+      const color = couleurs.monture || "#E0E7FF";
       montureColorEl.textContent = couleurs.monture
         ? couleurs.monture.toUpperCase()
         : "-";
-      montureColorEl.style.backgroundColor = couleurs.monture || "#E0E7FF";
+      montureColorEl.style.backgroundColor = color;
+      adjustTextContrast(montureColorEl, color);
     }
 
     const branchesColorEl = document.getElementById("resum-couleur-branches");
     if (branchesColorEl) {
+      const color = couleurs.branches || "#E0E7FF";
       branchesColorEl.textContent = couleurs.branches
         ? couleurs.branches.toUpperCase()
         : "-";
-      branchesColorEl.style.backgroundColor = couleurs.branches || "#E0E7FF";
+      branchesColorEl.style.backgroundColor = color;
+      adjustTextContrast(branchesColorEl, color);
     }
 
     const verresColorEl = document.getElementById("resum-couleur-verres");
@@ -178,9 +249,11 @@ import SaveIcon from "../assets/save.svg";
       if (optionsVerres.verresTeintes && optionsVerres.teinte) {
         verresColorEl.textContent = optionsVerres.teinte.toUpperCase();
         verresColorEl.style.backgroundColor = optionsVerres.teinte;
+        adjustTextContrast(verresColorEl, optionsVerres.teinte);
       } else {
         verresColorEl.textContent = "bleu-vert";
         verresColorEl.style.backgroundColor = "#E0E7FF";
+        adjustTextContrast(verresColorEl, "#E0E7FF");
       }
     }
 
@@ -195,6 +268,24 @@ import SaveIcon from "../assets/save.svg";
         ? "Oui"
         : "Non";
     }
+
+    // Charger les tailles
+    const tailles = JSON.parse(localStorage.getItem("tailles") || "{}");
+
+    const largeurVerresEl = document.getElementById("resum-largeur-verres");
+    if (largeurVerresEl) {
+      largeurVerresEl.textContent = (tailles.largeurVerres || 47) + " mm";
+    }
+
+    const hauteurVerresEl = document.getElementById("resum-hauteur-verres");
+    if (hauteurVerresEl) {
+      hauteurVerresEl.textContent = (tailles.hauteurVerres || 45) + " mm";
+    }
+
+    const largeurPontEl = document.getElementById("resum-largeur-pont");
+    if (largeurPontEl) {
+      largeurPontEl.textContent = (tailles.largeurPont || 18) + " mm";
+    }
   }
 
   // Mettre à jour au chargement
@@ -204,6 +295,7 @@ import SaveIcon from "../assets/save.svg";
   window.addEventListener("changeCouleurLunettes", updateResum);
   window.addEventListener("changeMateriau", updateResum);
   window.addEventListener("changeOptionsVerres", updateResum);
+  window.addEventListener("changeTailles", updateResum);
 
   // Observer les changements du localStorage
   const interval = setInterval(updateResum, 500);

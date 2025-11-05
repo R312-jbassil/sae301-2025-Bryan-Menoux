@@ -3,6 +3,8 @@ import logo from "../assets/logo.svg";
 import cart from "../assets/cart.svg";
 import save from "../assets/save.svg";
 import user from "../assets/user.svg";
+
+const isAuthenticated = !!Astro.cookies.get("pb_auth")?.value;
 ---
 
 <header
@@ -60,23 +62,35 @@ import user from "../assets/user.svg";
       </div>
 
       <div class="flex items-center gap-3 md:gap-4 text-neutral/80">
-        <button class="hover:text-primary transition-colors">
+        <a href="#" class="hover:text-primary transition-colors">
           <img src={cart.src} alt="Panier" class="h-6 md:h-7 lg:h-6 w-auto" />
-        </button>
-        <button class="hover:text-primary transition-colors">
+        </a>
+        <a href="#" class="hover:text-primary transition-colors">
           <img
             src={save.src}
             alt="Sauvegarder"
             class="h-6 md:h-7 lg:h-6 w-auto"
           />
-        </button>
-        <button class="hover:text-primary transition-colors">
-          <img
-            src={user.src}
-            alt="Utilisateur"
-            class="h-6 md:h-7 lg:h-6 w-auto"
-          />
-        </button>
+        </a>
+        {
+          isAuthenticated ? (
+            <button
+              id="logout-btn"
+              class="btn btn-outline btn-sm"
+              aria-label="Déconnexion"
+            >
+              Déconnexion
+            </button>
+          ) : (
+            <a href="/login" class="hover:text-primary transition-colors">
+              <img
+                src={user.src}
+                alt="Utilisateur"
+                class="h-6 md:h-7 lg:h-6 w-auto"
+              />
+            </a>
+          )
+        }
 
         <button
           id="menu-toggle"
@@ -110,13 +124,27 @@ import user from "../assets/user.svg";
       >Personnalisation</a
     >
     <a href="#" class="hover:text-primary transition-colors">Panier</a>
-    <a href="#" class="hover:text-primary transition-colors">Mon compte</a>
+    <a href="/login" class="hover:text-primary transition-colors">Mon compte</a>
   </nav>
 
   <script>
     const toggle = document.getElementById("menu-toggle");
     const menu = document.getElementById("mobile-menu");
+    const logoutBtn = document.getElementById("logout-btn");
     let open = false;
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        try {
+          const response = await fetch("/apis/logout", { method: "GET" });
+          if (response.ok) {
+            window.location.href = "/login";
+          }
+        } catch (error) {
+          console.error("Erreur lors de la déconnexion:", error);
+        }
+      });
+    }
 
     if (toggle && menu) {
       toggle.addEventListener("click", () => {

@@ -16,10 +16,22 @@ import Lunettes from "../components/Lunettes.astro";
     <script is:inline>
       window.addEventListener("changeCouleurLunettes", (e) => {
         const couleur = e.detail.couleur;
-        const partie = document.getElementById("monture");
-        if (partie) {
-          partie.style.transition = "fill 0.3s ease";
-          partie.setAttribute("fill", couleur);
+        const partie = e.detail.partie;
+
+        if (partie === "monture") {
+          const monture = document.getElementById("monture");
+          if (monture) {
+            monture.style.transition = "fill 0.3s ease";
+            monture.setAttribute("fill", couleur);
+          }
+        } else if (partie === "branches") {
+          const branches = document.querySelectorAll("#branches");
+          if (branches) {
+            branches.forEach((branch) => {
+              branch.style.transition = "fill 0.3s ease";
+              branch.setAttribute("fill", couleur);
+            });
+          }
         }
       });
     </script>

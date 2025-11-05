@@ -6,6 +6,7 @@ import CouleursLunettes from "../components/CouleursLunettes.astro";
 import Lunettes from "../components/Lunettes.astro";
 import ResumConfig from "../components/ResumConfig.astro";
 import Tailles from "../components/Tailles.astro";
+import SaveModal from "../components/SaveModal.astro";
 ---
 
 <Layout>
@@ -114,6 +115,14 @@ import Tailles from "../components/Tailles.astro";
           <OptionsVerres />
           <Tailles />
 
+          <!-- Bouton Enregistrer -->
+          <button
+            id="save-btn"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 text-sm transition-colors duration-200 rounded cursor-pointer"
+          >
+            Enregistrer la configuration
+          </button>
+
           <!-- Bouton Réinitialiser -->
           <button
             id="reset-btn"
@@ -202,6 +211,9 @@ import Tailles from "../components/Tailles.astro";
       </div>
     </div>
 
+    <!-- Save Modal Component -->
+    <SaveModal />
+
     <script is:inline>
       const fullscreenBtn = document.getElementById("fullscreen-btn");
       const fullscreenModal = document.getElementById("fullscreen-modal");
@@ -244,6 +256,12 @@ import Tailles from "../components/Tailles.astro";
           mainContent.style.pointerEvents = "auto";
           document.body.style.overflow = "auto";
         }
+      });
+
+      // Bouton Enregistrer
+      const saveBtn = document.getElementById("save-btn");
+      saveBtn?.addEventListener("click", () => {
+        window.openSaveModal?.();
       });
 
       // Bouton Réinitialiser

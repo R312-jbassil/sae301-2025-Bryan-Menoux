@@ -418,3 +418,7 @@ body {
     border-radius: 1.25rem;
   }
 }
+
+body {
+  font-family: "Poppins", sans-serif;
+}

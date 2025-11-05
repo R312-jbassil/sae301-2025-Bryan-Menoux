@@ -343,6 +343,12 @@ import shield from "../assets/shield.svg";
         if (errorDiv) {
           errorDiv.classList.add("hidden");
         }
+
+        // Stocker l'ID utilisateur dans localStorage
+        if (data.user && data.user.id) {
+          localStorage.setItem("id_utilisateur", data.user.id);
+        }
+
         const successDiv = document.getElementById("success-message");
         if (successDiv) {
           successDiv.classList.remove("hidden");
@@ -442,6 +448,12 @@ import shield from "../assets/shield.svg";
       if (successText && successDiv) {
         successText.textContent = "Compte créé et connexion réussie !";
         successDiv.classList.remove("hidden");
+      }
+
+      // Récupérer et stocker l'ID utilisateur avant de rediriger
+      const userIdFromOAuth = record?.id || "";
+      if (userIdFromOAuth) {
+        localStorage.setItem("id_utilisateur", userIdFromOAuth);
       }
 
       setTimeout(() => {

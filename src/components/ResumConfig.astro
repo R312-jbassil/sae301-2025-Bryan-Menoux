@@ -132,6 +132,7 @@ import SaveIcon from "../assets/save.svg";
       Ajouter au panier
     </button>
     <button
+      id="resumConfigSaveBtn"
       class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded transition-colors duration-200 flex items-center justify-center gap-2"
     >
       <img src={SaveIcon.src} alt="Enregistrer" class="w-5 h-5" />
@@ -299,6 +300,16 @@ import SaveIcon from "../assets/save.svg";
 
   // Observer les changements du localStorage
   const interval = setInterval(updateResum, 500);
+
+  // Wirer le bouton Enregistrer à la modale SaveModal
+  const saveBtn = document.getElementById("resumConfigSaveBtn");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", () => {
+      if (typeof (window as any).openSaveModal === "function") {
+        (window as any).openSaveModal();
+      }
+    });
+  }
 
   // Nettoyer l'interval quand le composant est détruit (optionnel)
   // clearInterval(interval);

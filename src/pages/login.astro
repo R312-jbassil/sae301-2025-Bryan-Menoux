@@ -245,6 +245,11 @@ import shield from "../assets/shield.svg";
           localStorage.setItem("rememberEmail", email);
         }
 
+        // Stocker l'ID utilisateur dans localStorage
+        if (data.user && data.user.id) {
+          localStorage.setItem("id_utilisateur", data.user.id);
+        }
+
         let redirectUrl = "/configurateur";
 
         if (document.referrer) {
@@ -321,6 +326,11 @@ import shield from "../assets/shield.svg";
       }
 
       pb.authStore.clear();
+
+      // Stocker l'ID utilisateur dans localStorage
+      if (record && record.id) {
+        localStorage.setItem("id_utilisateur", record.id);
+      }
 
       let redirectUrl = "/configurateur";
 

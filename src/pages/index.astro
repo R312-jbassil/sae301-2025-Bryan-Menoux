@@ -1,10 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import imageHero from "../assets/imageHero.png";
+import checkIcon from "../assets/check.svg";
+import image1 from "../assets/image-1.png";
+import image2 from "../assets/image-2.png";
+import image3 from "../assets/image-3.png";
 ---
 
 <Layout title="Accueil">
-  <main class="min-h-screen bg-base-100 text-base-content">
+  <main class="min-h-screen bg-transparent text-base-content">
     <section
       class="hero hero-offset max-w-7xl mx-auto px-4 py-12 md:py-20 lg:py-32 flex flex-col md:flex-col lg:flex-row items-center gap-8 md:gap-10 lg:gap-12"
     >
@@ -82,6 +86,343 @@ import imageHero from "../assets/imageHero.png";
             >
               <div class="text-xs text-gray-500">Fabrication</div>
               <div class="text-sm font-medium">Made in France</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Banderolle avec les avantages -->
+    <section class="py-10 md:py-16" style="background-color: #FEFEFE;">
+      <div class="max-w-7xl mx-auto px-4">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8"
+        >
+          <!-- Fabriqué en France -->
+          <div class="flex items-center gap-3 md:gap-4 flex-1 md:flex-none">
+            <div class="shrink-0">
+              <img
+                src={checkIcon.src}
+                alt="Check"
+                class="w-6 h-6 md:w-7 md:h-7 text-primary"
+              />
+            </div>
+            <div>
+              <div class="font-semibold text-sm md:text-base text-gray-900">
+                Fabriqué en France
+              </div>
+              <div class="text-xs md:text-sm text-gray-500">Qualité locale</div>
+            </div>
+          </div>
+
+          <!-- Garantie 2 ans -->
+          <div class="flex items-center gap-3 md:gap-4 flex-1 md:flex-none">
+            <div class="shrink-0">
+              <img
+                src={checkIcon.src}
+                alt="Check"
+                class="w-6 h-6 md:w-7 md:h-7 text-primary"
+              />
+            </div>
+            <div>
+              <div class="font-semibold text-sm md:text-base text-gray-900">
+                Garantie 2 ans
+              </div>
+              <div class="text-xs md:text-sm text-gray-500">
+                Protection assurée
+              </div>
+            </div>
+          </div>
+
+          <!-- Autogel soigné -->
+          <div class="flex items-center gap-3 md:gap-4 flex-1 md:flex-none">
+            <div class="shrink-0">
+              <img
+                src={checkIcon.src}
+                alt="Check"
+                class="w-6 h-6 md:w-7 md:h-7 text-primary"
+              />
+            </div>
+            <div>
+              <div class="font-semibold text-sm md:text-base text-gray-900">
+                Autogel soigné
+              </div>
+              <div class="text-xs md:text-sm text-gray-500">
+                Confort optimal
+              </div>
+            </div>
+          </div>
+
+          <!-- 1000+ configurations -->
+          <div class="flex items-center gap-3 md:gap-4 flex-1 md:flex-none">
+            <div class="shrink-0">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 md:w-7 md:h-7 text-primary"
+              >
+                <g clip-path="url(#clip0_130_309)">
+                  <path
+                    d="M7.3446 1.87581C7.37316 1.72287 7.45431 1.58475 7.57399 1.48535C7.69368 1.38595 7.84435 1.33154 7.99993 1.33154C8.1555 1.33154 8.30618 1.38595 8.42586 1.48535C8.54555 1.58475 8.6267 1.72287 8.65526 1.87581L9.35593 5.58114C9.40569 5.84457 9.53371 6.08688 9.72328 6.27645C9.91285 6.46602 10.1552 6.59404 10.4186 6.64381L14.1239 7.34447C14.2769 7.37304 14.415 7.45419 14.5144 7.57387C14.6138 7.69355 14.6682 7.84423 14.6682 7.99981C14.6682 8.15538 14.6138 8.30606 14.5144 8.42574C14.415 8.54542 14.2769 8.62657 14.1239 8.65514L10.4186 9.35581C10.1552 9.40557 9.91285 9.53359 9.72328 9.72316C9.53371 9.91273 9.40569 10.155 9.35593 10.4185L8.65526 14.1238C8.6267 14.2767 8.54555 14.4149 8.42586 14.5143C8.30618 14.6137 8.1555 14.6681 7.99993 14.6681C7.84435 14.6681 7.69368 14.6137 7.57399 14.5143C7.45431 14.4149 7.37316 14.2767 7.3446 14.1238L6.64393 10.4185C6.59416 10.155 6.46614 9.91273 6.27658 9.72316C6.08701 9.53359 5.84469 9.40557 5.58126 9.35581L1.87593 8.65514C1.723 8.62657 1.58487 8.54542 1.48547 8.42574C1.38608 8.30606 1.33167 8.15538 1.33167 7.99981C1.33167 7.84423 1.38608 7.69355 1.48547 7.57387C1.58487 7.45419 1.723 7.37304 1.87593 7.34447L5.58126 6.64381C5.84469 6.59404 6.08701 6.46602 6.27658 6.27645C6.46614 6.08688 6.59416 5.84457 6.64393 5.58114L7.3446 1.87581Z"
+                    stroke="currentColor"
+                    stroke-width="1.33333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M13.3334 1.3335V4.00016"
+                    stroke="currentColor"
+                    stroke-width="1.33333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M14.6667 2.6665H12"
+                    stroke="currentColor"
+                    stroke-width="1.33333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M2.66671 14.6667C3.40309 14.6667 4.00004 14.0697 4.00004 13.3333C4.00004 12.597 3.40309 12 2.66671 12C1.93033 12 1.33337 12.597 1.33337 13.3333C1.33337 14.0697 1.93033 14.6667 2.66671 14.6667Z"
+                    stroke="currentColor"
+                    stroke-width="1.33333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </g>
+                <defs>
+                  <clipPath id="clip0_130_309">
+                    <rect width="16" height="16" fill="white"></rect>
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div>
+              <div class="font-semibold text-sm md:text-base text-gray-900">
+                1000+ configurations
+              </div>
+              <div class="text-xs md:text-sm text-gray-500">Déjà créées</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comment ça marche -->
+    <section class="py-12 md:py-20 bg-transparent">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12 md:mb-16">
+          <h2
+            class="text-2xl md:text-4xl font-extrabold mb-3 md:mb-4 text-gray-900"
+          >
+            Comment ça marche
+          </h2>
+          <p class="text-gray-600 text-sm md:text-base">
+            Trois étapes simples pour créer vos lunettes sur-mesure
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <!-- Étape 1 -->
+          <div class="bg-gray-50 rounded-lg p-6 md:p-8 text-center">
+            <div
+              class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold text-lg mb-4"
+            >
+              1
+            </div>
+            <h3 class="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+              Inspirez-vous, décrivez
+            </h3>
+            <p class="text-gray-600 text-sm md:text-base">
+              Décrivez votre style en langage naturel ou choisissez dans notre
+              formulaire de personnalisation
+            </p>
+          </div>
+
+          <!-- Étape 2 -->
+          <div class="bg-gray-50 rounded-lg p-6 md:p-8 text-center">
+            <div
+              class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold text-lg mb-4"
+            >
+              2
+            </div>
+            <h3 class="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+              Visualisez en direct
+            </h3>
+            <p class="text-gray-600 text-sm md:text-base">
+              Voyez votre modèle prendre forme en temps réel avec notre aperçu
+              virtuel haute qualité
+            </p>
+          </div>
+
+          <!-- Étape 3 -->
+          <div class="bg-gray-50 rounded-lg p-6 md:p-8 text-center">
+            <div
+              class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold text-lg mb-4"
+            >
+              3
+            </div>
+            <h3 class="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+              Enregistrez, recevez
+            </h3>
+            <p class="text-gray-600 text-sm md:text-base">
+              Sauvegardez votre création, commandez et recevez vos lunettes
+              fabriquées en France
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personnalisation sans limite -->
+    <section class="py-12 md:py-20 bg-transparent">
+      <div class="max-w-7xl mx-auto px-4">
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center"
+        >
+          <!-- Contenu gauche -->
+          <div>
+            <h2
+              class="text-2xl md:text-4xl font-extrabold mb-3 md:mb-4 text-gray-900"
+            >
+              Personnalisation sans limite
+            </h2>
+            <p class="text-gray-600 text-sm md:text-base mb-8 md:mb-10">
+              Créez des lunettes qui vous ressemblent vraiment grâce à notre
+              système de personnalisation avancé
+            </p>
+
+            <div class="space-y-6 md:space-y-8">
+              <!-- Point 1 -->
+              <div class="flex gap-4">
+                <div class="shrink-0 flex items-start pt-1">
+                  <svg
+                    class="w-6 h-6 text-blue-600"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 12l2 2 4-4"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-900 mb-1 md:mb-2">
+                    Matériaux premium
+                  </h3>
+                  <p class="text-gray-600 text-sm md:text-base">
+                    Acétate de cellulose, titane et inox pour un confort et une
+                    durabilité exceptionnels
+                  </p>
+                </div>
+              </div>
+
+              <!-- Point 2 -->
+              <div class="flex gap-4">
+                <div class="shrink-0 flex items-start pt-1">
+                  <svg
+                    class="w-6 h-6 text-blue-600"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                    ></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-900 mb-1 md:mb-2">
+                    Personnalisation fine
+                  </h3>
+                  <p class="text-gray-600 text-sm md:text-base">
+                    Couleur, largeur de pont, taille des verres, finitions...
+                    Chaque détail compte
+                  </p>
+                </div>
+              </div>
+
+              <!-- Point 3 -->
+              <div class="flex gap-4">
+                <div class="shrink-0 flex items-start pt-1">
+                  <svg
+                    class="w-6 h-6 text-blue-600"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_130_309)">
+                      <path
+                        d="M7.3446 1.87581C7.37316 1.72287 7.45431 1.58475 7.57399 1.48535C7.69368 1.38595 7.84435 1.33154 7.99993 1.33154C8.1555 1.33154 8.30618 1.38595 8.42586 1.48535C8.54555 1.58475 8.6267 1.72287 8.65526 1.87581L9.35593 5.58114C9.40569 5.84457 9.53371 6.08688 9.72328 6.27645C9.91285 6.46602 10.1552 6.59404 10.4186 6.64381L14.1239 7.34447C14.2769 7.37304 14.415 7.45419 14.5144 7.57387C14.6138 7.69355 14.6682 7.84423 14.6682 7.99981C14.6682 8.15538 14.6138 8.30606 14.5144 8.42574C14.415 8.54542 14.2769 8.62657 14.1239 8.65514L10.4186 9.35581C10.1552 9.40557 9.91285 9.53359 9.72328 9.72316C9.53371 9.91273 9.40569 10.155 9.35593 10.4185L8.65526 14.1238C8.6267 14.2767 8.54555 14.4149 8.42586 14.5143C8.30618 14.6137 8.1555 14.6681 7.99993 14.6681C7.84435 14.6681 7.69368 14.6137 7.57399 14.5143C7.45431 14.4149 7.37316 14.2767 7.3446 14.1238L6.64393 10.4185C6.59416 10.155 6.46614 9.91273 6.27658 9.72316C6.08701 9.53359 5.84469 9.40557 5.58126 9.35581L1.87593 8.65514C1.723 8.62657 1.58487 8.54542 1.48547 8.42574C1.38608 8.30606 1.33167 8.15538 1.33167 7.99981C1.33167 7.84423 1.38608 7.69355 1.48547 7.57387C1.58487 7.45419 1.723 7.37304 1.87593 7.34447L5.58126 6.64381C5.84469 6.59404 6.08701 6.46602 6.27658 6.27645C6.46614 6.08688 6.59416 5.84457 6.64393 5.58114L7.3446 1.87581Z"
+                        stroke="currentColor"
+                        stroke-width="1.33333"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path
+                        d="M13.3334 1.3335V4.00016"
+                        stroke="currentColor"
+                        stroke-width="1.33333"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path
+                        d="M14.6667 2.6665H12"
+                        stroke="currentColor"
+                        stroke-width="1.33333"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path
+                        d="M2.66671 14.6667C3.40309 14.6667 4.00004 14.0697 4.00004 13.3333C4.00004 12.597 3.40309 12 2.66671 12C1.93033 12 1.33337 12.597 1.33337 13.3333C1.33337 14.0697 1.93033 14.6667 2.66671 14.6667Z"
+                        stroke="currentColor"
+                        stroke-width="1.33333"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_130_309">
+                        <rect width="16" height="16" fill="white"></rect>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-900 mb-1 md:mb-2">
+                    IA en langage naturel
+                  </h3>
+                  <p class="text-gray-600 text-sm md:text-base">
+                    Décrivez simplement ce que vous voulez, notre IA traduit vos
+                    envies en design
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Images droite -->
+          <div class="hidden lg:block">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="rounded-lg overflow-hidden h-48">
+                <img
+                  src={image2.src}
+                  alt="Portrait"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="rounded-lg overflow-hidden h-48">
+                <img
+                  src={image3.src}
+                  alt="Personnalisation détails"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="rounded-lg overflow-hidden h-40 col-span-2">
+                <img
+                  src={image1.src}
+                  alt="Lunettes couleurs"
+                  class="w-full h-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>

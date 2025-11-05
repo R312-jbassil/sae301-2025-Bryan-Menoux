@@ -1,0 +1,516 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <main class="flex flex-col items-center gap-8 mt-16 px-4">
+    <div class="w-full max-w-4xl">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">Mon Panier</h1>
+
+      <div class="grid grid-cols-3 gap-6">
+        <!-- Cart Items -->
+        <div class="col-span-2 space-y-4">
+          <div
+            id="cart-items-container"
+            class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm space-y-0"
+          >
+            <!-- Items will be added here dynamically -->
+            <div
+              id="empty-cart-message"
+              class="p-8 text-center text-gray-500 bg-gray-50"
+            >
+              <p class="text-lg mb-4">Votre panier est vide</p>
+              <a
+                href="/configurateur"
+                class="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                ← Retour au configurateur
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Summary -->
+        <div class="col-span-1">
+          <div
+            class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm sticky top-24"
+          >
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+              <h2 class="font-semibold text-gray-900 m-0">Résumé</h2>
+            </div>
+
+            <div class="px-6 py-4 space-y-4">
+              <div class="space-y-2">
+                <div class="flex justify-between text-sm text-gray-600">
+                  <span>Sous-total</span>
+                  <span id="subtotal">0,00 €</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-600">
+                  <span>Frais de port</span>
+                  <span id="shipping">0,00 €</span>
+                </div>
+                <div
+                  class="border-t border-gray-200 pt-2 flex justify-between font-semibold text-gray-900"
+                >
+                  <span>Total</span>
+                  <span id="total">0,00 €</span>
+                </div>
+              </div>
+
+              <button
+                id="proceed-to-checkout-btn"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+              >
+                Procéder au paiement
+              </button>
+
+              <a
+                href="/configurateur"
+                class="block text-center text-blue-600 hover:text-blue-700 font-medium py-2 text-sm"
+              >
+                ← Continuer vos achats
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Payment Modal -->
+  <div
+    id="payment-modal"
+    class="fixed inset-0 hidden z-1000 items-center justify-center bg-black/50"
+  >
+    <div class="bg-white rounded-lg w-[90%] max-w-[500px] shadow-2xl">
+      <!-- Header -->
+      <div class="px-6 py-6 border-b border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-900 m-0">Paiement</h3>
+      </div>
+
+      <!-- Body -->
+      <div class="px-6 py-6 space-y-4">
+        <!-- Error Message -->
+        <div
+          id="payment-error-message"
+          class="hidden p-4 bg-red-50 border border-red-200 rounded-lg"
+        >
+          <div class="flex gap-3">
+            <div class="shrink-0 text-red-600">✕</div>
+            <p
+              id="payment-error-text"
+              class="text-sm font-medium text-red-900 m-0"
+            >
+            </p>
+          </div>
+        </div>
+
+        <!-- Success Message -->
+        <div
+          id="payment-success-message"
+          class="hidden p-4 bg-green-50 border border-green-200 rounded-lg"
+        >
+          <div class="flex gap-3">
+            <div class="shrink-0 text-green-600">✓</div>
+            <div>
+              <p class="text-sm font-medium text-green-900 m-0">
+                Paiement effectué avec succès !
+              </p>
+              <p
+                id="payment-success-text"
+                class="text-xs text-green-700 mt-1 m-0"
+              >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Form -->
+        <div id="payment-form" class="space-y-4">
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p class="text-sm text-blue-900 m-0">
+              <strong>Mode de démonstration</strong><br />
+              Ce paiement est fictif à des fins de test. Aucun débitage réel n'aura
+              lieu.
+            </p>
+          </div>
+
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Nom complet
+            </label>
+            <input
+              id="name"
+              type="text"
+              placeholder="Jean Dupont"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="jean@example.com"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div
+            class="flex justify-between items-center pt-2 border-t border-gray-200"
+          >
+            <span class="text-gray-600 font-medium">Montant à payer:</span>
+            <span id="payment-total" class="text-lg font-bold text-gray-900"
+              >0 €</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="px-6 py-4 border-t border-gray-200 flex gap-3 justify-end">
+        <button
+          id="cancel-payment-btn"
+          class="px-4 py-2 border border-gray-300 rounded font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
+        >
+          Annuler
+        </button>
+        <button
+          id="confirm-payment-btn"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition-colors duration-200 cursor-pointer"
+        >
+          Procéder au paiement
+        </button>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline>
+  // Cart state
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  // DOM elements
+  const cartItemsContainer = document.getElementById("cart-items-container");
+  const emptyCartMessage = document.getElementById("empty-cart-message");
+  const subtotalEl = document.getElementById("subtotal");
+  const shippingEl = document.getElementById("shipping");
+  const totalEl = document.getElementById("total");
+  const proceedToCheckoutBtn = document.getElementById(
+    "proceed-to-checkout-btn"
+  );
+
+  // Payment modal
+  const paymentModal = document.getElementById("payment-modal");
+  const paymentForm = document.getElementById("payment-form");
+  const paymentErrorMessage = document.getElementById("payment-error-message");
+  const paymentErrorText = document.getElementById("payment-error-text");
+  const paymentSuccessMessage = document.getElementById(
+    "payment-success-message"
+  );
+  const paymentSuccessText = document.getElementById("payment-success-text");
+  const paymentTotal = document.getElementById("payment-total");
+  const cancelPaymentBtn = document.getElementById("cancel-payment-btn");
+  const confirmPaymentBtn = document.getElementById("confirm-payment-btn");
+
+  // Form fields
+  const nameInput = document.getElementById("name");
+  const emailInput = document.getElementById("email");
+
+  // Remove item from cart
+  async function removeFromCart(modeleId) {
+    try {
+      // Fetch the modele to check its name
+      const response = await fetch(
+        `http://127.0.0.1:8090/api/collections/modele/records/${modeleId}`
+      );
+      if (response.ok) {
+        const modele = await response.json();
+        // If the title starts with "Lunettes TAVUE -", it's a temporary model - delete it
+        if (modele.titre.startsWith("Lunettes TAVUE -")) {
+          await fetch(
+            `http://127.0.0.1:8090/api/collections/modele/records/${modeleId}`,
+            { method: "DELETE" }
+          );
+          console.log(`Modèle temporaire supprimé (ID: ${modeleId})`);
+        } else {
+          console.log(
+            `Modèle sauvegardé conservé (ID: ${modeleId}) - ${modele.titre}`
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression du modèle:", error);
+    }
+
+    cart = cart.filter((item) => item.id !== modeleId);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartUI();
+  }
+
+  // Update quantity
+  function updateQuantity(modeleId, quantity) {
+    const item = cart.find((item) => item.id === modeleId);
+    if (item) {
+      if (quantity <= 0) {
+        removeFromCart(modeleId);
+      } else {
+        item.quantity = quantity;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartUI();
+      }
+    }
+  }
+
+  // Update cart UI
+  function updateCartUI() {
+    cartItemsContainer.innerHTML = "";
+
+    if (cart.length === 0) {
+      emptyCartMessage.classList.remove("hidden");
+      proceedToCheckoutBtn.disabled = true;
+    } else {
+      emptyCartMessage.classList.add("hidden");
+      proceedToCheckoutBtn.disabled = false;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        const itemEl = document.createElement("div");
+        itemEl.className =
+          "px-6 py-4 border-b border-gray-200 last:border-b-0 flex justify-between items-center";
+        itemEl.innerHTML = `
+          <div class="flex-1">
+            <p class="font-medium text-gray-900 m-0">${item.title}</p>
+            <p class="text-sm text-gray-600 m-0">${item.price.toFixed(2)} € x ${item.quantity}</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+              <button
+                class="px-2 py-1 border border-gray-300 rounded text-gray-600 hover:text-gray-900"
+                onclick="window.decreaseQuantity(${index})"
+              >
+                −
+              </button>
+              <span class="w-8 text-center">${item.quantity}</span>
+              <button
+                class="px-2 py-1 border border-gray-300 rounded text-gray-600 hover:text-gray-900"
+                onclick="window.increaseQuantity(${index})"
+              >
+                +
+              </button>
+            </div>
+            <span class="font-semibold text-gray-900 min-w-20 text-right">${itemTotal.toFixed(2)} €</span>
+            <button
+              class="text-red-500 hover:text-red-700 font-bold"
+              onclick="window.removeFromCart('${item.id}')"
+            >
+              ×
+            </button>
+          </div>
+        `;
+        cartItemsContainer.appendChild(itemEl);
+      });
+    }
+
+    // Update totals
+    const subtotal = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    const shipping = subtotal > 0 ? 0 : 0; // Shipping free for now
+    const total = subtotal + shipping;
+
+    subtotalEl.textContent = subtotal.toFixed(2) + " €";
+    shippingEl.textContent = shipping.toFixed(2) + " €";
+    totalEl.textContent = total.toFixed(2) + " €";
+    paymentTotal.textContent = total.toFixed(2) + " €";
+  }
+
+  // Increase quantity
+  window.increaseQuantity = function (index) {
+    if (cart[index]) {
+      cart[index].quantity += 1;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartUI();
+    }
+  };
+
+  // Decrease quantity
+  window.decreaseQuantity = function (index) {
+    if (cart[index]) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+        localStorage.setItem("cart", JSON.stringify(cart));
+      } else {
+        removeFromCart(cart[index].id);
+      }
+      updateCartUI();
+    }
+  };
+
+  // Make removeFromCart available globally
+  window.removeFromCart = removeFromCart;
+
+  // Proceed to checkout
+  proceedToCheckoutBtn?.addEventListener("click", () => {
+    paymentForm.classList.remove("hidden");
+    paymentErrorMessage.classList.add("hidden");
+    paymentSuccessMessage.classList.add("hidden");
+    nameInput.value = "";
+    emailInput.value = "";
+
+    paymentModal.classList.remove("hidden");
+    paymentModal.style.display = "flex";
+  });
+
+  // Cancel payment
+  cancelPaymentBtn?.addEventListener("click", () => {
+    paymentModal.classList.add("hidden");
+    paymentModal.style.display = "none";
+  });
+
+  // Confirm payment - Process payment directly when form is filled
+  let isProcessingPayment = false;
+  confirmPaymentBtn?.addEventListener("click", async () => {
+    // Éviter les clics multiples
+    if (isProcessingPayment) {
+      return;
+    }
+
+    // Validate fields
+    if (!nameInput.value.trim()) {
+      paymentErrorText.textContent = "Veuillez entrer votre nom";
+      paymentErrorMessage.classList.remove("hidden");
+      return;
+    }
+
+    if (!emailInput.value.trim() || !emailInput.value.includes("@")) {
+      paymentErrorText.textContent = "Veuillez entrer un email valide";
+      paymentErrorMessage.classList.remove("hidden");
+      return;
+    }
+
+    isProcessingPayment = true;
+    confirmPaymentBtn.disabled = true;
+    confirmPaymentBtn.textContent = "Traitement...";
+
+    try {
+      paymentForm.classList.add("hidden");
+      paymentErrorMessage.classList.add("hidden");
+
+      // Get user ID from localStorage
+      const id_utilisateur = localStorage.getItem("id_utilisateur");
+      if (!id_utilisateur) {
+        throw new Error("Vous devez être connecté pour passer commande");
+      }
+
+      // Calculate total
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
+      // Create order in commande collection
+      const orderResponse = await fetch(
+        "http://127.0.0.1:8090/api/collections/commande/records",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id_utilisateur: id_utilisateur,
+            total: total,
+            statut: "confirmée",
+          }),
+        }
+      );
+
+      if (!orderResponse.ok) {
+        const errorText = await orderResponse.text();
+        console.error("Erreur création commande:", errorText);
+        throw new Error("Erreur lors de la création de la commande");
+      }
+
+      const orderData = await orderResponse.json();
+      const commandeId = orderData.id;
+
+      // Create line items in ligne_commande collection
+      for (const item of cart) {
+        console.log("Création ligne_commande - id_modele:", item.id);
+
+        // Récupérer le modèle pour obtenir code_svg et prix
+        const modeleResponse = await fetch(
+          `http://127.0.0.1:8090/api/collections/modele/records/${item.id}`
+        );
+
+        if (!modeleResponse.ok) {
+          throw new Error(`Impossible de récupérer le modèle ${item.id}`);
+        }
+
+        const modele = await modeleResponse.json();
+
+        // Préparer les données de la ligne de commande
+        const ligneData = {
+          id_commande: commandeId,
+          id_modele: item.id,
+          quantite: item.quantity,
+          prix_unitaire: modele.prix || item.price,
+          code_svg: modele.code_svg,
+        };
+
+        const lineResponse = await fetch(
+          "http://127.0.0.1:8090/api/collections/ligne_commande/records",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(ligneData),
+          }
+        );
+
+        if (!lineResponse.ok) {
+          const errorText = await lineResponse.text();
+          console.error("Erreur création ligne commande:", errorText);
+          throw new Error("Erreur lors de la création des lignes de commande");
+        }
+      }
+
+      // Success!
+      paymentSuccessText.textContent = `Commande #${commandeId.substring(0, 8)} créée avec succès !`;
+      paymentSuccessMessage.classList.remove("hidden");
+
+      // Clear cart after 3 seconds
+      setTimeout(() => {
+        cart = [];
+        localStorage.removeItem("cart");
+        updateCartUI();
+        paymentModal.classList.add("hidden");
+        paymentModal.style.display = "none";
+        window.location.href = "/configurateur";
+      }, 3000);
+    } catch (error) {
+      console.error("Erreur paiement:", error);
+      paymentForm.classList.remove("hidden");
+      paymentErrorText.textContent = error.message || "Erreur lors du paiement";
+      paymentErrorMessage.classList.remove("hidden");
+      confirmPaymentBtn.disabled = false;
+      confirmPaymentBtn.textContent = "Procéder au paiement";
+      isProcessingPayment = false;
+    }
+  });
+
+  // Initialize UI on load
+  updateCartUI();
+</script>

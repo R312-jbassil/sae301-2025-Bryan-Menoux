@@ -34,7 +34,7 @@ const isAuthenticated = !!Astro.cookies.get("pb_auth")?.value;
       <a href="/configurateur" class="hover:text-primary transition-colors"
         >Personnalisation de votre modèle</a
       >
-      <a href="#" class="hover:text-primary transition-colors">Panier</a>
+      <a href="/panier" class="hover:text-primary transition-colors">Panier</a>
     </nav>
 
     <div class="flex items-center gap-4">
@@ -62,7 +62,7 @@ const isAuthenticated = !!Astro.cookies.get("pb_auth")?.value;
       </div>
 
       <div class="flex items-center gap-3 md:gap-4 text-neutral/80">
-        <a href="#" class="hover:text-primary transition-colors">
+        <a href="/panier" class="hover:text-primary transition-colors">
           <img src={cart.src} alt="Panier" class="h-6 md:h-7 lg:h-6 w-auto" />
         </a>
         <a href="#" class="hover:text-primary transition-colors">
@@ -123,7 +123,7 @@ const isAuthenticated = !!Astro.cookies.get("pb_auth")?.value;
     <a href="configurateur" class="hover:text-primary transition-colors"
       >Personnalisation</a
     >
-    <a href="#" class="hover:text-primary transition-colors">Panier</a>
+    <a href="/panier" class="hover:text-primary transition-colors">Panier</a>
     <a href="/login" class="hover:text-primary transition-colors">Mon compte</a>
   </nav>
 

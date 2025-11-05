@@ -102,6 +102,10 @@ import pb from "../lib/pocketbase.js";
       saveSuccessMessage.classList.add("hidden");
       saveForm.classList.remove("hidden");
 
+      // Réinitialiser les boutons
+      cancelSaveBtn.textContent = "Annuler";
+      confirmSaveBtn.classList.remove("hidden");
+
       // Afficher le modal
       saveModal.classList.remove("hidden");
       // Forcer un reflow pour que la transition fonctionne
@@ -286,9 +290,9 @@ import pb from "../lib/pocketbase.js";
         couleur_monture: couleursLunettes.monture || "#4169E1",
         couleur_branches: couleursLunettes.branches || "black",
         finition: finitions.finition || "",
-        largeur_verres: tailles.largeur_verres || 0,
-        hauteur_verres: tailles.hauteur_verres || 0,
-        largeur_pont: tailles.largeur_pont || 0,
+        largeur_verres: tailles.largeurVerres || 0,
+        hauteur_verres: tailles.hauteurVerres || 0,
+        largeur_pont: tailles.largeurPont || 0,
         verres_teintes: optionsVerres.verresTeintes || false,
         teinte_hex: optionsVerres.teinte || "",
         verres_polarises: optionsVerres.verresPolarises || false,
@@ -298,6 +302,9 @@ import pb from "../lib/pocketbase.js";
         id_materiau_branches: id_materiau_branches,
         id_utilisateur: id_utilisateur,
       };
+
+      console.log("Tailles récupérées:", tailles);
+      console.log("Données envoyées à PocketBase:", modelData);
 
       // Vérifier que les matériaux ont été trouvés
       if (!id_materiau_monture || !id_materiau_branches) {
@@ -333,6 +340,7 @@ import pb from "../lib/pocketbase.js";
       }
 
       const result = await response.json();
+      console.log("Modèle créé avec succès - ID:", result.id);
 
       // Sauvegarder aussi dans localStorage pour la synchronisation locale
       const configuration = {
@@ -353,6 +361,11 @@ import pb from "../lib/pocketbase.js";
       localStorage.setItem(
         "configurationsEnregistrees",
         JSON.stringify(configurationsEnregistrees)
+      );
+
+      console.log(
+        "Configuration sauvegardée - Configurations totales:",
+        configurationsEnregistrees.length
       );
 
       // Afficher le message de succès dans le popup

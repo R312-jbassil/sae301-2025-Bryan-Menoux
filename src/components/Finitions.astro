@@ -1,0 +1,81 @@
+---
+
+---
+
+<style>
+  details[open] #chevron-finitions {
+    transform: rotate(90deg);
+  }
+</style>
+
+<div class="w-full" id="finitions-container">
+  <details
+    open
+    class="p-0 cursor-pointer bg-white rounded-xl shadow-sm border border-gray-200"
+  >
+    <summary
+      class="font-semibold text-base select-none flex items-center justify-between p-4"
+    >
+      <span>Finitions</span>
+      <svg
+        id="chevron-finitions"
+        class="w-[18px] h-[18px] text-gray-700 transition-transform duration-200"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path></svg
+      >
+    </summary>
+
+    <div class="px-4 pb-4">
+      <div>
+        <h3 class="text-sm font-medium text-gray-900 mb-3">Finition</h3>
+        <div class="space-y-2">
+          <select
+            id="finition-select"
+            class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-100 text-sm font-medium"
+          >
+            <option value="">Sélectionner une finition</option>
+            <option value="mat">Mat</option>
+            <option value="brillant">Brillant</option>
+            <option value="brosse">Brossé</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<script>
+  const savedFinitions = JSON.parse(localStorage.getItem("finitions") || "{}");
+  const finitionSelect = document.getElementById(
+    "finition-select"
+  ) as HTMLSelectElement;
+
+  if (finitionSelect && savedFinitions.finition) {
+    finitionSelect.value = savedFinitions.finition;
+  }
+
+  if (finitionSelect) {
+    finitionSelect.addEventListener("change", () => {
+      const finitions_data = JSON.parse(
+        localStorage.getItem("finitions") || "{}"
+      );
+      finitions_data.finition = finitionSelect.value;
+      localStorage.setItem("finitions", JSON.stringify(finitions_data));
+
+      window.dispatchEvent(
+        new CustomEvent("changeFinition", {
+          detail: {
+            finition: finitionSelect.value,
+          },
+        })
+      );
+    });
+  }
+</script>

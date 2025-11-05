@@ -173,6 +173,7 @@ import pb from "../lib/pocketbase.js";
         localStorage.getItem("optionsVerres") || "{}"
       );
       const tailles = JSON.parse(localStorage.getItem("tailles") || "{}");
+      const finitions = JSON.parse(localStorage.getItem("finitions") || "{}");
 
       // Générer le code SVG complet avec les bonnes couleurs
       const svgCode = generateSVGWithColors(couleursLunettes, optionsVerres);
@@ -284,7 +285,7 @@ import pb from "../lib/pocketbase.js";
         code_svg: svgCode,
         couleur_monture: couleursLunettes.monture || "#4169E1",
         couleur_branches: couleursLunettes.branches || "black",
-        finition: tailles.finition || "",
+        finition: finitions.finition || "",
         largeur_verres: tailles.largeur_verres || 0,
         hauteur_verres: tailles.hauteur_verres || 0,
         largeur_pont: tailles.largeur_pont || 0,
@@ -342,6 +343,7 @@ import pb from "../lib/pocketbase.js";
         materiaux,
         optionsVerres,
         tailles,
+        finitions,
       };
 
       let configurationsEnregistrees = JSON.parse(

@@ -114,6 +114,16 @@ import SaveIcon from "../assets/save.svg";
       >
     </div>
 
+    <!-- Finition -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Finition</span>
+      <span
+        id="resum-finition"
+        class="text-sm font-medium bg-gray-100 text-gray-900 px-3 py-1 rounded"
+        >-</span
+      >
+    </div>
+
     <!-- Prix Estimatif -->
     <div
       class="border-t border-gray-200 pt-4 flex justify-between items-center"
@@ -204,12 +214,20 @@ import SaveIcon from "../assets/save.svg";
     const optionsVerres = JSON.parse(
       localStorage.getItem("optionsVerres") || "{}"
     );
+    const finitions = JSON.parse(localStorage.getItem("finitions") || "{}");
 
     // Mapping des matériaux
     const materiauxMap: { [key: string]: string } = {
       acetate: "Acétate de cellulose",
       titane: "Titane",
       inox: "Inox",
+    };
+
+    // Mapping des finitions
+    const finitionsMap: { [key: string]: string } = {
+      mat: "Mat",
+      brillant: "Brillant",
+      brosse: "Brossé",
     };
 
     // Mettre à jour les éléments
@@ -287,6 +305,12 @@ import SaveIcon from "../assets/save.svg";
     if (largeurPontEl) {
       largeurPontEl.textContent = (tailles.largeurPont || 18) + " mm";
     }
+
+    // Mettre à jour la finition
+    const finitionEl = document.getElementById("resum-finition");
+    if (finitionEl) {
+      finitionEl.textContent = finitionsMap[finitions.finition] || "-";
+    }
   }
 
   // Mettre à jour au chargement
@@ -297,6 +321,7 @@ import SaveIcon from "../assets/save.svg";
   window.addEventListener("changeMateriau", updateResum);
   window.addEventListener("changeOptionsVerres", updateResum);
   window.addEventListener("changeTailles", updateResum);
+  window.addEventListener("changeFinition", updateResum);
 
   // Observer les changements du localStorage
   const interval = setInterval(updateResum, 500);

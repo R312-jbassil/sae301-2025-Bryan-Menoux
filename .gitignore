@@ -25,3 +25,10 @@ pnpm-debug.log*
 
 pocketbase/*.md
 pocketbase/pocketbase
+
+pb_data/*
+backend/pb_data/
+backend/pb_data/*
+backend/*.db
+backend/*.db-*
+backend/pb_migrations/

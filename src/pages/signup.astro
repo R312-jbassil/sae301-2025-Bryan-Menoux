@@ -4,23 +4,57 @@ import cadenas from "../assets/cadenas.svg";
 import shield from "../assets/shield.svg";
 ---
 
-<Layout title="Connexion - TaVue">
+<Layout title="Inscription - TaVue">
   <div class="min-h-screen flex items-center justify-center bg-base-100 px-4">
     <div class="flex flex-col gap-8 w-full max-w-md">
-      <!-- Login Card -->
+      <!-- Signup Card -->
       <div class="card bg-white shadow-lg rounded-2xl">
         <div class="card-body p-8 space-y-4">
           <!-- Titre -->
           <div class="text-center">
             <h2 class="text-3xl font-semibold text-base-content mb-2">
-              Connexion
+              Créer un compte
             </h2>
             <p class="text-sm text-base-content/60">
-              Connectez-vous pour accéder à<br />vos configurations et commandes
+              Inscrivez-vous pour accéder à<br />vos configurations et commandes
             </p>
           </div>
 
-          <form id="login-form" class="space-y-5">
+          <form id="signup-form" class="space-y-5">
+            <!-- Prénom -->
+            <div class="form-control">
+              <label class="label pb-2">
+                <span class="label-text text-sm font-semibold text-base-content"
+                  >Prénom</span
+                >
+              </label>
+              <input
+                type="text"
+                id="prenom"
+                name="prenom"
+                placeholder="Votre prénom"
+                required
+                class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg text-base-content placeholder:text-base-content/40 focus:outline-none focus:bg-gray-200 transition-colors"
+              />
+            </div>
+
+            <!-- Nom -->
+            <div class="form-control">
+              <label class="label pb-2">
+                <span class="label-text text-sm font-semibold text-base-content"
+                  >Nom</span
+                >
+              </label>
+              <input
+                type="text"
+                id="nom"
+                name="nom"
+                placeholder="Votre nom"
+                required
+                class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg text-base-content placeholder:text-base-content/40 focus:outline-none focus:bg-gray-200 transition-colors"
+              />
+            </div>
+
             <!-- Email -->
             <div class="form-control">
               <label class="label pb-2">
@@ -74,31 +108,48 @@ import shield from "../assets/shield.svg";
               </div>
             </div>
 
-            <!-- Checkbox et lien mot de passe oublié -->
-            <div class="flex items-center justify-between pt-1">
-              <label class="label cursor-pointer justify-start gap-2 p-0">
-                <input
-                  type="checkbox"
-                  name="remember"
-                  id="remember"
-                  class="checkbox checkbox-sm checkbox-primary"
-                />
-                <span class="label-text text-sm text-base-content"
-                  >Se souvenir de moi</span
+            <!-- Checkbox conditions d'utilisation -->
+            <div class="flex items-center gap-2 pt-2">
+              <input
+                type="checkbox"
+                id="terms"
+                name="terms"
+                required
+                class="checkbox checkbox-sm checkbox-primary"
+              />
+              <label
+                for="terms"
+                class="text-xs text-base-content/70 cursor-pointer"
+              >
+                J'accepte les <a
+                  href="#"
+                  class="text-primary font-medium hover:underline"
+                  >conditions d'utilisations</a
                 >
               </label>
-              <a
-                href="#"
-                class="text-sm text-primary font-medium hover:underline"
-                >Mot de passe oublié ?</a
-              >
             </div>
 
-            <!-- Bouton Se connecter -->
+            <!-- Se souvenir de moi -->
+            <div class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="remember"
+                name="remember"
+                class="checkbox checkbox-sm checkbox-primary"
+              />
+              <label
+                for="remember"
+                class="text-xs text-base-content/70 cursor-pointer"
+              >
+                Se souvenir de moi
+              </label>
+            </div>
+
+            <!-- Bouton S'inscrire -->
             <button
               type="submit"
               class="btn btn-primary w-full h-11 font-semibold mt-6"
-              >Se connecter <span class="ml-1">→</span></button
+              >S'inscrire <span class="ml-1">→</span></button
             >
           </form>
 
@@ -157,18 +208,18 @@ import shield from "../assets/shield.svg";
             </button>
           </div>
 
-          <!-- Créer un compte -->
+          <!-- Connexion -->
           <p class="text-center text-sm text-base-content/70 pt-2">
-            Vous n'avez pas de compte ?
-            <a href="/signup" class="text-primary font-semibold hover:underline"
-              >Créer un compte</a
+            Vous possédez déjà un compte ?
+            <a href="/login" class="text-primary font-semibold hover:underline"
+              >Connexion</a
             >
           </p>
 
-          <!-- Message d'erreur -->
+          <!-- Message de succès -->
           <div
-            id="error-message"
-            class="hidden alert alert-error text-sm relative pl-4"
+            id="success-message"
+            class="hidden alert alert-success text-sm pr-12 relative"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -178,10 +229,45 @@ import shield from "../assets/shield.svg";
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
+              ><circle cx="12" cy="12" r="10"></circle><path d="M8 12l2 2 4-4"
+              ></path></svg
             >
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M8 8l8 8M16 8l-8 8"></path>
-            </svg>
+            <span id="success-text">Compte créé avec succès !</span>
+            <button
+              class="absolute right-3 top-1/2 -translate-y-1/2 btn btn-ghost btn-xs"
+              onclick="document.getElementById('success-message').classList.add('hidden')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"></path></svg
+              >
+            </button>
+          </div>
+
+          <!-- Message d'erreur -->
+          <div
+            id="error-message"
+            class="hidden alert alert-error text-sm pr-12 relative"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="stroke-current shrink-0 h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              ><circle cx="12" cy="12" r="10"></circle><path
+                d="M8 8l8 8M16 8l-8 8"></path></svg
+            >
             <span id="error-text"></span>
             <button
               class="absolute right-3 top-1/2 -translate-y-1/2 btn btn-ghost btn-xs"
@@ -229,67 +315,86 @@ import shield from "../assets/shield.svg";
     passwordInput.setAttribute("type", type);
   });
 
-  const loginForm = document.getElementById("login-form");
-  loginForm?.addEventListener("submit", async (e) => {
+  const signupForm = document.getElementById("signup-form");
+  signupForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const prenom = (document.getElementById("prenom") as HTMLInputElement)
+      .value;
+    const nom = (document.getElementById("nom") as HTMLInputElement).value;
     const email = (document.getElementById("email") as HTMLInputElement).value;
     const password = (document.getElementById("password") as HTMLInputElement)
       .value;
+    const terms = (document.getElementById("terms") as HTMLInputElement)
+      .checked;
     const remember = (document.getElementById("remember") as HTMLInputElement)
       .checked;
 
+    if (!terms) {
+      alert("Vous devez accepter les conditions d'utilisation");
+      return;
+    }
+
     try {
-      const response = await fetch("/apis/login", {
+      const response = await fetch("/apis/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, remember }),
+        body: JSON.stringify({
+          prenom_utilisateur: prenom,
+          nom_utilisateur: nom,
+          email,
+          password,
+          passwordConfirm: password,
+          remember,
+        }),
       });
 
       if (response.ok) {
         const data = await response.json();
-
-        if (remember) {
-          localStorage.setItem("rememberEmail", email);
+        // Masquer l'erreur si elle était affichée
+        const errorDiv = document.getElementById("error-message");
+        if (errorDiv) {
+          errorDiv.classList.add("hidden");
         }
-
-        // Rediriger vers la page d'où vient l'utilisateur, ou vers /configurateur par défaut
-        let redirectUrl = "/configurateur";
-
-        if (document.referrer) {
-          const referrerUrl = new URL(document.referrer);
-          // Si c'est du même domaine ET que ce n'est pas login ou signup
-          if (referrerUrl.origin === window.location.origin) {
-            if (
-              !referrerUrl.pathname.includes("/login") &&
-              !referrerUrl.pathname.includes("/signup")
-            ) {
-              redirectUrl = document.referrer;
+        const successDiv = document.getElementById("success-message");
+        if (successDiv) {
+          successDiv.classList.remove("hidden");
+          setTimeout(() => {
+            // Si "Se souvenir de moi" était coché, on redirige directement
+            if (remember) {
+              window.location.href = "/";
             } else {
-              redirectUrl = "/";
+              window.location.href = "/login";
             }
-          }
+          }, 1500);
         }
-
-        window.location.href = redirectUrl;
       } else {
         const error = await response.json();
+        // Masquer le succès si il était affichée
+        const successDiv = document.getElementById("success-message");
+        if (successDiv) {
+          successDiv.classList.add("hidden");
+        }
         const errorDiv = document.getElementById("error-message");
         const errorText = document.getElementById("error-text");
         if (errorText && errorDiv) {
-          errorText.textContent =
-            error.error || "Email ou mot de passe incorrect";
+          errorText.textContent = error.error || "Erreur lors de l'inscription";
           errorDiv.classList.remove("hidden");
         }
       }
     } catch (error) {
-      console.error("Erreur de connexion:", error);
+      console.error("Erreur d'inscription:", error);
+      // Masquer le succès si il était affichée
+      const successDiv = document.getElementById("success-message");
+      if (successDiv) {
+        successDiv.classList.add("hidden");
+      }
       const errorDiv = document.getElementById("error-message");
       const errorText = document.getElementById("error-text");
       if (errorText && errorDiv) {
-        errorText.textContent = "Une erreur est survenue lors de la connexion";
+        errorText.textContent = "Une erreur est survenue lors de l'inscription";
         errorDiv.classList.remove("hidden");
       }
     }

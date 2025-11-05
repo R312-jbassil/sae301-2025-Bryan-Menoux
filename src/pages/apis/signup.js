@@ -46,26 +46,35 @@ export const POST = async ({ request, cookies }) => {
 
     console.log("✅ Utilisateur créé avec succès:", email);
 
-    // Si "Se souvenir de moi" est coché, authentifier l'utilisateur
-    let cookieOptions = {};
-    if (remember) {
-      try {
-        const authData = await pb
-          .collection("utilisateur")
-          .authWithPassword(email, password);
+    // Authentifier automatiquement l'utilisateur après l'inscription
+    try {
+      const authData = await pb
+        .collection("utilisateur")
+        .authWithPassword(email, password);
 
-        cookieOptions = {
-          path: "/",
-          httpOnly: true,
-          sameSite: "strict",
-          expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-        };
+      const cookieOptions = {
+        path: "/",
+        httpOnly: true,
+        sameSite: "strict",
+      };
 
-        cookies.set("pb_auth", pb.authStore.exportToCookie(), cookieOptions);
-        pb.authStore.clear();
-      } catch (authErr) {
-        console.log("Note: Authentification après inscription non effectuée");
+      // Si "Se souvenir de moi" est coché, le cookie persiste 365 jours
+      if (remember) {
+        cookieOptions.expires = new Date(
+          Date.now() + 365 * 24 * 60 * 60 * 1000
+        );
       }
+
+      cookies.set("pb_auth", pb.authStore.exportToCookie(), cookieOptions);
+      pb.authStore.clear();
+
+      console.log("✅ Utilisateur connecté automatiquement après inscription");
+    } catch (authErr) {
+      console.error(
+        "⚠️ Erreur lors de l'authentification après inscription:",
+        authErr.message
+      );
+      // On continue quand même, l'utilisateur est créé
     }
 
     return new Response(

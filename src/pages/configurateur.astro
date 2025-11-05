@@ -1,37 +1,221 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Materiaux from "../components/Materiaux.astro";
+import OptionsVerres from "../components/OptionsVerres.astro";
 import CouleursLunettes from "../components/CouleursLunettes.astro";
 import Lunettes from "../components/Lunettes.astro";
+import ResumConfig from "../components/ResumConfig.astro";
 ---
 
 <Layout>
-  <main
-    style="display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: 4rem;"
-  >
-    <h1>Personnalisez vos lunettes</h1>
+  <main class="flex flex-col items-center gap-8 mt-16 px-4">
+    <div id="main-content" class="w-full flex flex-col items-center gap-8">
+      <h1>Personnalisez vos lunettes</h1>
 
-    <Lunettes />
-    <CouleursLunettes />
+      <style>
+        /* Responsive: stack preview above params on small screens, two columns on desktop (>=1024px) */
+        .config-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          width: 100%;
+          max-width: 1200px;
+          align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+          .config-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        /* Keep left column sticky when scrolling */
+        .sticky-column {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 10dvh; /* offset from top */
+          z-index: 10;
+          height: fit-content;
+        }
+
+        /* Hide small preview control buttons on mobile/tablet (show on desktop) */
+        #vue-avant,
+        #vue-profil {
+          display: none;
+        }
+
+        @media (min-width: 1024px) {
+          #vue-avant,
+          #vue-profil {
+            display: inline-flex;
+          }
+        }
+      </style>
+
+      <div class="config-grid">
+        <!-- Colonne gauche: Aperçu + Résumé -->
+        <div class="w-full space-y-4 sticky-column">
+          <div
+            class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm"
+          >
+            <div
+              class="px-6 py-6 flex justify-between items-center text-gray-800 text-sm font-semibold"
+            >
+              <span>Aperçu</span>
+              <button
+                id="fullscreen-btn"
+                class="bg-none border-none cursor-pointer p-0 flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-400 hover:text-gray-600 transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div
+              class="flex justify-center items-center bg-gray-50 px-6 py-8 mx-4 rounded min-h-80"
+            >
+              <Lunettes />
+            </div>
+
+            <div class="flex justify-center items-center gap-3 px-6 py-6">
+              <button
+                id="vue-avant"
+                class="bg-white text-blue-600 border-[1.5px] border-blue-600 px-3.5 py-1 rounded-full cursor-pointer text-xs font-medium transition-all duration-200"
+              >
+                Vue Avant
+              </button>
+              <span
+                id="vue-profil"
+                class="text-gray-500 text-xs cursor-pointer font-normal"
+              >
+                Vue Profil
+              </span>
+            </div>
+          </div>
+
+          <ResumConfig />
+        </div>
+
+        <!-- Colonne droite: Paramètres -->
+        <div class="w-full space-y-4">
+          <Materiaux />
+          <OptionsVerres />
+          <CouleursLunettes />
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Fullscreen -->
+    <div
+      id="fullscreen-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 z-1000 items-center justify-center"
+    >
+      <div
+        class="bg-white rounded-lg w-[90%] max-w-[900px] max-h-[90vh] overflow-auto shadow-2xl"
+      >
+        <div
+          class="px-6 py-6 flex justify-between items-center text-gray-800 text-sm font-semibold border-b border-gray-200"
+        >
+          <span>Aperçu Fullscreen</span>
+          <button
+            id="close-fullscreen-btn"
+            class="bg-none border-none cursor-pointer p-0 flex items-center justify-center w-8 h-8"
+          >
+            <svg
+              class="w-6 h-6 text-gray-400 hover:text-gray-600 transition-colors"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div
+          class="flex justify-center items-center bg-gray-50 px-8 py-12 min-h-[500px]"
+        >
+          <Lunettes />
+        </div>
+      </div>
+    </div>
 
     <script is:inline>
+      const fullscreenBtn = document.getElementById("fullscreen-btn");
+      const fullscreenModal = document.getElementById("fullscreen-modal");
+      const closeFullscreenBtn = document.getElementById(
+        "close-fullscreen-btn"
+      );
+      const mainContent = document.getElementById("main-content");
+
+      fullscreenBtn?.addEventListener("click", () => {
+        fullscreenModal.classList.remove("hidden");
+        fullscreenModal.style.display = "flex";
+        mainContent.style.filter = "blur(5px)";
+        mainContent.style.pointerEvents = "none";
+        document.body.style.overflow = "hidden";
+      });
+
+      closeFullscreenBtn?.addEventListener("click", () => {
+        fullscreenModal.classList.add("hidden");
+        fullscreenModal.style.display = "none";
+        mainContent.style.filter = "none";
+        mainContent.style.pointerEvents = "auto";
+        document.body.style.overflow = "auto";
+      });
+
+      fullscreenModal?.addEventListener("click", (e) => {
+        if (e.target === fullscreenModal) {
+          fullscreenModal.classList.add("hidden");
+          fullscreenModal.style.display = "none";
+          mainContent.style.filter = "none";
+          mainContent.style.pointerEvents = "auto";
+          document.body.style.overflow = "auto";
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && fullscreenModal.style.display === "flex") {
+          fullscreenModal.classList.add("hidden");
+          fullscreenModal.style.display = "none";
+          mainContent.style.filter = "none";
+          mainContent.style.pointerEvents = "auto";
+          document.body.style.overflow = "auto";
+        }
+      });
+
       window.addEventListener("changeCouleurLunettes", (e) => {
         const couleur = e.detail.couleur;
         const partie = e.detail.partie;
 
         if (partie === "monture") {
-          const monture = document.getElementById("monture");
-          if (monture) {
-            monture.style.transition = "fill 0.3s ease";
-            monture.setAttribute("fill", couleur);
-          }
+          const montures = document.querySelectorAll("#monture");
+          montures.forEach((monture) => {
+            if (monture) {
+              monture.style.transition = "fill 0.3s ease";
+              monture.setAttribute("fill", couleur);
+            }
+          });
         } else if (partie === "branches") {
-          const branches = document.querySelectorAll("#branches");
-          if (branches) {
-            branches.forEach((branch) => {
-              branch.style.transition = "fill 0.3s ease";
-              branch.setAttribute("fill", couleur);
-            });
-          }
+          const branchesAll = document.querySelectorAll("#branches");
+          branchesAll.forEach((branch) => {
+            branch.style.transition = "fill 0.3s ease";
+            branch.setAttribute("fill", couleur);
+          });
         }
       });
     </script>

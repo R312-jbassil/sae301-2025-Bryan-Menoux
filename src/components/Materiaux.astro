@@ -1,0 +1,158 @@
+<div class="w-full" id="materiaux-container">
+  <details
+    open
+    class="p-0 cursor-pointer bg-white rounded-xl shadow-sm border border-gray-200"
+  >
+    <summary
+      class="font-semibold text-base select-none flex items-center justify-between p-4"
+    >
+      <span>Matériaux</span>
+      <svg
+        id="chevron-materiaux"
+        class="w-[18px] h-[18px] text-gray-700 transition-transform duration-200"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path></svg
+      >
+    </summary>
+
+    <div class="px-4 pb-4 space-y-6">
+      <!-- Monture -->
+      <div>
+        <h3 class="text-sm font-medium text-gray-900 mb-3">Monture</h3>
+        <div class="space-y-2">
+          <select
+            id="materiau-monture"
+            class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-100 text-sm font-medium"
+          >
+            <option value="">Sélectionner un matériau</option>
+            <option value="acetate">Acétate de cellulose</option>
+            <option value="titane">Titane</option>
+            <option value="inox">Inox</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Branches -->
+      <div>
+        <h3 class="text-sm font-medium text-gray-900 mb-3">Branches</h3>
+        <div class="space-y-2">
+          <select
+            id="materiau-branches"
+            class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-100 text-sm font-medium"
+          >
+            <option value="">Sélectionner un matériau</option>
+            <option value="acetate">Acétate de cellulose</option>
+            <option value="titane">Titane</option>
+            <option value="inox">Inox</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Détails des matériaux (statiques) -->
+      <div
+        class="border-t border-gray-200 pt-4 space-y-2 text-xs text-gray-600"
+      >
+        <p class="m-0">
+          <span class="font-semibold">Acétate:</span> Léger, confortable, hypoallergénique
+        </p>
+        <p class="m-0">
+          <span class="font-semibold">Titane:</span> Ultra-résistant, léger, durable
+        </p>
+        <p class="m-0">
+          <span class="font-semibold">Inox:</span> Robuste, flexible, anti-corrosion
+        </p>
+      </div>
+    </div>
+  </details>
+
+  <script>
+    // Gestion de la rotation du chevron - unique pour ce composant
+    const container = document.getElementById("materiaux-container");
+    if (container) {
+      const materiaux_detailsElement = container.querySelector("details");
+      const materiaux_chevronIcon =
+        container.querySelector("#chevron-materiaux");
+
+      if (materiaux_detailsElement && materiaux_chevronIcon) {
+        const updateChevronRotation = () => {
+          if (materiaux_detailsElement.open) {
+            materiaux_chevronIcon.classList.add("rotate-90");
+          } else {
+            materiaux_chevronIcon.classList.remove("rotate-90");
+          }
+        };
+
+        materiaux_detailsElement.addEventListener(
+          "toggle",
+          updateChevronRotation
+        );
+        updateChevronRotation();
+      }
+    }
+
+    // Charger les matériaux sauvegardés
+    const savedMateriaux = JSON.parse(
+      localStorage.getItem("materiaux") || "{}"
+    );
+    const montureSelect = document.getElementById(
+      "materiau-monture"
+    ) as HTMLSelectElement;
+    const branchesSelect = document.getElementById(
+      "materiau-branches"
+    ) as HTMLSelectElement;
+
+    if (montureSelect && savedMateriaux.monture) {
+      montureSelect.value = savedMateriaux.monture;
+    }
+
+    if (branchesSelect && savedMateriaux.branches) {
+      branchesSelect.value = savedMateriaux.branches;
+    }
+
+    // Event listeners pour sauvegarder les sélections
+    if (montureSelect) {
+      montureSelect.addEventListener("change", () => {
+        const materiaux_data = JSON.parse(
+          localStorage.getItem("materiaux") || "{}"
+        );
+        materiaux_data.monture = montureSelect.value;
+        localStorage.setItem("materiaux", JSON.stringify(materiaux_data));
+
+        window.dispatchEvent(
+          new CustomEvent("changeMateriau", {
+            detail: {
+              materiau: montureSelect.value,
+              partie: "monture",
+            },
+          })
+        );
+      });
+    }
+
+    if (branchesSelect) {
+      branchesSelect.addEventListener("change", () => {
+        const materiaux_data = JSON.parse(
+          localStorage.getItem("materiaux") || "{}"
+        );
+        materiaux_data.branches = branchesSelect.value;
+        localStorage.setItem("materiaux", JSON.stringify(materiaux_data));
+
+        window.dispatchEvent(
+          new CustomEvent("changeMateriau", {
+            detail: {
+              materiau: branchesSelect.value,
+              partie: "branches",
+            },
+          })
+        );
+      });
+    }
+  </script>
+</div>

@@ -1,155 +1,93 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import imageHero from "../assets/imageHero.png";
 ---
 
-<Layout title="Test Thème TaVue">
-  <main
-    class="min-h-screen flex flex-col items-center gap-10 py-20 px-6 bg-base-100 text-base-content"
-  >
-    <!-- Palette de couleurs -->
-    <section class="text-center max-w-5xl">
-      <h1 class="text-4xl font-bold mb-6 text-primary">
-        Palette du thème TaVue
-      </h1>
-
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <!-- Base -->
-        <div class="rounded-xl shadow p-4 bg-base-100 border border-base-300">
-          <div class="w-full h-20 rounded-md bg-base-100 border"></div>
-          <p class="mt-3 font-medium">base-100</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-base-200 border border-base-300">
-          <div class="w-full h-20 rounded-md bg-base-200 border"></div>
-          <p class="mt-3 font-medium">base-200</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-base-300 border border-base-300">
-          <div class="w-full h-20 rounded-md bg-base-300 border"></div>
-          <p class="mt-3 font-medium">base-300</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-primary text-primary-content">
-          <div class="w-full h-20 rounded-md bg-primary"></div>
-          <p class="mt-3 font-medium">primary</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-secondary text-secondary-content">
-          <div class="w-full h-20 rounded-md bg-secondary"></div>
-          <p class="mt-3 font-medium">secondary</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-accent text-accent-content">
-          <div class="w-full h-20 rounded-md bg-accent"></div>
-          <p class="mt-3 font-medium">accent</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-neutral text-neutral-content">
-          <div class="w-full h-20 rounded-md bg-neutral"></div>
-          <p class="mt-3 font-medium">neutral</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-info text-info-content">
-          <div class="w-full h-20 rounded-md bg-info"></div>
-          <p class="mt-3 font-medium">info</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-success text-success-content">
-          <div class="w-full h-20 rounded-md bg-success"></div>
-          <p class="mt-3 font-medium">success</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-warning text-warning-content">
-          <div class="w-full h-20 rounded-md bg-warning"></div>
-          <p class="mt-3 font-medium">warning</p>
-        </div>
-
-        <div class="rounded-xl shadow p-4 bg-error text-error-content">
-          <div class="w-full h-20 rounded-md bg-error"></div>
-          <p class="mt-3 font-medium">error</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Séparateur -->
-    <div class="divider w-full max-w-5xl">Aperçu des composants</div>
-
-    <!-- Boutons -->
-    <section class="flex flex-wrap justify-center gap-4">
-      <button class="btn btn-primary">Bouton principal</button>
-      <button class="btn btn-accent">Bouton accent</button>
-      <button class="btn btn-neutral">Bouton neutre</button>
-      <button class="btn btn-outline">Bouton outline</button>
-      <button class="btn btn-ghost">Bouton ghost</button>
-      <button class="btn" disabled>Bouton désactivé</button>
-    </section>
-
-    <!-- Inputs -->
-    <section class="flex flex-col gap-4 w-full max-w-sm">
-      <input
-        type="text"
-        placeholder="Champ de texte"
-        class="input input-bordered w-full"
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        class="input input-primary w-full"
-      />
-      <select class="select select-bordered w-full">
-        <option>Option 1</option>
-        <option>Option 2</option>
-      </select>
-    </section>
-
-    <!-- Cartes -->
+<Layout title="Accueil">
+  <main class="min-h-screen bg-base-100 text-base-content">
     <section
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl"
+      class="hero hero-offset max-w-7xl mx-auto px-4 py-12 md:py-20 lg:py-32 flex flex-col md:flex-col lg:flex-row items-center gap-8 md:gap-10 lg:gap-12"
     >
-      <div class="card bg-base-200 shadow-md">
-        <div class="card-body">
-          <h2 class="card-title">Carte simple</h2>
-          <p>Une carte avec un fond clair et des bords arrondis.</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary btn-sm">Action</button>
+      
+      <div
+        class="hero-row w-full flex flex-col md:flex-col lg:flex-row items-center gap-8 md:gap-10 lg:gap-12"
+      >
+        
+        <div class="hero-content-left w-full md:w-full lg:w-1/2 text-left">
+          <h2
+            class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4 md:mb-6"
+          >
+            Créez vos lunettes, à votre image
+          </h2>
+          <p class="text-muted mb-4 md:mb-6 max-w-full md:max-w-md">
+            Personnalisez monture, couleur et tailles. Dites-le en langage
+            naturel ou utilisez nos contrôles simples. Fabrication française,
+            style épuré.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-6 mb-6 md:mb-8"
+          >
+            <a
+              href="/configurateur"
+              class="btn btn-primary hero-cta w-full sm:w-auto md:btn-lg lg:btn-lg"
+              >Lancer le configurateur <span class="ml-2">→</span></a
+            >
+            <a
+              href="#"
+              class="btn btn-outline flex items-center gap-2 w-full sm:w-auto md:btn-lg lg:btn-lg justify-center"
+            >
+              <svg
+                class="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              Voir un modèle
+            </a>
+          </div>
+
+          <div
+            class="w-full flex flex-col sm:flex-row justify-center sm:justify-start gap-4 sm:gap-8 md:gap-10 text-sm text-primary"
+          >
+            <div class="flex flex-col items-center sm:items-start">
+              <div class="text-xl md:text-2xl font-bold">4.8/5</div>
+              <div class="text-xs sm:text-sm">Satisfaction client</div>
+            </div>
+            <div class="flex flex-col items-center sm:items-start">
+              <div class="text-xl md:text-2xl font-bold">1000+</div>
+              <div class="text-xs sm:text-sm">Configurations enregistrées</div>
+            </div>
+            <div class="flex flex-col items-center sm:items-start">
+              <div class="text-xl md:text-2xl font-bold">48h</div>
+              <div class="text-xs sm:text-sm">Fabrication</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="card bg-base-200 shadow-lg">
-        <div class="card-body">
-          <h2 class="card-title">Carte accent</h2>
-          <p>Une autre carte avec du contenu test.</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-outline btn-sm">Voir</button>
+        
+        <div
+          class="hero-image w-full md:w-full lg:w-1/2 flex justify-center mt-4 md:mt-6 lg:mt-0"
+        >
+          <div
+            class="image-card relative rounded-2xl overflow-hidden shadow-2xl max-w-[340px] md:max-w-[420px] lg:max-w-[520px] w-full"
+          >
+            <img
+              src={imageHero.src}
+              alt="Lunettes"
+              class="w-full h-auto block"
+            />
+            <div
+              class="absolute bottom-6 right-6 bg-white rounded-lg px-4 py-3 shadow flex flex-col items-center gap-1 w-fit"
+            >
+              <div class="text-xs text-gray-500">Fabrication</div>
+              <div class="text-sm font-medium">Made in France</div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="card bg-base-200 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">Carte neutre</h2>
-          <p>Test de contraste et d’ombre sur ton thème.</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-neutral btn-sm">Détails</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Alertes -->
-    <section class="w-full max-w-3xl flex flex-col gap-3">
-      <div role="alert" class="alert alert-info">
-        <span>Information : ton thème est bien chargé.</span>
-      </div>
-      <div role="alert" class="alert alert-success">
-        <span>Succès : DaisyUI fonctionne parfaitement.</span>
-      </div>
-      <div role="alert" class="alert alert-warning">
-        <span>Attention : ceci est un message de test.</span>
-      </div>
-      <div role="alert" class="alert alert-error">
-        <span>Erreur : couleur d’état bien affichée.</span>
       </div>
     </section>
   </main>

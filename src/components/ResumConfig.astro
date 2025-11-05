@@ -1,0 +1,213 @@
+---
+import CartWhiteIcon from "../assets/cart-white.svg";
+import SaveIcon from "../assets/save.svg";
+---
+
+<div
+  class="w-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm"
+  id="resum-config-container"
+>
+  <div class="px-6 py-6 border-b border-gray-200">
+    <h2 class="text-lg font-semibold text-gray-900 m-0">
+      Résumé de configuration
+    </h2>
+  </div>
+
+  <div class="px-6 py-6 space-y-4">
+    <!-- Matériau Monture -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Matériau de la monture</span>
+      <span
+        id="resum-materiau-monture"
+        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        >-</span
+      >
+    </div>
+
+    <!-- Matériau Branches -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Matériau des branches</span>
+      <span
+        id="resum-materiau-branches"
+        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        >-</span
+      >
+    </div>
+
+    <!-- Couleur Monture -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Couleur de la monture</span>
+      <span
+        id="resum-couleur-monture"
+        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        >-</span
+      >
+    </div>
+
+    <!-- Couleur Branches -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Couleur des branches</span>
+      <span
+        id="resum-couleur-branches"
+        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        >-</span
+      >
+    </div>
+
+    <!-- Couleur Verres -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Couleur des verres</span>
+      <span
+        id="resum-couleur-verres"
+        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        >-</span
+      >
+    </div>
+
+    <!-- Verres Teintés -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Verres teintés</span>
+      <span
+        id="resum-verres-teintes"
+        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        >Non</span
+      >
+    </div>
+
+    <!-- Verres Polarisés -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm text-gray-600">Verres polarisés</span>
+      <span
+        id="resum-verres-polarises"
+        class="text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded"
+        >Non</span
+      >
+    </div>
+
+    <!-- Prix Estimatif -->
+    <div
+      class="border-t border-gray-200 pt-4 flex justify-between items-center"
+    >
+      <span class="text-sm font-semibold text-gray-900">Prix estimatif</span>
+      <span id="resum-prix" class="text-lg font-bold text-gray-900">289 €</span>
+    </div>
+  </div>
+
+  <!-- Boutons d'action -->
+  <div class="px-6 py-4 border-t border-gray-200 space-y-2">
+    <button
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-200 flex items-center justify-center gap-2"
+    >
+      <img src={CartWhiteIcon.src} alt="Panier" class="w-5 h-5" />
+      Ajouter au panier
+    </button>
+    <button
+      class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded transition-colors duration-200 flex items-center justify-center gap-2"
+    >
+      <img src={SaveIcon.src} alt="Enregistrer" class="w-5 h-5" />
+      Enregistrer
+    </button>
+    <button
+      class="w-full text-blue-600 hover:text-blue-700 font-medium py-2 px-4 text-sm transition-colors duration-200 flex items-center justify-center gap-2"
+    >
+      <svg
+        class="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+      Voir les détails
+    </button>
+  </div>
+</div>
+
+<script>
+  // Fonction pour mettre à jour le résumé
+  function updateResum() {
+    // Récupérer les données du localStorage
+    const materiaux = JSON.parse(localStorage.getItem("materiaux") || "{}");
+    const couleurs = JSON.parse(
+      localStorage.getItem("couleursLunettes") || "{}"
+    );
+    const optionsVerres = JSON.parse(
+      localStorage.getItem("optionsVerres") || "{}"
+    );
+
+    // Mapping des matériaux
+    const materiauxMap: { [key: string]: string } = {
+      acetate: "Acétate de cellulose",
+      titane: "Titane",
+      inox: "Inox",
+    };
+
+    // Mettre à jour les éléments
+    const montureMateriauEl = document.getElementById("resum-materiau-monture");
+    if (montureMateriauEl) {
+      montureMateriauEl.textContent = materiauxMap[materiaux.monture] || "-";
+    }
+
+    const branchesMateriauEl = document.getElementById(
+      "resum-materiau-branches"
+    );
+    if (branchesMateriauEl) {
+      branchesMateriauEl.textContent = materiauxMap[materiaux.branches] || "-";
+    }
+
+    const montureColorEl = document.getElementById("resum-couleur-monture");
+    if (montureColorEl) {
+      montureColorEl.textContent = couleurs.monture
+        ? couleurs.monture.toUpperCase()
+        : "-";
+      montureColorEl.style.backgroundColor = couleurs.monture || "#E0E7FF";
+    }
+
+    const branchesColorEl = document.getElementById("resum-couleur-branches");
+    if (branchesColorEl) {
+      branchesColorEl.textContent = couleurs.branches
+        ? couleurs.branches.toUpperCase()
+        : "-";
+      branchesColorEl.style.backgroundColor = couleurs.branches || "#E0E7FF";
+    }
+
+    const verresColorEl = document.getElementById("resum-couleur-verres");
+    if (verresColorEl) {
+      if (optionsVerres.verresTeintes && optionsVerres.teinte) {
+        verresColorEl.textContent = optionsVerres.teinte.toUpperCase();
+        verresColorEl.style.backgroundColor = optionsVerres.teinte;
+      } else {
+        verresColorEl.textContent = "bleu-vert";
+        verresColorEl.style.backgroundColor = "#E0E7FF";
+      }
+    }
+
+    const verresTeinteEl = document.getElementById("resum-verres-teintes");
+    if (verresTeinteEl) {
+      verresTeinteEl.textContent = optionsVerres.verresTeintes ? "Oui" : "Non";
+    }
+
+    const verresPolariseEl = document.getElementById("resum-verres-polarises");
+    if (verresPolariseEl) {
+      verresPolariseEl.textContent = optionsVerres.verresPolarises
+        ? "Oui"
+        : "Non";
+    }
+  }
+
+  // Mettre à jour au chargement
+  updateResum();
+
+  // Écouter les changements
+  window.addEventListener("changeCouleurLunettes", updateResum);
+  window.addEventListener("changeMateriau", updateResum);
+  window.addEventListener("changeOptionsVerres", updateResum);
+
+  // Observer les changements du localStorage
+  const interval = setInterval(updateResum, 500);
+
+  // Nettoyer l'interval quand le composant est détruit (optionnel)
+  // clearInterval(interval);
+</script>

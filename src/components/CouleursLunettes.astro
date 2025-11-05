@@ -2,378 +2,386 @@
 import arrow from "../assets/arrow-black.svg";
 ---
 
-<div style="width: 100%; max-width: 700px;">
+<div class="w-full" id="couleurs-container">
   <details
     open
-    style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; cursor: pointer;"
+    class="p-0 cursor-pointer bg-white rounded-xl shadow-sm border border-gray-200"
   >
-    <summary style="font-weight: 600; font-size: 16px; user-select: none;">
-      Couleurs
+    <summary
+      class="font-semibold text-base select-none flex items-center justify-between p-4"
+    >
+      <span>Couleurs</span>
+      <svg
+        id="chevron-icon"
+        class="w-[18px] h-[18px] text-gray-700 transition-transform duration-200"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path></svg
+      >
     </summary>
 
-    <div style="margin-top: 20px;">
-      <div
-        style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 16px;"
-      >
-        <button
-          id="btn-prev"
-          class="btn btn-bordered flex justify-center align-center p-0 h-8 w-8"
-          ><img
-            src={arrow.src}
-            alt="Précédent"
-            class="w-4 h-4"
-            style="transform: scaleX(-1);"
-          /></button
-        >
-        <h3
-          id="titre-partie"
-          style="margin: 0; font-size: 16px; font-weight: 500; min-width: 100px; text-align: center;"
-        >
-          Monture
-        </h3>
-        <button
-          id="btn-next"
-          class="btn btn-bordered flex justify-center align-center p-0 h-8 w-8"
-          ><img src={arrow.src} alt="Suivant" class="w-4 h-4" /></button
-        >
-      </div>
-
-      <div style="margin-bottom: 20px;">
-        <p style="font-size: 12px; color: #666; margin: 0 0 12px 0;">
-          Palette TaVue
-        </p>
-        <div
-          id="palette-couleurs"
-          style="display: flex; gap: 12px; flex-wrap: wrap;"
-        >
-          <button
-            class="couleur-btn"
-            data-couleur="#000000"
-            data-partie="monture"
-            title="Noir"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #000000; border: 3px solid #0066ff; cursor: pointer;"
-          ></button>
-          <button
-            class="couleur-btn"
-            data-couleur="#1A1A2E"
-            data-partie="monture"
-            title="Bleu foncé"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #1A1A2E; border: 1px solid #ddd; cursor: pointer;"
-          ></button>
-          <button
-            class="couleur-btn"
-            data-couleur="#7A7A7A"
-            data-partie="monture"
-            title="Gris"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #7A7A7A; border: 1px solid #ddd; cursor: pointer;"
-          ></button>
-          <button
-            class="couleur-btn"
-            data-couleur="#B8A89A"
-            data-partie="monture"
-            title="Beige"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #B8A89A; border: 1px solid #ddd; cursor: pointer;"
-          ></button>
-          <button
-            class="couleur-btn"
-            data-couleur="#1DBF73"
-            data-partie="monture"
-            title="Vert"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #1DBF73; border: 1px solid #ddd; cursor: pointer;"
-          ></button>
-          <button
-            class="couleur-btn"
-            data-couleur="#4169E1"
-            data-partie="monture"
-            title="Bleu"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #4169E1; border: 1px solid #ddd; cursor: pointer;"
-          ></button>
-          <button
-            class="couleur-btn"
-            data-couleur="#FF4757"
-            data-partie="monture"
-            title="Rouge"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #FF4757; border: 1px solid #ddd; cursor: pointer;"
-          ></button>
-          <button
-            class="couleur-btn"
-            data-couleur="#8B4513"
-            data-partie="monture"
-            title="Marron"
-            style="width: 48px; height: 48px; border-radius: 50%; background-color: #8B4513; border: 1px solid #ddd; cursor: pointer;"
-          ></button>
-        </div>
-      </div>
-
+    <div class="px-4 pb-4">
       <div>
-        <p style="font-size: 12px; color: #666; margin: 0 0 8px 0;">
-          Couleur personnalisée (Hex)
-        </p>
-        <div style="display: flex; gap: 8px;">
-          <input
-            type="text"
-            id="couleur-hex-input"
-            placeholder="#EF4444"
-            maxlength="7"
-            style="flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace; font-size: 14px;"
-          />
-          <div
-            id="apercu-couleur-input"
-            style="width: 40px; height: 40px; border-radius: 4px; background-color: #EF4444; border: 1px solid #ddd; cursor: pointer;"
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <button
+            id="btn-prev"
+            class="btn btn-bordered flex justify-center items-center p-0 h-8 w-8"
+            ><img
+              src={arrow.src}
+              alt="Précédent"
+              class="w-4 h-4"
+              style="transform: scaleX(-1);"
+            /></button
           >
+          <h3
+            id="titre-partie"
+            class="m-0 text-base font-medium min-w-[100px] text-center"
+          >
+            Monture
+          </h3>
+          <button
+            id="btn-next"
+            class="btn btn-bordered flex justify-center items-center p-0 h-8 w-8"
+            ><img src={arrow.src} alt="Suivant" class="w-4 h-4" /></button
+          >
+        </div>
+
+        <div class="mb-5">
+          <p class="text-xs text-gray-500 m-0 mb-3">Palette TaVue</p>
+          <div id="palette-couleurs" class="flex gap-3 flex-wrap">
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border-[3px] border-blue-600 cursor-pointer"
+              data-couleur="#000000"
+              data-partie="monture"
+              title="Noir"
+              style="background-color: #000000;"></button>
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+              data-couleur="#1A1A2E"
+              data-partie="monture"
+              title="Bleu foncé"
+              style="background-color: #1A1A2E;"></button>
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+              data-couleur="#7A7A7A"
+              data-partie="monture"
+              title="Gris"
+              style="background-color: #7A7A7A;"></button>
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+              data-couleur="#B8A89A"
+              data-partie="monture"
+              title="Beige"
+              style="background-color: #B8A89A;"></button>
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+              data-couleur="#1DBF73"
+              data-partie="monture"
+              title="Vert"
+              style="background-color: #1DBF73;"></button>
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+              data-couleur="#4169E1"
+              data-partie="monture"
+              title="Bleu"
+              style="background-color: #4169E1;"></button>
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+              data-couleur="#FF4757"
+              data-partie="monture"
+              title="Rouge"
+              style="background-color: #FF4757;"></button>
+            <button
+              class="couleur-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+              data-couleur="#8B4513"
+              data-partie="monture"
+              title="Marron"
+              style="background-color: #8B4513;"></button>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-xs text-gray-500 m-0 mb-2">
+            Couleur personnalisée (Hex)
+          </p>
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="couleur-hex-input"
+              placeholder="#EF4444"
+              maxlength="7"
+              class="flex-1 px-3 py-2 border border-gray-300 rounded text-sm font-mono"
+            />
+            <div
+              id="apercu-couleur-input"
+              class="w-10 h-10 rounded border border-gray-300 cursor-pointer"
+              style="background-color: #EF4444;"
+            >
+            </div>
           </div>
         </div>
       </div>
     </div>
   </details>
-</div>
 
-<script>
-  let currentPart: "monture" | "branches" = "monture";
-  const parties: ("monture" | "branches")[] = ["monture", "branches"];
+  <script>
+    // Gestion de la rotation du chevron - unique pour ce composant
+    const container = document.getElementById("couleurs-container");
+    if (container) {
+      const couleurs_detailsElement = container.querySelector("details");
+      const couleurs_chevronIcon = container.querySelector("#chevron-icon");
 
-  const loadCouleursFromStorage = () => {
-    const stored = localStorage.getItem("couleursLunettes");
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch (e) {
-        return { monture: "", branches: "" };
+      if (couleurs_detailsElement && couleurs_chevronIcon) {
+        const updateChevronRotation = () => {
+          if (couleurs_detailsElement.open) {
+            couleurs_chevronIcon.classList.add("rotate-90");
+          } else {
+            couleurs_chevronIcon.classList.remove("rotate-90");
+          }
+        };
+
+        couleurs_detailsElement.addEventListener(
+          "toggle",
+          updateChevronRotation
+        );
+        updateChevronRotation();
       }
     }
-    return { monture: "", branches: "" };
-  };
 
-  const couleursParties: { [key: string]: string } = loadCouleursFromStorage();
-  const paletteData: { [key: string]: { couleur: string; nom: string }[] } = {
-    monture: [
-      { couleur: "#000000", nom: "Noir" },
-      { couleur: "#1A1A2E", nom: "Bleu foncé" },
-      { couleur: "#7A7A7A", nom: "Gris" },
-      { couleur: "#B8A89A", nom: "Beige" },
-      { couleur: "#1DBF73", nom: "Vert" },
-      { couleur: "#4169E1", nom: "Bleu" },
-      { couleur: "#FF4757", nom: "Rouge" },
-      { couleur: "#8B4513", nom: "Marron" },
-    ],
-    branches: [
-      { couleur: "#000000", nom: "Noir" },
-      { couleur: "#1A1A2E", nom: "Bleu foncé" },
-      { couleur: "#7A7A7A", nom: "Gris" },
-      { couleur: "#B8A89A", nom: "Beige" },
-      { couleur: "#1DBF73", nom: "Vert" },
-      { couleur: "#4169E1", nom: "Bleu" },
-      { couleur: "#FF4757", nom: "Rouge" },
-      { couleur: "#8B4513", nom: "Marron" },
-    ],
-  };
+    let currentPart: "monture" | "branches" = "monture";
+    const parties: ("monture" | "branches")[] = ["monture", "branches"];
 
-  function updatePalette() {
-    const paletteDiv = document.getElementById("palette-couleurs");
-    if (!paletteDiv) return;
+    const loadCouleursFromStorage = () => {
+      const stored = localStorage.getItem("couleursLunettes");
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {
+          return { monture: "", branches: "" };
+        }
+      }
+      return { monture: "", branches: "" };
+    };
 
-    paletteDiv.innerHTML = "";
+    const couleursParties: { [key: string]: string } =
+      loadCouleursFromStorage();
+    const paletteData: { [key: string]: { couleur: string; nom: string }[] } = {
+      monture: [
+        { couleur: "#000000", nom: "Noir" },
+        { couleur: "#1A1A2E", nom: "Bleu foncé" },
+        { couleur: "#7A7A7A", nom: "Gris" },
+        { couleur: "#B8A89A", nom: "Beige" },
+        { couleur: "#1DBF73", nom: "Vert" },
+        { couleur: "#4169E1", nom: "Bleu" },
+        { couleur: "#FF4757", nom: "Rouge" },
+        { couleur: "#8B4513", nom: "Marron" },
+      ],
+      branches: [
+        { couleur: "#000000", nom: "Noir" },
+        { couleur: "#1A1A2E", nom: "Bleu foncé" },
+        { couleur: "#7A7A7A", nom: "Gris" },
+        { couleur: "#B8A89A", nom: "Beige" },
+        { couleur: "#1DBF73", nom: "Vert" },
+        { couleur: "#4169E1", nom: "Bleu" },
+        { couleur: "#FF4757", nom: "Rouge" },
+        { couleur: "#8B4513", nom: "Marron" },
+      ],
+    };
 
-    const currentPalette = paletteData[currentPart];
-    if (!currentPalette) return;
+    function updatePalette() {
+      const paletteDiv = document.getElementById("palette-couleurs");
+      if (!paletteDiv) return;
 
-    currentPalette.forEach((item: { couleur: string; nom: string }) => {
-      const btn = document.createElement("button");
-      btn.className = "couleur-btn";
-      (btn as any).dataset.couleur = item.couleur;
-      (btn as any).dataset.partie = currentPart;
-      btn.title = item.nom;
+      paletteDiv.innerHTML = "";
 
-      const isSelected = couleursParties[currentPart] === item.couleur;
-      btn.style.width = "48px";
-      btn.style.height = "48px";
-      btn.style.borderRadius = "50%";
-      btn.style.backgroundColor = item.couleur;
-      btn.style.border = isSelected ? "3px solid #0066ff" : "1px solid #ddd";
-      btn.style.cursor = "pointer";
+      const currentPalette = paletteData[currentPart];
+      if (!currentPalette) return;
 
-      btn.addEventListener("click", handleCouleurClick);
-      paletteDiv.appendChild(btn);
-    });
-  }
+      currentPalette.forEach((item: { couleur: string; nom: string }) => {
+        const btn = document.createElement("button");
+        btn.className = "couleur-btn";
+        (btn as any).dataset.couleur = item.couleur;
+        (btn as any).dataset.partie = currentPart;
+        btn.title = item.nom;
 
-  function handleCouleurClick(e: any) {
-    const target = e.target as HTMLElement;
-    const couleur = (target as any).dataset.couleur;
-    couleursParties[currentPart] = couleur;
+        const isSelected = couleursParties[currentPart] === item.couleur;
+        btn.style.width = "48px";
+        btn.style.height = "48px";
+        btn.style.borderRadius = "50%";
+        btn.style.backgroundColor = item.couleur;
+        btn.style.border = isSelected ? "3px solid #0066ff" : "1px solid #ddd";
+        btn.style.cursor = "pointer";
 
-    // Mettre à jour l'input hex
+        btn.addEventListener("click", handleCouleurClick);
+        paletteDiv.appendChild(btn);
+      });
+    }
+
+    function handleCouleurClick(e: any) {
+      const target = e.target as HTMLElement;
+      const couleur = (target as any).dataset.couleur;
+      couleursParties[currentPart] = couleur;
+
+      const hexInput = document.getElementById(
+        "couleur-hex-input"
+      ) as HTMLInputElement;
+      if (hexInput) {
+        hexInput.value = couleur.toUpperCase();
+      }
+
+      const apercu = document.getElementById(
+        "apercu-couleur-input"
+      ) as HTMLElement;
+      if (apercu) {
+        apercu.style.backgroundColor = couleur;
+      }
+
+      updatePalette();
+
+      window.dispatchEvent(
+        new CustomEvent("changeCouleurLunettes", {
+          detail: { couleur, partie: currentPart },
+        })
+      );
+
+      localStorage.setItem("couleursLunettes", JSON.stringify(couleursParties));
+    }
+
+    function switchPart(newPart: string) {
+      if (!parties.includes(newPart as "monture" | "branches")) return;
+
+      currentPart = newPart as "monture" | "branches";
+
+      const titre = document.getElementById("titre-partie");
+      if (titre) {
+        titre.textContent = currentPart === "monture" ? "Monture" : "Branches";
+      }
+
+      updatePalette();
+
+      const hexInput = document.getElementById(
+        "couleur-hex-input"
+      ) as HTMLInputElement;
+      if (hexInput) {
+        hexInput.value = (
+          couleursParties[currentPart] || "#000000"
+        ).toUpperCase();
+      }
+
+      const apercu = document.getElementById(
+        "apercu-couleur-input"
+      ) as HTMLElement;
+      if (apercu) {
+        apercu.style.backgroundColor =
+          couleursParties[currentPart] || "#000000";
+      }
+    }
+
+    const btnPrev = document.getElementById("btn-prev");
+    const btnNext = document.getElementById("btn-next");
+
+    if (btnPrev) {
+      btnPrev.addEventListener("click", () => {
+        const currentIndex = parties.indexOf(currentPart);
+        const newIndex = (currentIndex - 1 + parties.length) % parties.length;
+        switchPart(parties[newIndex]);
+      });
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener("click", () => {
+        const currentIndex = parties.indexOf(currentPart);
+        const newIndex = (currentIndex + 1) % parties.length;
+        switchPart(parties[newIndex]);
+      });
+    }
+
     const hexInput = document.getElementById(
       "couleur-hex-input"
     ) as HTMLInputElement;
     if (hexInput) {
-      hexInput.value = couleur.toUpperCase();
-    }
+      hexInput.addEventListener("input", (e) => {
+        let valeur = (e.target as HTMLInputElement).value.trim();
 
-    // Mettre à jour l'aperçu
-    const apercu = document.getElementById(
-      "apercu-couleur-input"
-    ) as HTMLElement;
-    if (apercu) {
-      apercu.style.backgroundColor = couleur;
-    }
+        if (valeur && !valeur.startsWith("#")) {
+          valeur = "#" + valeur;
+          (e.target as HTMLInputElement).value = valeur;
+        }
+      });
 
-    updatePalette();
+      hexInput.addEventListener("change", (e) => {
+        let couleur = (e.target as HTMLInputElement).value;
 
-    window.dispatchEvent(
-      new CustomEvent("changeCouleurLunettes", {
-        detail: { couleur, partie: currentPart },
-      })
-    );
-
-    localStorage.setItem("couleursLunettes", JSON.stringify(couleursParties));
-  }
-
-  function switchPart(newPart: string) {
-    if (!parties.includes(newPart as "monture" | "branches")) return;
-
-    currentPart = newPart as "monture" | "branches";
-
-    const titre = document.getElementById("titre-partie");
-    if (titre) {
-      titre.textContent = currentPart === "monture" ? "Monture" : "Branches";
-    }
-
-    updatePalette();
-
-    const hexInput = document.getElementById(
-      "couleur-hex-input"
-    ) as HTMLInputElement;
-    if (hexInput) {
-      hexInput.value = (
-        couleursParties[currentPart] || "#000000"
-      ).toUpperCase();
-    }
-
-    const apercu = document.getElementById(
-      "apercu-couleur-input"
-    ) as HTMLElement;
-    if (apercu) {
-      apercu.style.backgroundColor = couleursParties[currentPart] || "#000000";
-    }
-  }
-
-  const btnPrev = document.getElementById("btn-prev");
-  const btnNext = document.getElementById("btn-next");
-
-  if (btnPrev) {
-    btnPrev.addEventListener("click", () => {
-      const currentIndex = parties.indexOf(currentPart);
-      const newIndex = (currentIndex - 1 + parties.length) % parties.length;
-      switchPart(parties[newIndex]);
-    });
-  }
-
-  if (btnNext) {
-    btnNext.addEventListener("click", () => {
-      const currentIndex = parties.indexOf(currentPart);
-      const newIndex = (currentIndex + 1) % parties.length;
-      switchPart(parties[newIndex]);
-    });
-  }
-
-  const hexInput = document.getElementById(
-    "couleur-hex-input"
-  ) as HTMLInputElement;
-  if (hexInput) {
-    hexInput.addEventListener("input", (e) => {
-      let valeur = (e.target as HTMLInputElement).value.trim();
-
-      if (valeur && !valeur.startsWith("#")) {
-        valeur = "#" + valeur;
-        (e.target as HTMLInputElement).value = valeur;
-      }
-    });
-
-    hexInput.addEventListener("change", (e) => {
-      let couleur = (e.target as HTMLInputElement).value;
-
-      if (!couleur.startsWith("#")) {
-        couleur = "#" + couleur;
-      }
-
-      if (/^#[0-9A-F]{6}$/i.test(couleur)) {
-        couleursParties[currentPart] = couleur;
-
-        const apercu = document.getElementById(
-          "apercu-couleur-input"
-        ) as HTMLElement;
-        if (apercu) {
-          apercu.style.backgroundColor = couleur;
+        if (!couleur.startsWith("#")) {
+          couleur = "#" + couleur;
         }
 
-        updatePalette();
+        if (/^#[0-9A-F]{6}$/i.test(couleur)) {
+          couleursParties[currentPart] = couleur;
 
-        window.dispatchEvent(
-          new CustomEvent("changeCouleurLunettes", {
-            detail: { couleur, partie: currentPart },
-          })
-        );
+          const apercu = document.getElementById(
+            "apercu-couleur-input"
+          ) as HTMLElement;
+          if (apercu) {
+            apercu.style.backgroundColor = couleur;
+          }
 
-        localStorage.setItem(
-          "couleursLunettes",
-          JSON.stringify(couleursParties)
-        );
+          updatePalette();
+
+          window.dispatchEvent(
+            new CustomEvent("changeCouleurLunettes", {
+              detail: { couleur, partie: currentPart },
+            })
+          );
+
+          localStorage.setItem(
+            "couleursLunettes",
+            JSON.stringify(couleursParties)
+          );
+        }
+      });
+    }
+
+    updatePalette();
+
+    const montureElement = document.getElementById("monture");
+    if (montureElement) {
+      const fillColor = montureElement.getAttribute("fill");
+      if (fillColor) {
+        couleursParties["monture"] = fillColor;
       }
-    });
-  }
-
-  updatePalette();
-
-  const montureElement = document.getElementById("monture");
-  if (montureElement) {
-    const fillColor = montureElement.getAttribute("fill");
-    if (fillColor) {
-      couleursParties["monture"] = fillColor;
     }
-  }
 
-  const branchesElements = document.querySelectorAll("#branches");
-  if (branchesElements.length > 0) {
-    const fillColor = (branchesElements[0] as SVGElement).getAttribute("fill");
-    if (fillColor) {
-      couleursParties["branches"] = fillColor;
+    const branchesElements = document.querySelectorAll("#branches");
+    if (branchesElements.length > 0) {
+      const fillColor = (branchesElements[0] as SVGElement).getAttribute(
+        "fill"
+      );
+      if (fillColor) {
+        couleursParties["branches"] = fillColor;
+      }
     }
-  }
 
-  const hexInputInit = document.getElementById(
-    "couleur-hex-input"
-  ) as HTMLInputElement;
-  if (hexInputInit && couleursParties[currentPart]) {
-    hexInputInit.value = couleursParties[currentPart].toUpperCase();
-  }
+    const hexInputInit = document.getElementById(
+      "couleur-hex-input"
+    ) as HTMLInputElement;
+    if (hexInputInit && couleursParties[currentPart]) {
+      hexInputInit.value = couleursParties[currentPart].toUpperCase();
+    }
 
-  const apercuInit = document.getElementById(
-    "apercu-couleur-input"
-  ) as HTMLElement;
-  if (apercuInit && couleursParties[currentPart]) {
-    apercuInit.style.backgroundColor = couleursParties[currentPart];
-  }
+    const apercuInit = document.getElementById(
+      "apercu-couleur-input"
+    ) as HTMLElement;
+    if (apercuInit && couleursParties[currentPart]) {
+      apercuInit.style.backgroundColor = couleursParties[currentPart];
+    }
 
-  updatePalette();
-</script>
-
-<style>
-  .nav-btn {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 18px;
-    color: #666;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .nav-btn:hover {
-    background-color: #0066ff;
-    border-color: #0066ff;
-    color: white;
-  }
-</style>
+    updatePalette();
+  </script>
+</div>

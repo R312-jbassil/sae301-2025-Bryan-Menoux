@@ -347,11 +347,25 @@ import shield from "../assets/shield.svg";
         if (successDiv) {
           successDiv.classList.remove("hidden");
           setTimeout(() => {
-            if (remember) {
-              window.location.href = "/";
-            } else {
-              window.location.href = "/login";
+            let redirectUrl = "/";
+
+            if (document.referrer) {
+              try {
+                const referrerUrl = new URL(document.referrer);
+                if (referrerUrl.origin === window.location.origin) {
+                  if (
+                    !referrerUrl.pathname.includes("/login") &&
+                    !referrerUrl.pathname.includes("/signup")
+                  ) {
+                    redirectUrl = document.referrer;
+                  }
+                }
+              } catch (e) {
+                redirectUrl = "/";
+              }
             }
+
+            window.location.href = redirectUrl;
           }, 1500);
         }
       } else {

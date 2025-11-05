@@ -1,0 +1,396 @@
+---
+import arrow from "../assets/arrow-black.svg";
+---
+
+<div class="w-full" id="options-verres-container">
+  <details
+    open
+    class="p-0 cursor-pointer bg-white rounded-xl shadow-sm border border-gray-200"
+  >
+    <summary
+      class="font-semibold text-base select-none flex items-center justify-between p-4"
+    >
+      <span>Options</span>
+      <svg
+        id="chevron-options"
+        class="w-[18px] h-[18px] text-gray-700 transition-transform duration-200"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path></svg
+      >
+    </summary>
+
+    <div class="px-4 pb-4 space-y-4">
+      <!-- Verres teintés -->
+      <div>
+        <label class="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            id="verres-teintes-checkbox"
+            class="w-4 h-4 border border-gray-300 rounded"
+          />
+          <span class="text-sm font-medium text-gray-900">Verres teintés</span>
+        </label>
+      </div>
+
+      <!-- Palette de couleurs (affichée seulement si verres teintés est coché) -->
+      <div id="teinte-options" class="hidden space-y-3">
+        <p class="text-xs text-gray-500 m-0">Palette TaVue</p>
+        <div id="palette-teintes" class="flex gap-3 flex-wrap">
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border-[3px] border-red-500 cursor-pointer"
+            data-teinte="#FF1493"
+            title="Magenta-Rose"
+            style="background: linear-gradient(135deg, #FF1493 0%, #FF69B4 100%);"
+          ></button>
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+            data-teinte="#FFB88C"
+            title="Beige-Orange"
+            style="background: linear-gradient(135deg, #FFD7BE 0%, #D2691E 100%);"
+          ></button>
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+            data-teinte="#00CED1"
+            title="Cyan-Vert"
+            style="background: linear-gradient(135deg, #00CED1 0%, #32CD32 100%);"
+          ></button>
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+            data-teinte="#D4A574"
+            title="Beige-Tan"
+            style="background: linear-gradient(135deg, #F5DEB3 0%, #8B4513 100%);"
+          ></button>
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+            data-teinte="#20B2AA"
+            title="Turquoise-Vert"
+            style="background: linear-gradient(135deg, #40E0D0 0%, #228B22 100%);"
+          ></button>
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+            data-teinte="#FF1493"
+            title="Magenta-Fuchsia"
+            style="background: linear-gradient(135deg, #FF69B4 0%, #8B008B 100%);"
+          ></button>
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+            data-teinte="#ADFF2F"
+            title="Citron-Vert"
+            style="background: linear-gradient(135deg, #FFFF00 0%, #00AA00 100%);"
+          ></button>
+          <button
+            class="teinte-btn w-12 h-12 rounded-full border border-gray-300 cursor-pointer"
+            data-teinte="#FF4500"
+            title="Rouge-Orange"
+            style="background: linear-gradient(135deg, #FF6347 0%, #DC143C 100%);"
+          ></button>
+        </div>
+
+        <!-- Couleur personnalisée (Hex) -->
+        <div>
+          <p class="text-xs text-gray-500 m-0 mb-2">
+            Couleur personnalisée (Hex)
+          </p>
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="teinte-hex-input"
+              placeholder="#EF4444"
+              maxlength="7"
+              class="flex-1 px-3 py-2 border border-gray-300 rounded text-sm font-mono"
+            />
+            <div
+              id="apercu-teinte-input"
+              class="w-10 h-10 rounded border border-gray-300 cursor-pointer"
+              style="background-color: #EF4444;"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verres polarisés -->
+      <div>
+        <label class="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            id="verres-polarises-checkbox"
+            class="w-4 h-4 border border-gray-300 rounded"
+          />
+          <span class="text-sm font-medium text-gray-900">Verres polarisés</span
+          >
+        </label>
+      </div>
+    </div>
+  </details>
+
+  <script>
+    // Gestion de la rotation du chevron - unique pour ce composant
+    const container = document.getElementById("options-verres-container");
+    if (container) {
+      const options_detailsElement = container.querySelector("details");
+      const options_chevronIcon = container.querySelector("#chevron-options");
+
+      if (options_detailsElement && options_chevronIcon) {
+        const updateChevronRotation = () => {
+          if (options_detailsElement.open) {
+            options_chevronIcon.classList.add("rotate-90");
+          } else {
+            options_chevronIcon.classList.remove("rotate-90");
+          }
+        };
+
+        options_detailsElement.addEventListener(
+          "toggle",
+          updateChevronRotation
+        );
+        updateChevronRotation();
+      }
+    }
+
+    // Gestion des verres teintés
+    const verresTeintesCheckbox = document.getElementById(
+      "verres-teintes-checkbox"
+    ) as HTMLInputElement;
+    const teinteOptions = document.getElementById("teinte-options");
+    const paletteTeintures = document.getElementById("palette-teintes");
+    const COULEUR_VERRES_DEFAUT = "#D2E5FF";
+
+    // Mapping des couleurs aux IDs de dégradés
+    const colorToGradientMap: { [key: string]: string } = {
+      "#FF1493": "url(#gradient-magenta-rose)", // Le premier est magenta-rose
+      "#FFB88C": "url(#gradient-beige-orange)",
+      "#00CED1": "url(#gradient-cyan-vert)",
+      "#D4A574": "url(#gradient-beige-tan)",
+      "#20B2AA": "url(#gradient-turquoise-vert)",
+      "#ADFF2F": "url(#gradient-citron-vert)",
+      "#FF4500": "url(#gradient-tomate-cramoisi)",
+    };
+
+    function applyGradientToVerres(color: string) {
+      const gradientUrl = colorToGradientMap[color] || color;
+      const verresElements = document.querySelectorAll("#verres");
+      verresElements.forEach((verre) => {
+        (verre as SVGElement).setAttribute("fill", gradientUrl);
+      });
+    }
+
+    if (verresTeintesCheckbox && teinteOptions) {
+      // Charger l'état sauvegardé
+      const savedOptions = JSON.parse(
+        localStorage.getItem("optionsVerres") || "{}"
+      );
+      if (savedOptions.verresTeintes) {
+        verresTeintesCheckbox.checked = true;
+        teinteOptions.classList.remove("hidden");
+
+        // Appliquer la teinte sauvegardée
+        if (savedOptions.teinte) {
+          const verresElements = document.querySelectorAll("#verres");
+          verresElements.forEach((verre) => {
+            (verre as SVGElement).setAttribute("fill", savedOptions.teinte);
+          });
+        }
+      }
+
+      // Écouter le changement
+      verresTeintesCheckbox.addEventListener("change", () => {
+        if (verresTeintesCheckbox.checked) {
+          teinteOptions.classList.remove("hidden");
+
+          // Appliquer la teinte si elle existe
+          const savedOptions = JSON.parse(
+            localStorage.getItem("optionsVerres") || "{}"
+          );
+          if (savedOptions.teinte) {
+            const verresElements = document.querySelectorAll("#verres");
+            verresElements.forEach((verre) => {
+              (verre as SVGElement).setAttribute("fill", savedOptions.teinte);
+            });
+          }
+        } else {
+          teinteOptions.classList.add("hidden");
+
+          // Remettre la couleur par défaut
+          const verresElements = document.querySelectorAll("#verres");
+          verresElements.forEach((verre) => {
+            (verre as SVGElement).setAttribute("fill", COULEUR_VERRES_DEFAUT);
+          });
+        }
+
+        // Sauvegarder l'état
+        const options_data = JSON.parse(
+          localStorage.getItem("optionsVerres") || "{}"
+        );
+        options_data.verresTeintes = verresTeintesCheckbox.checked;
+        localStorage.setItem("optionsVerres", JSON.stringify(options_data));
+
+        window.dispatchEvent(
+          new CustomEvent("changeOptionsVerres", {
+            detail: {
+              verresTeintes: verresTeintesCheckbox.checked,
+              teinte: verresTeintesCheckbox.checked
+                ? options_data.teinte || COULEUR_VERRES_DEFAUT
+                : null,
+            },
+          })
+        );
+      });
+    }
+
+    // Gestion des teintes
+    const teinteButtons = document.querySelectorAll(".teinte-btn");
+    teinteButtons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        const teinte = (target as any).dataset.teinte;
+
+        // Mettre à jour la sélection visuelle
+        teinteButtons.forEach((b) => {
+          (b as HTMLElement).style.borderWidth = "1px";
+          (b as HTMLElement).style.borderColor = "#ddd";
+        });
+        (target as HTMLElement).style.borderWidth = "3px";
+        (target as HTMLElement).style.borderColor = "#2563EB";
+
+        // Mettre à jour l'input hex
+        const hexInput = document.getElementById(
+          "teinte-hex-input"
+        ) as HTMLInputElement;
+        if (hexInput) {
+          hexInput.value = teinte.toUpperCase();
+        }
+
+        // Mettre à jour l'aperçu
+        const apercu = document.getElementById(
+          "apercu-teinte-input"
+        ) as HTMLElement;
+        if (apercu) {
+          apercu.style.backgroundColor = teinte;
+        }
+
+        // Changer la couleur des verres dans le SVG avec dégradé
+        applyGradientToVerres(teinte);
+
+        // Sauvegarder
+        const options_data = JSON.parse(
+          localStorage.getItem("optionsVerres") || "{}"
+        );
+        options_data.teinte = teinte;
+        localStorage.setItem("optionsVerres", JSON.stringify(options_data));
+
+        window.dispatchEvent(
+          new CustomEvent("changeOptionsVerres", {
+            detail: {
+              verresTeintes: true,
+              teinte: teinte,
+            },
+          })
+        );
+      });
+    });
+
+    // Gestion de l'input hex personnalisé
+    const teinteHexInput = document.getElementById(
+      "teinte-hex-input"
+    ) as HTMLInputElement;
+    if (teinteHexInput) {
+      // Charger la teinte sauvegardée
+      const savedOptions = JSON.parse(
+        localStorage.getItem("optionsVerres") || "{}"
+      );
+      if (savedOptions.teinte) {
+        teinteHexInput.value = savedOptions.teinte.toUpperCase();
+        const apercu = document.getElementById(
+          "apercu-teinte-input"
+        ) as HTMLElement;
+        if (apercu) {
+          apercu.style.backgroundColor = savedOptions.teinte;
+        }
+      }
+
+      teinteHexInput.addEventListener("input", (e) => {
+        let valeur = (e.target as HTMLInputElement).value.trim();
+
+        if (valeur && !valeur.startsWith("#")) {
+          valeur = "#" + valeur;
+          (e.target as HTMLInputElement).value = valeur;
+        }
+      });
+
+      teinteHexInput.addEventListener("change", (e) => {
+        let teinte = (e.target as HTMLInputElement).value;
+
+        if (!teinte.startsWith("#")) {
+          teinte = "#" + teinte;
+        }
+
+        if (/^#[0-9A-F]{6}$/i.test(teinte)) {
+          const apercu = document.getElementById(
+            "apercu-teinte-input"
+          ) as HTMLElement;
+          if (apercu) {
+            apercu.style.backgroundColor = teinte;
+          }
+
+          // Changer la couleur des verres dans le SVG
+          const verresElements = document.querySelectorAll("#verres");
+          verresElements.forEach((verre) => {
+            (verre as SVGElement).setAttribute("fill", teinte);
+          });
+
+          const options_data = JSON.parse(
+            localStorage.getItem("optionsVerres") || "{}"
+          );
+          options_data.teinte = teinte;
+          localStorage.setItem("optionsVerres", JSON.stringify(options_data));
+
+          window.dispatchEvent(
+            new CustomEvent("changeOptionsVerres", {
+              detail: {
+                verresTeintes: true,
+                teinte: teinte,
+              },
+            })
+          );
+        }
+      });
+    }
+
+    // Gestion des verres polarisés
+    const verresPolarisesCheckbox = document.getElementById(
+      "verres-polarises-checkbox"
+    ) as HTMLInputElement;
+    if (verresPolarisesCheckbox) {
+      const savedOptions = JSON.parse(
+        localStorage.getItem("optionsVerres") || "{}"
+      );
+      if (savedOptions.verresPolarises) {
+        verresPolarisesCheckbox.checked = true;
+      }
+
+      verresPolarisesCheckbox.addEventListener("change", () => {
+        const options_data = JSON.parse(
+          localStorage.getItem("optionsVerres") || "{}"
+        );
+        options_data.verresPolarises = verresPolarisesCheckbox.checked;
+        localStorage.setItem("optionsVerres", JSON.stringify(options_data));
+
+        window.dispatchEvent(
+          new CustomEvent("changeOptionsVerres", {
+            detail: {
+              verresPolarises: verresPolarisesCheckbox.checked,
+            },
+          })
+        );
+      });
+    }
+  </script>
+</div>

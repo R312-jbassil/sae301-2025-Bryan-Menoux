@@ -107,8 +107,12 @@ import sparkIcon from "../assets/garant.svg";
 
 <script>
   // Récupérer les éléments DOM
-  const iaPromptInput = document.getElementById("ia-prompt-input");
-  const iaGenerateBtn = document.getElementById("ia-generate-btn");
+  const iaPromptInput = document.getElementById(
+    "ia-prompt-input"
+  ) as HTMLInputElement;
+  const iaGenerateBtn = document.getElementById(
+    "ia-generate-btn"
+  ) as HTMLButtonElement;
   const iaSuggestionTags = document.querySelectorAll(".ia-suggestion-tag");
   const iaLoading = document.getElementById("ia-loading");
   const iaError = document.getElementById("ia-error");
@@ -126,22 +130,24 @@ import sparkIcon from "../assets/garant.svg";
   });
 
   // Fonction pour afficher/masquer le loader
-  function showLoading(show) {
+  function showLoading(show: boolean) {
     if (show) {
-      iaLoading.classList.remove("hidden");
-      iaError.classList.add("hidden");
+      iaLoading?.classList.remove("hidden");
+      iaError?.classList.add("hidden");
       iaGenerateBtn.disabled = true;
     } else {
-      iaLoading.classList.add("hidden");
+      iaLoading?.classList.add("hidden");
       iaGenerateBtn.disabled = false;
     }
   }
 
   // Fonction pour afficher une erreur
-  function showError(message) {
-    iaErrorMessage.textContent = message;
-    iaError.classList.remove("hidden");
-    iaLoading.classList.add("hidden");
+  function showError(message: string) {
+    if (iaErrorMessage) {
+      iaErrorMessage.textContent = message;
+    }
+    iaError?.classList.remove("hidden");
+    iaLoading?.classList.add("hidden");
     iaGenerateBtn.disabled = false;
   }
 

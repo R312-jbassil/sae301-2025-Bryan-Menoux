@@ -35,7 +35,7 @@ jobs:
           port: 22007
           source: "dist/"
           target: "/var/www/ta-vue"
-          rm: true
+          rm: false
           overwrite: true
           debug: true
 

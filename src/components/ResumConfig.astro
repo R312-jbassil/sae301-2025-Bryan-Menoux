@@ -340,6 +340,11 @@ import SaveIcon from "../assets/save.svg";
   // Fonction pour créer le modèle et ajouter au panier
   async function createModelAndAddToCart() {
     try {
+      // Déterminer l'URL de base
+      const baseUrl = window.location.hostname === 'localhost' 
+        ? 'http://localhost:8090' 
+        : 'https://ta-vue.bryan-menoux.fr';
+
       // Fonction pour générer le SVG avec les couleurs
       function generateSVGWithColors(
         couleursLunettes: any,
@@ -398,9 +403,14 @@ import SaveIcon from "../assets/save.svg";
       // Fonction pour chercher un matériau par libellé
       async function findMateriau(libelle: string): Promise<string> {
         try {
+          // Déterminer l'URL de base
+          const baseUrl = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8090' 
+            : 'https://ta-vue.bryan-menoux.fr';
+          
           // Essayer d'abord avec le filtre exact
           let response = await fetch(
-            `http://127.0.0.1:8090/api/collections/materiau/records?filter=(libelle_materiau="${libelle}")`
+            `${baseUrl}/api/collections/materiau/records?filter=(libelle_materiau="${libelle}")`
           );
 
           if (response.ok) {
@@ -413,7 +423,7 @@ import SaveIcon from "../assets/save.svg";
           // Si pas de résultat, essayer un filtre contenant
           const searchTerm = libelle.split(" ")[0];
           response = await fetch(
-            `http://127.0.0.1:8090/api/collections/materiau/records?filter=(libelle_materiau~"${searchTerm}")`
+            `${baseUrl}/api/collections/materiau/records?filter=(libelle_materiau~"${searchTerm}")`
           );
 
           if (response.ok) {
@@ -468,7 +478,7 @@ import SaveIcon from "../assets/save.svg";
         prix: 203, // Prix estimatif
         id_materiau_monture: idMateriauMonture,
         id_materiau_branches: idMateriauBranches,
-        id_utilisateur: userId,
+        id_utilisateur: userId ? [userId] : [],
       };
 
       console.log("Création du modèle avec les données :", modelData);
@@ -484,7 +494,7 @@ import SaveIcon from "../assets/save.svg";
 
       // Chercher un modèle identique existant pour cet utilisateur
       const existingModelsResponse = await fetch(
-        `http://127.0.0.1:8090/api/collections/modele/records?filter=(id_utilisateur="${userId}")`
+        `${baseUrl}/api/collections/modele/records?filter=(id_utilisateur="${userId}")`
       );
 
       if (existingModelsResponse.ok) {
@@ -545,7 +555,7 @@ import SaveIcon from "../assets/save.svg";
       // Si aucun modèle identique n'existe, créer un nouveau
       // Créer le modèle en PocketBase
       const response = await fetch(
-        "http://127.0.0.1:8090/api/collections/modele/records",
+        `${baseUrl}/api/collections/modele/records`,
         {
           method: "POST",
           headers: {

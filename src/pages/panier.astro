@@ -189,6 +189,11 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script is:inline>
+  // Déterminer l'URL de base
+  const baseUrl = window.location.hostname === 'localhost' 
+    ? 'http://localhost:8090' 
+    : 'https://ta-vue.bryan-menoux.fr';
+
   // Nettoyer les anciens IDs "tavue-signature" du localStorage
   let cartRaw = localStorage.getItem("cart");
   if (cartRaw) {
@@ -242,14 +247,14 @@ import Layout from "../layouts/Layout.astro";
     try {
       // Fetch the modele to check its name
       const response = await fetch(
-        `http://127.0.0.1:8090/api/collections/modele/records/${modeleId}`
+        `${baseUrl}/api/collections/modele/records/${modeleId}`
       );
       if (response.ok) {
         const modele = await response.json();
         // If the title starts with "Lunettes TAVUE -", it's a temporary model - delete it
         if (modele.titre.startsWith("Lunettes TAVUE -")) {
           await fetch(
-            `http://127.0.0.1:8090/api/collections/modele/records/${modeleId}`,
+            `${baseUrl}/api/collections/modele/records/${modeleId}`,
             { method: "DELETE" }
           );
           console.log(`Modèle temporaire supprimé (ID: ${modeleId})`);
@@ -432,7 +437,7 @@ import Layout from "../layouts/Layout.astro";
 
       // Create order in commande collection
       const orderResponse = await fetch(
-        "http://127.0.0.1:8090/api/collections/commande/records",
+        `${baseUrl}/api/collections/commande/records`,
         {
           method: "POST",
           headers: {
@@ -461,7 +466,7 @@ import Layout from "../layouts/Layout.astro";
 
         // Récupérer le modèle pour obtenir code_svg et prix
         const modeleResponse = await fetch(
-          `http://127.0.0.1:8090/api/collections/modele/records/${item.id}`
+          `${baseUrl}/api/collections/modele/records/${item.id}`
         );
 
         if (!modeleResponse.ok) {
@@ -480,7 +485,7 @@ import Layout from "../layouts/Layout.astro";
         };
 
         const lineResponse = await fetch(
-          "http://127.0.0.1:8090/api/collections/ligne_commande/records",
+          `${baseUrl}/api/collections/ligne_commande/records`,
           {
             method: "POST",
             headers: {

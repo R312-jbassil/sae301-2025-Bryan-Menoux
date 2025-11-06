@@ -10,8 +10,7 @@ import cartIcon from "../assets/cart.svg";
 <Layout>
   <div class="w-full flex flex-col items-center gap-4 mb-4 bg-white p-8">
     <h1 class="text-3xl font-bold">Choix du modèle</h1>
-    <p class="text-gray-600 text-center">
-      Sélectionnez le modèle de lunettes qui vous convient le mieux.
+    <p class="text-gray-600 text-center">Sélectionnez le modèle de lunettes qui vous convient le mieux.
     </p>
     <div class="flex gap-4 justify-center flex-wrap">
       <div class="flex items-center gap-2">
@@ -347,6 +346,11 @@ import cartIcon from "../assets/cart.svg";
   </main>
 
   <script is:inline>
+    // Déterminer l'URL de base
+    const baseUrl = window.location.hostname === 'localhost' 
+      ? 'http://localhost:8090' 
+      : 'https://ta-vue.bryan-menoux.fr';
+
     // Bouton Personnaliser ce modèle
     const personnaliserBtn = document.getElementById("personnaliser-btn");
 
@@ -420,12 +424,10 @@ import cartIcon from "../assets/cart.svg";
         // Fonction pour chercher un matériau par libellé
         async function findMateriau(libelle) {
           try {
-            // Essayer d'abord avec le filtre exact
-            let response = await fetch(
-              `http://127.0.0.1:8090/api/collections/materiau/records?filter=(libelle_materiau="${libelle}")`
-            );
-
-            if (response.ok) {
+          // Essayer d'abord avec le filtre exact
+          let response = await fetch(
+            `${baseUrl}/api/collections/materiau/records?filter=(libelle_materiau="${libelle}")`
+          );            if (response.ok) {
               const data = await response.json();
               if (data.items && data.items.length > 0) {
                 console.log(
@@ -435,13 +437,11 @@ import cartIcon from "../assets/cart.svg";
               }
             }
 
-            // Si pas de résultat, essayer un filtre contenant
-            const searchTerm = libelle.split(" ")[0];
-            response = await fetch(
-              `http://127.0.0.1:8090/api/collections/materiau/records?filter=(libelle_materiau~"${searchTerm}")`
-            );
-
-            if (response.ok) {
+          // Si pas de résultat, essayer un filtre contenant
+          const searchTerm = libelle.split(" ")[0];
+          response = await fetch(
+            `${baseUrl}/api/collections/materiau/records?filter=(libelle_materiau~"${searchTerm}")`
+          );            if (response.ok) {
               const data = await response.json();
               if (data.items && data.items.length > 0) {
                 console.log(
@@ -494,7 +494,7 @@ import cartIcon from "../assets/cart.svg";
 
         // Créer le modèle en base de données
         const createResponse = await fetch(
-          "http://127.0.0.1:8090/api/collections/modele/records",
+          `${baseUrl}/api/collections/modele/records`,
           {
             method: "POST",
             headers: {

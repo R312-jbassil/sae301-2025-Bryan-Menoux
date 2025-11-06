@@ -341,9 +341,10 @@ import SaveIcon from "../assets/save.svg";
   async function createModelAndAddToCart() {
     try {
       // Déterminer l'URL de base
-      const baseUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:8090' 
-        : 'https://ta-vue.bryan-menoux.fr';
+      const baseUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:8090"
+          : "https://ta-vue.bryan-menoux.fr";
 
       // Fonction pour générer le SVG avec les couleurs
       function generateSVGWithColors(
@@ -404,10 +405,11 @@ import SaveIcon from "../assets/save.svg";
       async function findMateriau(libelle: string): Promise<string> {
         try {
           // Déterminer l'URL de base
-          const baseUrl = window.location.hostname === 'localhost' 
-            ? 'http://localhost:8090' 
-            : 'https://ta-vue.bryan-menoux.fr';
-          
+          const baseUrl =
+            window.location.hostname === "localhost"
+              ? "http://localhost:8090"
+              : "https://ta-vue.bryan-menoux.fr";
+
           // Essayer d'abord avec le filtre exact
           let response = await fetch(
             `${baseUrl}/api/collections/materiau/records?filter=(libelle_materiau="${libelle}")`

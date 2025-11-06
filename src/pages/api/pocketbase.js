@@ -37,7 +37,7 @@ export async function POST({ request }) {
     formData.append("prix", parseFloat(data.prix) || 0);
 
     // Appeler l'API REST de PocketBase
-    const pocketbaseUrl = import.meta.env.PROD 
+    const pocketbaseUrl = import.meta.env.PROD
       ? "https://ta-vue.bryan-menoux.fr/api/collections"
       : "http://localhost:8090/api/collections";
     const response = await fetch(`${pocketbaseUrl}/${collection}/records`, {

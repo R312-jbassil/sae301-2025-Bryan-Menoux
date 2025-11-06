@@ -38,6 +38,16 @@ jobs:
           rm: false
           overwrite: true
           debug: true
+      - name: Fix permissions on VPS
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22007
+          script: |
+            chmod -R 755 /var/www/ta-vue/client /var/www/ta-vue/server
+            find /var/www/ta-vue -type f -exec chmod 644 {} \;
       - name: Install production dependencies on VPS
         uses: appleboy/ssh-action@v1.0.0
         with:

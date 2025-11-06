@@ -190,9 +190,10 @@ import Layout from "../layouts/Layout.astro";
 
 <script is:inline>
   // Déterminer l'URL de base
-  const baseUrl = window.location.hostname === 'localhost' 
-    ? 'http://localhost:8090' 
-    : 'https://ta-vue.bryan-menoux.fr';
+  const baseUrl =
+    window.location.hostname === "localhost"
+      ? "http://localhost:8090"
+      : "https://ta-vue.bryan-menoux.fr";
 
   // Nettoyer les anciens IDs "tavue-signature" du localStorage
   let cartRaw = localStorage.getItem("cart");
@@ -253,10 +254,9 @@ import Layout from "../layouts/Layout.astro";
         const modele = await response.json();
         // If the title starts with "Lunettes TAVUE -", it's a temporary model - delete it
         if (modele.titre.startsWith("Lunettes TAVUE -")) {
-          await fetch(
-            `${baseUrl}/api/collections/modele/records/${modeleId}`,
-            { method: "DELETE" }
-          );
+          await fetch(`${baseUrl}/api/collections/modele/records/${modeleId}`, {
+            method: "DELETE",
+          });
           console.log(`Modèle temporaire supprimé (ID: ${modeleId})`);
         } else {
           console.log(

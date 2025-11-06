@@ -1,0 +1,555 @@
+---
+import sparkIcon from "../assets/garant.svg";
+---
+
+<div class="w-full" id="assistant-ia-container">
+  <div
+    class="p-0 cursor-pointer bg-white rounded-xl shadow-sm border border-gray-200"
+  >
+    <!-- Header avec icône -->
+    <div class="flex items-center gap-3 p-4 border-b border-gray-100">
+      <svg
+        class="w-5 h-5 text-blue-600"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+        ></path>
+      </svg>
+      <span class="font-semibold text-base text-gray-900">Assistant IA</span>
+    </div>
+
+    <!-- Description -->
+    <div class="px-4 pt-4 pb-3">
+      <p class="text-sm text-gray-600 m-0">
+        Utilisez notre assistant IA pour générer des lunettes qui vous
+        ressemblent.
+      </p>
+    </div>
+
+    <!-- Input + Bouton -->
+    <div class="px-4 pb-4 space-y-3">
+      <div class="flex gap-2 items-center">
+        <input
+          id="ia-prompt-input"
+          type="text"
+          placeholder="Monture titane, noir mat, verres ronds 48 mm, pont 20 mm..."
+          class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        <button
+          id="ia-generate-btn"
+          class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 text-sm transition-colors duration-200 rounded-lg cursor-pointer whitespace-nowrap"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <span>Générer</span>
+        </button>
+      </div>
+
+      <!-- Tags de suggestions -->
+      <div class="flex flex-wrap gap-2">
+        <button
+          class="ia-suggestion-tag px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-full transition-colors duration-200 cursor-pointer"
+          data-suggestion="Monture titane"
+        >
+          Monture titane
+        </button>
+        <button
+          class="ia-suggestion-tag px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-full transition-colors duration-200 cursor-pointer"
+          data-suggestion="Noir mat"
+        >
+          Noir mat
+        </button>
+        <button
+          class="ia-suggestion-tag px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-full transition-colors duration-200 cursor-pointer"
+          data-suggestion="Verres ronds 48 mm"
+        >
+          Verres ronds 48 mm
+        </button>
+        <button
+          class="ia-suggestion-tag px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-full transition-colors duration-200 cursor-pointer"
+          data-suggestion="Pont 20 mm"
+        >
+          Pont 20 mm
+        </button>
+      </div>
+    </div>
+
+    <!-- Indicateur de chargement (caché par défaut) -->
+    <div id="ia-loading" class="hidden px-4 pb-4">
+      <div class="flex items-center gap-2">
+        <span class="loading loading-spinner loading-sm text-blue-600"></span>
+        <span class="text-sm text-gray-600">Génération en cours...</span>
+      </div>
+    </div>
+
+    <!-- Messages d'erreur (caché par défaut) -->
+    <div id="ia-error" class="hidden px-4 pb-4">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <p id="ia-error-message" class="text-sm text-red-700 m-0"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Récupérer les éléments DOM
+  const iaPromptInput = document.getElementById("ia-prompt-input");
+  const iaGenerateBtn = document.getElementById("ia-generate-btn");
+  const iaSuggestionTags = document.querySelectorAll(".ia-suggestion-tag");
+  const iaLoading = document.getElementById("ia-loading");
+  const iaError = document.getElementById("ia-error");
+  const iaErrorMessage = document.getElementById("ia-error-message");
+
+  // Ajouter les suggestions aux tags
+  iaSuggestionTags.forEach((tag) => {
+    tag.addEventListener("click", () => {
+      const suggestion = tag.getAttribute("data-suggestion");
+      if (iaPromptInput) {
+        iaPromptInput.value += (iaPromptInput.value ? ", " : "") + suggestion;
+        iaPromptInput.focus();
+      }
+    });
+  });
+
+  // Fonction pour afficher/masquer le loader
+  function showLoading(show) {
+    if (show) {
+      iaLoading.classList.remove("hidden");
+      iaError.classList.add("hidden");
+      iaGenerateBtn.disabled = true;
+    } else {
+      iaLoading.classList.add("hidden");
+      iaGenerateBtn.disabled = false;
+    }
+  }
+
+  // Fonction pour afficher une erreur
+  function showError(message) {
+    iaErrorMessage.textContent = message;
+    iaError.classList.remove("hidden");
+    iaLoading.classList.add("hidden");
+    iaGenerateBtn.disabled = false;
+  }
+
+  // Fonction pour générer via l'IA
+  async function handleGenerateIA() {
+    const prompt = iaPromptInput?.value.trim();
+
+    if (!prompt) {
+      showError("Veuillez entrer une description de vos lunettes.");
+      return;
+    }
+
+    try {
+      showLoading(true);
+
+      // Récupérer la configuration actuelle depuis localStorage
+      const currentConfig = {
+        materiau_monture:
+          JSON.parse(localStorage.getItem("materiaux") || "{}").monture || null,
+        materiau_branches:
+          JSON.parse(localStorage.getItem("materiaux") || "{}").branches ||
+          null,
+        couleur_monture:
+          JSON.parse(localStorage.getItem("couleursLunettes") || "{}")
+            .monture || null,
+        couleur_branches:
+          JSON.parse(localStorage.getItem("couleursLunettes") || "{}")
+            .branches || null,
+        finition:
+          JSON.parse(localStorage.getItem("finitions") || "{}").finition ||
+          null,
+        largeur_verres:
+          JSON.parse(localStorage.getItem("tailles") || "{}").largeurVerres ||
+          null,
+        hauteur_verres:
+          JSON.parse(localStorage.getItem("tailles") || "{}").hauteurVerres ||
+          null,
+        largeur_pont:
+          JSON.parse(localStorage.getItem("tailles") || "{}").largeurPont ||
+          null,
+        verres_teintes:
+          JSON.parse(localStorage.getItem("optionsVerres") || "{}")
+            .verresTeintes || false,
+        teinte_hex:
+          JSON.parse(localStorage.getItem("optionsVerres") || "{}").teinte ||
+          null,
+        verres_polarises:
+          JSON.parse(localStorage.getItem("optionsVerres") || "{}")
+            .verresPolarises || false,
+      };
+
+      console.log("[IA] Configuration actuelle:", currentConfig);
+
+      // Construire le message pour l'IA avec le contexte
+      const messages = [
+        {
+          role: "user",
+          content: `La configuration actuelle des lunettes est:
+${JSON.stringify(currentConfig, null, 2)}
+
+L'utilisateur demande: "${prompt}"
+
+Basé sur cette demande, mets à JOUR UNIQUEMENT les paramètres mentionnés par l'utilisateur. Pour tous les autres paramètres non mentionnés, GARDE LES VALEURS ACTUELLES.
+
+IMPORTANT: Si un paramètre est null dans la configuration actuelle ET que l'utilisateur ne le mentionne pas, utilise une valeur par défaut raisonnable.
+
+Retourne UNIQUEMENT un objet JSON avec TOUTES les clés suivantes (même celles non modifiées):
+{
+  "materiau_monture": "valeur",
+  "materiau_branches": "valeur",
+  "couleur_monture": "valeur hex",
+  "couleur_branches": "valeur hex",
+  "finition": "valeur",
+  "largeur_verres": nombre,
+  "hauteur_verres": nombre,
+  "largeur_pont": nombre,
+  "verres_teintes": booléen,
+  "teinte_hex": "valeur hex ou null",
+  "verres_polarises": booléen
+}`,
+        },
+      ];
+
+      // Appeler l'endpoint de génération SVG
+      const response = await fetch("/apis/generateSVG", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(messages),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMsg =
+          data.details ||
+          data.error ||
+          "Erreur lors de la communication avec l'API";
+        throw new Error(errorMsg);
+      }
+
+      if (data.error) {
+        throw new Error(data.error + (data.details ? ": " + data.details : ""));
+      }
+
+      // Extraire la réponse
+      const aiMessage = data.svg?.content;
+      if (!aiMessage) {
+        throw new Error("Aucune réponse reçue de l'IA");
+      }
+
+      // Parser la réponse JSON (elle devrait contenir les paramètres)
+      let config = {};
+      try {
+        // Fonction pour extraire et parser le JSON de manière robuste
+        function extractJSON(text: string) {
+          // Chercher toutes les paires de { }
+          let depth = 0;
+          let jsonStart = -1;
+          let jsonEnd = -1;
+
+          for (let i = 0; i < text.length; i++) {
+            if (text[i] === "{") {
+              if (depth === 0) jsonStart = i;
+              depth++;
+            } else if (text[i] === "}") {
+              depth--;
+              if (depth === 0 && jsonStart !== -1) {
+                jsonEnd = i + 1;
+                break;
+              }
+            }
+          }
+
+          if (jsonStart !== -1 && jsonEnd !== -1) {
+            const jsonStr = text.substring(jsonStart, jsonEnd);
+            return JSON.parse(jsonStr);
+          }
+
+          throw new Error("No JSON object found in response");
+        }
+
+        config = extractJSON(aiMessage);
+        console.log("[IA] Configuration parsée:", config);
+      } catch (e) {
+        console.warn("Impossible de parser la configuration JSON:", e);
+        console.log("[IA] Contenu brut reçu:", aiMessage.substring(0, 500));
+      }
+
+      // Appliquer la configuration aux éléments du formulaire
+      applyIAConfig(config);
+
+      // Afficher un message de succès
+      showLoading(false);
+
+      // Émettre un événement pour notifier les autres composants
+      window.dispatchEvent(
+        new CustomEvent("iaConfigurationApplied", {
+          detail: config,
+        })
+      );
+    } catch (error) {
+      console.error("Erreur lors de la génération IA:", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Erreur lors de la génération. Veuillez réessayer.";
+      showError(errorMessage);
+    }
+  }
+
+  // Fonction pour appliquer la configuration générée par l'IA
+  function applyIAConfig(config: any) {
+    console.log("[IA] Application de la configuration:", config);
+
+    // Construire l'objet de configuration complet pour localStorage
+    const materiaux = JSON.parse(localStorage.getItem("materiaux") || "{}");
+    const couleursLunettes = JSON.parse(
+      localStorage.getItem("couleursLunettes") || "{}"
+    );
+    const optionsVerres = JSON.parse(
+      localStorage.getItem("optionsVerres") || "{}"
+    );
+    const tailles = JSON.parse(localStorage.getItem("tailles") || "{}");
+    const finitions = JSON.parse(localStorage.getItem("finitions") || "{}");
+
+    // Mettre à jour les matériaux (ignorer les null)
+    if (config.materiau_monture && config.materiau_monture !== null) {
+      materiaux.monture = config.materiau_monture.toLowerCase();
+    }
+    if (config.materiau_branches && config.materiau_branches !== null) {
+      materiaux.branches = config.materiau_branches.toLowerCase();
+    }
+
+    // Mettre à jour les couleurs (ignorer les null)
+    if (config.couleur_monture && config.couleur_monture !== null) {
+      couleursLunettes.monture = config.couleur_monture;
+    }
+    if (config.couleur_branches && config.couleur_branches !== null) {
+      couleursLunettes.branches = config.couleur_branches;
+    }
+
+    // Mettre à jour les options des verres (les booléens sont ok)
+    if (config.verres_teintes !== undefined && config.verres_teintes !== null) {
+      optionsVerres.verresTeintes = config.verres_teintes;
+    }
+    if (config.teinte_hex && config.teinte_hex !== null) {
+      optionsVerres.teinte = config.teinte_hex;
+    }
+    if (
+      config.verres_polarises !== undefined &&
+      config.verres_polarises !== null
+    ) {
+      optionsVerres.verresPolarises = config.verres_polarises;
+    }
+
+    // Mettre à jour les tailles (ignorer les null et 0)
+    if (config.largeur_verres && config.largeur_verres !== null) {
+      tailles.largeurVerres = config.largeur_verres.toString();
+    }
+    if (config.hauteur_verres && config.hauteur_verres !== null) {
+      tailles.hauteurVerres = config.hauteur_verres.toString();
+    }
+    if (config.largeur_pont && config.largeur_pont !== null) {
+      tailles.largeurPont = config.largeur_pont.toString();
+    }
+
+    // Mettre à jour la finition (ignorer les null)
+    if (config.finition && config.finition !== null) {
+      finitions.finition = config.finition.toLowerCase();
+    }
+
+    // Sauvegarder les couleurs dans localStorage
+    localStorage.setItem("couleursLunettes", JSON.stringify(couleursLunettes));
+
+    // Déclencher les événements pour les couleurs
+    setTimeout(() => {
+      // Déclencher pour monture
+      if (config.couleur_monture) {
+        window.dispatchEvent(
+          new CustomEvent("changeCouleurLunettes", {
+            detail: {
+              couleur: config.couleur_monture,
+              partie: "monture",
+            },
+          })
+        );
+      }
+
+      // Déclencher pour branches
+      if (config.couleur_branches) {
+        window.dispatchEvent(
+          new CustomEvent("changeCouleurLunettes", {
+            detail: {
+              couleur: config.couleur_branches,
+              partie: "branches",
+            },
+          })
+        );
+      }
+
+      // Aussi déclencher l'événement général
+      window.dispatchEvent(
+        new Event("changeCouleursLunettes", { bubbles: true })
+      );
+    }, 100);
+
+    // Mettre à jour les options des verres
+    if (config.verres_teintes !== undefined) {
+      optionsVerres.verresTeintes = config.verres_teintes;
+    }
+    if (config.teinte_hex) {
+      optionsVerres.teinte = config.teinte_hex;
+    }
+    if (config.verres_polarises !== undefined) {
+      optionsVerres.verresPolarises = config.verres_polarises;
+    }
+
+    // Mettre à jour les tailles
+    if (config.largeur_verres) {
+      tailles.largeurVerres = config.largeur_verres.toString();
+    }
+    if (config.hauteur_verres) {
+      tailles.hauteurVerres = config.hauteur_verres.toString();
+    }
+    if (config.largeur_pont) {
+      tailles.largeurPont = config.largeur_pont.toString();
+    }
+
+    // Mettre à jour la finition
+    if (config.finition) {
+      finitions.finition = config.finition.toLowerCase();
+    }
+    // Sauvegarder tout dans localStorage
+    localStorage.setItem("materiaux", JSON.stringify(materiaux));
+    localStorage.setItem("optionsVerres", JSON.stringify(optionsVerres));
+    localStorage.setItem("tailles", JSON.stringify(tailles));
+    localStorage.setItem("finitions", JSON.stringify(finitions));
+
+    console.log("[IA] localStorage mis à jour");
+
+    // Mettre à jour les champs du formulaire pour l'UX immédiate
+    // Matériaux
+    if (config.materiau_monture) {
+      const materiauMonture = document.getElementById(
+        "materiau-monture"
+      ) as HTMLSelectElement;
+      if (materiauMonture) {
+        materiauMonture.value = config.materiau_monture.toLowerCase();
+        materiauMonture.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+
+    if (config.materiau_branches) {
+      const materiauBranches = document.getElementById(
+        "materiau-branches"
+      ) as HTMLSelectElement;
+      if (materiauBranches) {
+        materiauBranches.value = config.materiau_branches.toLowerCase();
+        materiauBranches.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+
+    // Tailles
+    if (config.largeur_verres) {
+      const largeurVerres = document.getElementById(
+        "largeur-verres"
+      ) as HTMLInputElement;
+      if (largeurVerres) {
+        largeurVerres.value = config.largeur_verres.toString();
+        largeurVerres.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    }
+
+    if (config.hauteur_verres) {
+      const hauteurVerres = document.getElementById(
+        "hauteur-verres"
+      ) as HTMLInputElement;
+      if (hauteurVerres) {
+        hauteurVerres.value = config.hauteur_verres.toString();
+        hauteurVerres.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    }
+
+    if (config.largeur_pont) {
+      const largeurPont = document.getElementById(
+        "largeur-pont"
+      ) as HTMLInputElement;
+      if (largeurPont) {
+        largeurPont.value = config.largeur_pont.toString();
+        largeurPont.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    }
+
+    // Finition
+    if (config.finition) {
+      const finition = document.getElementById(
+        "finition-select"
+      ) as HTMLSelectElement;
+      if (finition) {
+        finition.value = config.finition.toLowerCase();
+        finition.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+
+    // Options verres
+    if (config.verres_teintes !== undefined) {
+      const verresTeintesCheckbox = document.getElementById(
+        "verres-teintes-checkbox"
+      ) as HTMLInputElement;
+      if (verresTeintesCheckbox) {
+        verresTeintesCheckbox.checked = config.verres_teintes;
+        verresTeintesCheckbox.dispatchEvent(
+          new Event("change", { bubbles: true })
+        );
+      }
+    }
+
+    if (config.verres_polarises !== undefined) {
+      const verresPolarisesCheckbox = document.getElementById(
+        "verres-polarises-checkbox"
+      ) as HTMLInputElement;
+      if (verresPolarisesCheckbox) {
+        verresPolarisesCheckbox.checked = config.verres_polarises;
+        verresPolarisesCheckbox.dispatchEvent(
+          new Event("change", { bubbles: true })
+        );
+      }
+    }
+
+    // Notifier les autres composants pour qu'ils se mettent à jour
+    window.dispatchEvent(
+      new Event("changeCouleursLunettes", { bubbles: true })
+    );
+    window.dispatchEvent(new Event("changeTailles", { bubbles: true }));
+    window.dispatchEvent(new Event("changeFinition", { bubbles: true }));
+  }
+
+  // Événement au clic du bouton
+  if (iaGenerateBtn) {
+    iaGenerateBtn.addEventListener("click", handleGenerateIA);
+  }
+
+  // Événement Enter dans l'input
+  if (iaPromptInput) {
+    iaPromptInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        handleGenerateIA();
+      }
+    });
+  }
+</script>

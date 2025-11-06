@@ -212,4 +212,10 @@
 
   // Sauvegarder les tailles initiales
   saveTailles();
+
+  // Écouter les changements de tailles depuis d'autres sources (ex: IA)
+  window.addEventListener("changeTailles", () => {
+    console.log("[Tailles] Changement détecté, mise à jour des ranges");
+    loadTailles();
+  });
 </script>

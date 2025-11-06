@@ -1,4 +1,6 @@
 - Nom: Menoux
 - Prénom: Bryan
-- URL pocketbase:
-- URL:
+- URL pocketbase: https://ta-vue.bryan-menoux.fr/_/
+- Email : admin@admin.com
+- Mdp : testMdp25_
+- URL: https://ta-vue.bryan-menoux.fr/

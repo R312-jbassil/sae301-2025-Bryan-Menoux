@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22007
-          source: "dist/"
+          source: "dist/*"
           target: "/var/www/ta-vue"
           rm: false
           overwrite: true
